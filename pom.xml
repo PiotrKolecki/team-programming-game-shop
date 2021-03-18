@@ -18,6 +18,7 @@
 
     <modules>
         <module>shopping-cart-service</module>
+        <module>product-catalog-service</module>
     </modules>
 
     <build>

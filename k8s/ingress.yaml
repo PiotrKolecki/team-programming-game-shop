@@ -17,3 +17,8 @@ spec:
             backend:
               serviceName: shopping-cart
               servicePort: 8080
+          - path: /api/games(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: product-catalog
+              servicePort: 8080
