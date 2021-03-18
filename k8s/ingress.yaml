@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+#    - host: gameshop.info
+    - http:
+        paths:
+          - path: /api/shoppingcart(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: shopping-cart
+              servicePort: 8080
