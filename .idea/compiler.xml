@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="customers-service" />
         <module name="payment-management-service" />
+        <module name="authentication-service" />
         <module name="product-catalog-service" />
         <module name="shopping-cart-service" />
         <module name="order-management-service" />
@@ -16,6 +17,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="authentication-service" options="-parameters" />
       <module name="customers-service" options="-parameters" />
       <module name="order-management-service" options="-parameters" />
       <module name="payment-management-service" options="-parameters" />

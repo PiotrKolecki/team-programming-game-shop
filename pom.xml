@@ -22,6 +22,7 @@
         <module>payment-management-service</module>
         <module>order-management-service</module>
         <module>customers-service</module>
+        <module>authentication-service</module>
     </modules>
 
     <dependencyManagement>

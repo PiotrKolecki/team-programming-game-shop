@@ -37,3 +37,8 @@ spec:
             backend:
               serviceName: customers
               servicePort: 8080
+          - path: /api/auth(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: authentication
+              servicePort: 8080

@@ -17,12 +17,14 @@ docker build -t game-shop/product-catalog ./product-catalog-service/.
 docker build -t game-shop/payment-management ./payment-management-service/.
 docker build -t game-shop/order-management ./order-management-service/.
 docker build -t game-shop/customers ./customers-service/.
+docker build -t game-shop/authentication ./authentication-service/.
 
 kubectl apply -f .\shopping-cart-service\k8s\deployment.yaml
 kubectl apply -f .\product-catalog-service\k8s\deployment.yaml
 kubectl apply -f .\payment-management-service\k8s\deployment.yaml
 kubectl apply -f .\order-management-service\k8s\deployment.yaml
 kubectl apply -f .\customers-service\k8s\deployment.yaml
+kubectl apply -f .\authentication-service\k8s\deployment.yaml
 
 minikube addons enable ingress
 kubectl apply -f .\k8s\ingress.yaml
