@@ -1,10 +1,10 @@
 # team-programming-game-shop
-####Requirements:
+#### Requirements:
  - Docker
  - VirtualBox
  - Minikube
  
-####Running microservices locally:
+#### Running microservices locally:
 ```
 minikube start --vm-driver=virtualbox --memory=3G --no-vtx-check
 minikube -p minikube docker-env | Invoke-Expression
@@ -31,14 +31,14 @@ kubectl apply -f .\k8s\ingress.yaml
 
 kubectl get ing # wait until you get address - that's your api gateway endpoint 
 ```
-####Deploy an updated microservice (e.g. shopping-cart)
+#### Deploy an updated microservice (e.g. shopping-cart)
 ```
 mvn clean install -f ./shopping-cart-service
 docker build -t game-shop/shopping-cart ./shopping-cart-service/.
 kubectl delete deployment -l app=shopping-cart
 kubectl apply -f .\shopping-cart-service\k8s\deployment.yaml
 ```
-####Remove whole stuff:
+#### Remove whole stuff:
 ```
 minikube delete
 ```
