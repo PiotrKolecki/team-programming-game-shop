@@ -22,3 +22,8 @@ spec:
             backend:
               serviceName: product-catalog
               servicePort: 8080
+          - path: /api/payment(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: payment-management
+              servicePort: 8080

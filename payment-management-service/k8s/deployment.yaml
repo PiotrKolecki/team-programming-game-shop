@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-management
+  labels:
+    app: payment-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-management
+  template:
+    metadata:
+      labels:
+        app: payment-management
+    spec:
+      containers:
+      - name: payment-management
+        image: game-shop/payment-management
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-management
+  labels:
+    app: payment-management
+    spring-boot: "true"
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: payment-management
+  type: NodePort

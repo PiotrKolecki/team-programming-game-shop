@@ -19,6 +19,7 @@
     <modules>
         <module>shopping-cart-service</module>
         <module>product-catalog-service</module>
+        <module>payment-management-service</module>
     </modules>
 
     <dependencyManagement>
