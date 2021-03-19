@@ -27,3 +27,8 @@ spec:
             backend:
               serviceName: payment-management
               servicePort: 8080
+          - path: /api/orders(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: order-management
+              servicePort: 8080

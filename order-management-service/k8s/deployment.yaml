@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-management
+  labels:
+    app: order-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-management
+  template:
+    metadata:
+      labels:
+        app: order-management
+    spec:
+      containers:
+      - name: order-management
+        image: game-shop/order-management
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-management
+  labels:
+    app: order-management
+    spring-boot: "true"
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: order-management
+  type: NodePort
