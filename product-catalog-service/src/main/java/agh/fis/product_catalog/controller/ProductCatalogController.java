@@ -14,4 +14,9 @@ public class ProductCatalogController {
         logger.info("Get on product catalog /");
         return "Hello ProductCatalog";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Some product";
+    }
 }
