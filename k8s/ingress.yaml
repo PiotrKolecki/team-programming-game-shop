@@ -32,3 +32,8 @@ spec:
             backend:
               serviceName: order-management
               servicePort: 8080
+          - path: /api/customers(/|$)(.*)
+            pathType: Prefix
+            backend:
+              serviceName: customers
+              servicePort: 8080
