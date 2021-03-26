@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
-    // REDUCERS to put here
+  // REDUCERS to put here
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
