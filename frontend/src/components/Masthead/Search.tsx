@@ -1,11 +1,12 @@
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import { theme as appTheme } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   search: {
     position: "relative",
-    background: "#FFFFFF31 0% 0% no-repeat padding-box",
+    background: appTheme.colors.inputBackground,
     marginRight: theme.spacing(2),
     width: "100%",
     [theme.breakpoints.up("sm")]: {

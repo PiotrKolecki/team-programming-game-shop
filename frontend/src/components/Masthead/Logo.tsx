@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { theme } from "../../constants";
 
 const Div = styled.div`
-  font-family: "Orbitron", sans-serif;
+  font-family: ${theme.fonts.orbitron};
   font-size: 1.2rem;
 `;
 

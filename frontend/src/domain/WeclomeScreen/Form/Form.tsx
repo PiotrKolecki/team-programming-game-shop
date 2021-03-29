@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import { Input } from "../../../components";
 import { Form as FinalForm, Field } from "react-final-form";
+import { theme as appTheme } from "../../../constants";
 
 const useStyles = makeStyles((theme) => ({
   label: {
@@ -14,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     color: "inherit",
-    backgroundColor: "#852DBC",
+    backgroundColor: appTheme.colors.darkOrchid,
     boxShadow: "none",
     height: theme.spacing(6),
     margin: theme.spacing(4, 1, 0, 1),
     "&:hover": {
-      backgroundColor: "#852DBC",
+      backgroundColor: appTheme.colors.darkOrchid,
     },
   },
   register: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     width: "100%",
-    backgroundColor: "#F2F0F0",
+    backgroundColor: appTheme.colors.ivory,
     margin: theme.spacing(2, 0),
   },
   newCustomer: {

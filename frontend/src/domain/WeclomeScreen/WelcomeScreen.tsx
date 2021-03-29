@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { Modal, Form } from "./Form";
 import { Welcome } from "./Welcome/Welcome";
 import { Props, mapTypeToFormProps } from "./utils";
+import { theme } from "../../constants";
 
 const Purple = styled.div`
   padding-left: 0.5rem;
-  color: #b443fa;
+  color: ${theme.colors.mediumOrchid};
 `;
 
 export function WelcomeScreen({ type }: Props) {

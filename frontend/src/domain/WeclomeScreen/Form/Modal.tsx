@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { theme } from "../../../constants";
 
 const Section = styled.section`
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
   backdrop-filter: blur(13px);
-  background: rgba(255, 255, 255, 0.2) 0% 0% no-repeat padding-box;
+  background: ${theme.colors.inputBackground};
   border-radius: 6px;
   width: 20vw;
   min-width: 300px;

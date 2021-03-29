@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import InputBase, { InputBaseProps } from "@material-ui/core/InputBase";
+import { theme as appTheme } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   inputInput: {
     marginTop: theme.spacing(1),
     padding: theme.spacing(1, 1),
-    background: "#FFFFFF39 0% 0% no-repeat padding-box",
+    background: appTheme.colors.inputBackground,
     width: "100%",
     height: "2rem",
     [theme.breakpoints.up("md")]: {
