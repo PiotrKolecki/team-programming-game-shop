@@ -61,7 +61,7 @@ export function Form({ submitTitle, footer, formElements }: FormProps) {
 
   return (
     <FinalForm
-      onSubmit={console.log}
+      onSubmit={() => {}}
       render={({ handleSubmit, pristine, submitting }) => (
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>

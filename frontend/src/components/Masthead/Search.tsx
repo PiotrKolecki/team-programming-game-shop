@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import { Input } from "../Input";
 import { theme as appTheme } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ export function Search() {
       <div className={classes.searchIcon}>
         <SearchIcon />
       </div>
-      <InputBase
+      <Input
         placeholder="Search…"
         classes={{
           root: classes.inputRoot,

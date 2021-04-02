@@ -9,21 +9,21 @@ const Purple = styled.div`
   color: ${theme.colors.mediumOrchid};
 `;
 
+const mapTypeToTitle = (type: Props["type"]) => {
+  return type === "sign in" ? (
+    <>
+      sign <Purple>in</Purple>
+    </>
+  ) : (
+    <>register</>
+  );
+};
+
 export function WelcomeScreen({ type }: Props) {
   return (
     <section>
       <Welcome />
-      <Modal
-        title={
-          type === "sign in" ? (
-            <>
-              sign <Purple>in</Purple>
-            </>
-          ) : (
-            <>register</>
-          )
-        }
-      >
+      <Modal title={mapTypeToTitle(type)}>
         <Form {...mapTypeToFormProps(type)} />
       </Modal>
     </section>
