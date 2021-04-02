@@ -1,0 +1,39 @@
+swagger: "2.0"
+x-samples-languages:
+  - java
+info:
+  description: "Authentication service for WFIiS AGH game shop project"
+  version: 1.0.0
+  title: Authentication Service
+paths:
+  /authenticate:
+    post:
+      operationId: authenticate
+      parameters:
+        - in: body
+          name: 'authRequest'
+          required: true
+          schema:
+            $ref: '#/definitions/AuthenticationRequest'
+      responses:
+        200:
+          description: success
+          schema:
+            $ref: '#/definitions/AuthenticationResponse'
+
+definitions:
+  AuthenticationRequest:
+    type: object
+    description: authentication request
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+  AuthenticationResponse:
+    type: object
+    description: authentication response
+    properties:
+      token:
+        type: string
+        description: jwt token
