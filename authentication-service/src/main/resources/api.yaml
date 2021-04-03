@@ -36,6 +36,9 @@ components:
           type: string
         password:
           type: string
+      required:
+        - login
+        - password
     AuthenticationResponse:
       type: object
       description: authentication response
