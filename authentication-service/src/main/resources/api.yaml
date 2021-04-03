@@ -13,6 +13,8 @@ paths:
       tags:
         - "authentication"
       operationId: authenticate
+      produces:
+        - application/json
       parameters:
         - in: body
           name: 'authRequest'
