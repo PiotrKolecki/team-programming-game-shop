@@ -5,9 +5,13 @@ info:
   description: "Authentication service for WFIiS AGH game shop project"
   version: 1.0.0
   title: Authentication Service
+tags:
+  - "authentication"
 paths:
   /authenticate:
     post:
+      tags:
+        - "authentication"
       operationId: authenticate
       parameters:
         - in: body
