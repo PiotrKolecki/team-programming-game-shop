@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(6),
     margin: theme.spacing(4, 1, 0, 1),
     "&:hover": {
-      backgroundColor: appTheme.colors.darkOrchid,
+      backgroundColor: appTheme.colors.lilac,
+    },
+    "&:disabled": {
+      color: appTheme.colors.stone,
     },
   },
   register: {

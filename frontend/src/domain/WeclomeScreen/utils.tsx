@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import { theme } from "../../constants";
 import { FormProps } from "./Form/Form";
 
 type WelcomeType = "sign in" | "register";
@@ -48,8 +50,23 @@ const registerElements: FormProps["formElements"] = [
   },
 ];
 
+const Purple = styled.div`
+  padding-left: 0.5rem;
+  color: ${theme.colors.mediumOrchid};
+`;
+
 export const mapTypeToFormProps = (type: WelcomeType): FormProps => ({
   submitTitle: type,
   formElements: type === "sign in" ? signInElements : registerElements,
   footer: type === "sign in" ? signInFooter : registerFooter,
 });
+
+export const mapTypeToTitle = (type: Props["type"]) => {
+  return type === "sign in" ? (
+    <>
+      sign <Purple>in</Purple>
+    </>
+  ) : (
+    <>register</>
+  );
+};
