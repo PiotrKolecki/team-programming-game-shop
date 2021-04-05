@@ -14,6 +14,15 @@ const Section = styled.section`
   right: 0;
   margin: 0 10vw;
   padding: 40px 70px;
+
+  @media (max-height: 750px) {
+    bottom: 0;
+    top: initial;
+    transform: translate(-50%, 0);
+    left: 50%;
+    right: initial;
+    margin: 0;
+  }
 `;
 
 const Title = styled.h2`

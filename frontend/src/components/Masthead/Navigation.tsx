@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   navigation: {
     marginLeft: "auto",
     marginRight: "10vw",
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
   },
   button: {
     color: "white",

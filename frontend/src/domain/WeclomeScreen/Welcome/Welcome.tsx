@@ -7,6 +7,10 @@ const Header = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.55px;
   font-size: 45px;
+
+  @media (max-width: 1100px), (max-height: 750px) {
+    display: none;
+  }
 `;
 
 const AppName = styled.p`
@@ -14,6 +18,10 @@ const AppName = styled.p`
   font-family: "Orbitron", sans-serif;
   letter-spacing: 2px;
   font-size: 65px;
+
+  @media (max-width: 1100px), (max-height: 750px) {
+    display: none;
+  }
 `;
 
 const Description = styled.p`
@@ -21,6 +29,14 @@ const Description = styled.p`
   margin: 56px 92px;
   font-size: 22px;
   line-height: 2rem;
+
+  @media (max-width: 1300px) {
+    max-width: 400px;
+  }
+
+  @media (max-width: 1100px), (max-height: 750px) {
+    display: none;
+  }
 `;
 
 const Container = styled.div`
