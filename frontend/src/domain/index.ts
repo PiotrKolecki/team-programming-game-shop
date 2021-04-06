@@ -1,1 +1,2 @@
-export { Login } from "./Login";
+export { WelcomeScreen } from "./WeclomeScreen";
+export { Home } from "./Home";
