@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shopping-cart
+  name: authentication
   labels:
-    app: shopping-cart
+    app: authentication
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shopping-cart
+      app: authentication
   template:
     metadata:
       labels:
-        app: shopping-cart
+        app: authentication
     spec:
       containers:
-      - name: shopping-cart
-        image: gcr.io/team-programming-game-shop/shopping-cart
+      - name: authentication
+        image: game-shop/authentication
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -24,14 +24,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shopping-cart
+  name: authentication
   labels:
-    app: shopping-cart
+    app: authentication
     spring-boot: "true"
 spec:
   ports:
   - port: 8080
     protocol: TCP
   selector:
-    app: shopping-cart
+    app: authentication
   type: NodePort

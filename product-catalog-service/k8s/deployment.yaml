@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: product-catalog
-        image: game-shop/product-catalog
+        image: gcr.io/team-programming-game-shop/product-catalog
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

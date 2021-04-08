@@ -1,44 +1,40 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: gateway-ingress
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   backend:
     serviceName: default-http-backend
     servicePort: 80
   rules:
-#    - host: gameshop.info
     - http:
         paths:
           - path: /api/shoppingcart(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: shopping-cart
               servicePort: 8080
           - path: /api/games(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: product-catalog
               servicePort: 8080
           - path: /api/payment(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: payment-management
               servicePort: 8080
           - path: /api/orders(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: order-management
               servicePort: 8080
           - path: /api/customers(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: customers
               servicePort: 8080
           - path: /api/auth(/|$)(.*)
-            pathType: Prefix
             backend:
               serviceName: authentication
               servicePort: 8080
+          # TODO
+          # - path: /

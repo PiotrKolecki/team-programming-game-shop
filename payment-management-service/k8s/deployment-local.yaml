@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shopping-cart
+  name: payment-management
   labels:
-    app: shopping-cart
+    app: payment-management
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shopping-cart
+      app: payment-management
   template:
     metadata:
       labels:
-        app: shopping-cart
+        app: payment-management
     spec:
       containers:
-      - name: shopping-cart
-        image: gcr.io/team-programming-game-shop/shopping-cart
+      - name: payment-management
+        image: game-shop/payment-management
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -24,14 +24,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shopping-cart
+  name: payment-management
   labels:
-    app: shopping-cart
+    app: payment-management
     spring-boot: "true"
 spec:
   ports:
   - port: 8080
     protocol: TCP
   selector:
-    app: shopping-cart
+    app: payment-management
   type: NodePort
