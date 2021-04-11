@@ -17,7 +17,7 @@ import java.util.Optional;
 
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static final String BEARER_TOKEN = "Bearer ";
+    private static final String BEARER_TOKEN = "Bearer ";
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private final JwtTokenService tokenService;
 
