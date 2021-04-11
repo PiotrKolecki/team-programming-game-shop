@@ -23,6 +23,8 @@
         <module>order-management-service</module>
         <module>customers-service</module>
         <module>authentication-service</module>
+        <module>api-documentation</module>
+        <module>common</module>
     </modules>
 
     <dependencyManagement>
@@ -36,6 +38,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

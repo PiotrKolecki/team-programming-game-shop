@@ -1,0 +1,25 @@
+server:
+    port: 8090
+
+documentation:
+    baseurl: http://35.232.212.214/api/
+    swagger:
+        services:
+            - name: Authentication
+              url: ${documentation.baseurl}auth/doc/api
+              version: 3.0
+            - name: Customers
+              url: ${documentation.baseurl}customers/doc/api
+              version: 3.0
+            - name: Shopping-cart
+              url: ${documentation.baseurl}shoppingcart/doc/api
+              version: 3.0
+            - name: Product-catalog
+              url: ${documentation.baseurl}games/doc/api
+              version: 3.0
+            - name: Payment-management
+              url: ${documentation.baseurl}payment/doc/api
+              version: 3.0
+            - name: Order-management
+              url: ${documentation.baseurl}orders/doc/api
+              version: 3.0

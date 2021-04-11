@@ -33,7 +33,7 @@ kubectl get ing # wait until you get address - that's your api gateway endpoint
 ```
 #### Deploy an updated microservice (e.g. shopping-cart)
 ```
-mvn clean install -f ./shopping-cart-service
+mvn clean install -pl shopping-cart-service -am
 docker build -t game-shop/shopping-cart ./shopping-cart-service/.
 kubectl delete deployment -l app=shopping-cart
 kubectl apply -f .\shopping-cart-service\k8s\deployment.yaml
