@@ -23,6 +23,7 @@
         <module>order-management-service</module>
         <module>customers-service</module>
         <module>authentication-service</module>
+        <module>api-documentation</module>
     </modules>
 
     <dependencyManagement>
