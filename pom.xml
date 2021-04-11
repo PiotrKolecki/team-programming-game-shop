@@ -24,6 +24,7 @@
         <module>customers-service</module>
         <module>authentication-service</module>
         <module>api-documentation</module>
+        <module>common</module>
     </modules>
 
     <dependencyManagement>

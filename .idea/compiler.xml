@@ -9,6 +9,7 @@
         <module name="api-documentation" />
         <module name="payment-management-service" />
         <module name="authentication-service" />
+        <module name="common" />
         <module name="product-catalog-service" />
         <module name="order-management-service" />
         <module name="customers-service" />
@@ -20,6 +21,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-documentation" options="-parameters" />
       <module name="authentication-service" options="-parameters" />
+      <module name="common" options="-parameters" />
       <module name="customers-service" options="-parameters" />
       <module name="order-management-service" options="-parameters" />
       <module name="payment-management-service" options="-parameters" />
