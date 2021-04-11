@@ -17,7 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    public static final String LOGIN_PATH = "/authenticate/**";
+    private static final String LOGIN_PATH = "/authenticate/**";
+    private static final String API_DOCS = "/doc/**";
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
     private final JwtFilter jwtFilter;
@@ -53,6 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_PATH)
+                .permitAll()
+                .antMatchers(API_DOCS)
                 .permitAll()
                 .anyRequest()
                 .authenticated();
