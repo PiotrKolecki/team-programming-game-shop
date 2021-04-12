@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: payment-management
-        image: game-shop/payment-management
-        imagePullPolicy: IfNotPresent
+        image: gcr.io/team-programming-game-shop/payment-management
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---

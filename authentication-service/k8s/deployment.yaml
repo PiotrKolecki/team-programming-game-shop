@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: authentication
-        image: game-shop/authentication
-        imagePullPolicy: IfNotPresent
+        image: gcr.io/team-programming-game-shop/authentication
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---

@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: customers
-        image: game-shop/customers
-        imagePullPolicy: IfNotPresent
+        image: gcr.io/team-programming-game-shop/customers
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---

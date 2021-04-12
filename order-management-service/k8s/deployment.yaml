@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: order-management
-        image: game-shop/order-management
-        imagePullPolicy: IfNotPresent
+        image: gcr.io/team-programming-game-shop/order-management
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---
