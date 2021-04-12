@@ -51,8 +51,13 @@ jobs:
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GKE_SA_KEY }}
 
-    # Build the Docker image
+    # Build the application
     - name: Build
+      run: |-
+        mvn clean install
+    
+    # Build the Docker images
+    - name: BuildDocker
       run: |-
         docker build -t gcr.io/team-programming-game-shop/shopping-cart ./shopping-cart-service/.
         docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-catalog-service/.
