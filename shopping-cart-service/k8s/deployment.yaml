@@ -17,7 +17,7 @@ spec:
       containers:
       - name: shopping-cart
         image: gcr.io/team-programming-game-shop/shopping-cart
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 ---
