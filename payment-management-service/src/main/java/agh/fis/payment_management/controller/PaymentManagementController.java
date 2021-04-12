@@ -1,4 +1,4 @@
-package agh.fis.payment_management.controler;
+package agh.fis.payment_management.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
