@@ -59,19 +59,35 @@ jobs:
     # Build the Docker images
     - name: BuildDocker
       run: |-
-        docker build -t gcr.io/team-programming-game-shop/shopping-cart ./shopping-cart-service/.
-        docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-catalog-service/.
-        docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/.
-        docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/.
-        docker build -t gcr.io/team-programming-game-shop/customers ./customers-service/.
-        docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/.
+        docker build -t "gcr.io/team-programming-game-shop/shopping-cart:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./shopping-cart-service/.
+        docker build -t "gcr.io/team-programming-game-shop/product-catalog:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./product-catalog-service/.
+        docker build -t "gcr.io/team-programming-game-shop/payment-management:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./payment-management-service/.
+        docker build -t "gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./order-management-service/.
+        docker build -t "gcr.io/team-programming-game-shop/customers:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./customers-service/.
+        docker build -t "gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./authentication-service/.
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push gcr.io/team-programming-game-shop/shopping-cart
-        docker push gcr.io/team-programming-game-shop/product-catalog
-        docker push gcr.io/team-programming-game-shop/payment-management
-        docker push gcr.io/team-programming-game-shop/order-management
-        docker push gcr.io/team-programming-game-shop/customers
-        docker push gcr.io/team-programming-game-shop/authentication
+        docker push "gcr.io/team-programming-game-shop/shopping-cart:$GITHUB_SHA"
+        docker push "gcr.io/team-programming-game-shop/product-catalog:$GITHUB_SHA"
+        docker push "gcr.io/team-programming-game-shop/payment-management:$GITHUB_SHA"
+        docker push "gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA"
+        docker push "gcr.io/team-programming-game-shop/customers:$GITHUB_SHA"
+        docker push "gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA"
+    
+    # Deploy update to services
+    - name: Deploy
+      run: |-
+        kubectl set image deployment shopping-cart shopping-cart="gcr.io/team-programming-game-shop/shopping-cart:$GITHUB_SHA"
+        kubectl set image deployment product-catalog product-catalog="gcr.io/team-programming-game-shop/product-catalog:$GITHUB_SHA"
+        kubectl set image deployment payment-management payment-management="gcr.io/team-programming-game-shop/payment-management:$GITHUB_SHA"
+        kubectl set image deployment order-management order-management="gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA"
+        kubectl set image deployment customers customers="gcr.io/team-programming-game-shop/customers:$GITHUB_SHA"
+        kubectl set image deployment authentication authentication="gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA"
