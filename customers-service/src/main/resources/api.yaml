@@ -1,0 +1,122 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Customers service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Customers Service
+paths:
+  /:
+    post:
+      tags:
+        - Customers
+      description: Creates new customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerRegistrationDto"
+        required: true
+      responses:
+        "200":
+          description: Returns created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+    get:
+      tags:
+        - Customers
+      description: Get all customers
+      operationId: getAllCustomers
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      responses:
+        "200":
+          description: Returns list of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerDto"
+    put:
+      tags:
+        - Customers
+      description: Update customer
+      operationId: updateCustomer
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        description: Customer with updated values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDto'
+      responses:
+        "200":
+          description: Returns updated customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+components:
+  schemas:
+    BaseEntityDto:
+      description: Provides id of object
+      type: object
+      properties:
+        id:
+          type: integer
+
+    UserType:
+      type: string
+      enum:
+        - Customer
+        - Staff
+
+    CustomerDto:
+      description: Keeps information about customer
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityDto'
+        - type: object
+          properties:
+            mail:
+              type: string
+            name:
+              type: string
+            surname:
+              type: string
+            address:
+              type: string
+            city:
+              type: string
+            postalCode:
+              type: string
+            customerType:
+              type: string
+              enum:
+              - Customer
+              - Staff
+
+    CustomerRegistrationDto:
+      description: Keeps information about new customer
+      allOf:
+        - $ref: '#/components/schemas/BaseEntityDto'
+        - $ref: '#/components/schemas/CustomerDto'
+        - type: object
+          properties:
+            password:
+              type: string
