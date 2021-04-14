@@ -7,7 +7,7 @@
 #### Running microservices locally:
 ```
 minikube start --vm-driver=virtualbox --memory=3G --no-vtx-check
-minikube -p minikube docker-env | Invoke-Expression
+minikube -p minikube docker-env | Invoke-Expression                # Unix - eval $(minikube docker-env)
 kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
 
 mvn clean install
