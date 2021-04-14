@@ -7,7 +7,9 @@
 #### Running microservices locally:
 ```
 minikube start --vm-driver=virtualbox --memory=3G --no-vtx-check
-minikube -p minikube docker-env | Invoke-Expression                # Unix - eval $(minikube docker-env)
+minikube -p minikube docker-env | Invoke-Expression
+# For Unix:
+# eval $(minikube docker-env)
 kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
 
 mvn clean install
@@ -70,6 +72,8 @@ mvn clean install -pl shopping-cart-service -am
 docker build -t game-shop/shopping-cart ./shopping-cart-service/.
 kubectl delete deployment -l app=shopping-cart
 kubectl apply -f ./shopping-cart-service/k8s/deployment.yaml
+# for local deployment:
+# kubectl apply -f ./shopping-cart-service/k8s/deployment-local.yaml
 ```
 #### Remove whole stuff:
 ```
