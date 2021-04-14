@@ -72,6 +72,55 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerDto"
+
+  /{id}:
+    get:
+      tags:
+        - Customers
+      description: Get customer by id
+      operationId: getCustomerById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Customer id
+      responses:
+        "200":
+          description: Returns specific customer
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/CustomerDto"
+    delete:
+      tags:
+        - Customers
+      description: Delete customer by id
+      operationId: deleteCustomerById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Customer id
+      responses:
+        "200":
+          description: Specific customer deleted
+
 components:
   schemas:
     BaseEntityDto:

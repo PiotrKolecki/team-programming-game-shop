@@ -29,4 +29,15 @@ public class CustomersController implements CustomersApi {
     public ResponseEntity<CustomerDto> updateCustomer(String authorization, @Valid CustomerDto customerDto) {
         return null;
     }
+
+    @Override
+    public ResponseEntity<CustomerDto> getCustomerById(String authorization, Integer id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteCustomerById(String authorization, Integer id) {
+        return null;
+    }
+
 }
