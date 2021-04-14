@@ -82,7 +82,8 @@ minikube delete
 ---
 #### FAQ
 1. Q: When I try to build docker image I get error stating that the docker daemon is not running.  
-   A: We encountered that error when using Docker built in Kubernetes cluster. Disabling the Kubernetes in Docker may fix this issue
+   A: Make sure the Docker is running.  
+      ~~We encountered that error when using Docker built in Kubernetes cluster. Disabling the Kubernetes in Docker may fix this issue~~
 
 2. Q: I'm getting ErrImagePull or ImagePullBackOff on local deployment.  
    A: This error may occur when image is not accessible from local registry. Make sure to check the tag - images with URL-like tags eg. *gcr.io/image* may indicate remote resurce. Also check if ```docker images``` contains your image entry. One last thing to ckeck is the image name in **deployment.yaml** for the specific service
