@@ -15,7 +15,7 @@ public class ProductCatalogController {
     private static final Logger logger = LoggerFactory.getLogger(ProductCatalogController.class);
 
     @GetMapping("/")
-    public String hello() {
+    public String getProducts() {
 
         String json_string;
         JSONObject json = new JSONObject();
