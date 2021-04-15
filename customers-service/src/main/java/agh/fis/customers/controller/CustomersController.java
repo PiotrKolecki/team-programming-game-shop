@@ -3,8 +3,7 @@ package agh.fis.customers.controller;
 import agh.fis.customers.controller.api.CustomersApi;
 import agh.fis.customers.model.CustomerDto;
 import agh.fis.customers.model.CustomerRegistrationDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import agh.fis.customers.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +12,16 @@ import java.util.List;
 
 @RestController
 public class CustomersController implements CustomersApi {
-    private static final Logger logger = LoggerFactory.getLogger(CustomersController.class);
+    private final CustomerService customerService;
+
+    public CustomersController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @Override
     public ResponseEntity<CustomerDto> createCustomer(@Valid CustomerRegistrationDto customerRegistrationDto) {
-        return null;
+        CustomerDto customerDto = customerService.create(customerRegistrationDto);
+        return ResponseEntity.ok(customerDto);
     }
 
     @Override
