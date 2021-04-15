@@ -1,5 +1,6 @@
 package agh.fis.customers.service;
 
+import agh.fis.common.util.LogKeeper;
 import agh.fis.customers.model.Customer;
 import agh.fis.customers.model.CustomerDto;
 import agh.fis.customers.model.CustomerRegistrationDto;
@@ -24,7 +25,7 @@ class CustomerServiceTest {
     private static final CustomerRegistrationDto REGISTRATION_DTO =
             new CustomerRegistrationDto().mail(MAIL).password(PASSWORD).userType(USER_TYPE);
     private static final Customer CUSTOMER = new Customer(ID, MAIL, PASSWORD, USER_TYPE);
-    
+
     private final ModelMapper mapper = new ModelMapper();
 
     @Mock
@@ -42,11 +43,14 @@ class CustomerServiceTest {
     void shouldCreateCustomer() {
         when(repository.save(any())).thenReturn(CUSTOMER);
 
-        CustomerDto customerDto = service.create(REGISTRATION_DTO);
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            CustomerDto customerDto = service.create(REGISTRATION_DTO);
 
-        assertThat(customerDto)
-                .returns(ID, CustomerDto::getId)
-                .returns(MAIL, CustomerDto::getMail)
-                .returns(USER_TYPE, CustomerDto::getUserType);
+            assertThat(customerDto)
+                    .returns(ID, CustomerDto::getId)
+                    .returns(MAIL, CustomerDto::getMail)
+                    .returns(USER_TYPE, CustomerDto::getUserType);
+            assertThat(keeper.containsInfo("Customer of type Customer with id 1 created")).isTrue();
+        }
     }
 }
