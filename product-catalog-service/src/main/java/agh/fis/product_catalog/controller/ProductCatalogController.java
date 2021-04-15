@@ -45,8 +45,8 @@ public class ProductCatalogController {
         JSONArray array = new JSONArray();
         array.put(json1);
         array.put(json2);
-        
-        json.put("products", array)
+
+        json.put("products", array);
 
         json_string = json.toString();
         return json_string;
@@ -79,7 +79,7 @@ public class ProductCatalogController {
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable String id) {
-        return String.format("Product of id %s deleted", id)
+        return String.format("Product of id %s deleted", id);
     }
 
 
