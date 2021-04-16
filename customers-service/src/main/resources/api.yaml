@@ -146,6 +146,9 @@ components:
               type: string
             userType:
               $ref: '#/components/schemas/UserType'
+          required:
+            - mail
+            - userType
 
     CustomerRegistrationDto:
       description: Keeps information about new customer
@@ -155,3 +158,5 @@ components:
           properties:
             password:
               type: string
+      required:
+        - password

@@ -1,12 +1,15 @@
 package agh.fis.customers.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class Customer extends BaseEntity {
-
+    @Column(unique = true, nullable = false)
     private String mail;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private UserType userType;
 
     public Customer() {

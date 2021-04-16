@@ -49,4 +49,27 @@ class CustomersControllerTest {
                 .andExpect(jsonPath("$.mail").value(mail))
                 .andExpect(jsonPath("$.userType").value(USER_TYPE.getValue()));
     }
+
+    @Test
+    void shouldFailWhenSameCustomerMails() throws Exception {
+        CustomerRegistrationDto dto = new CustomerRegistrationDto().mail(MAIL1).password(PASSWORD).userType(USER_TYPE);
+
+        performAndAssertCreation(dto, 1, MAIL1);
+        performAndAssertStatus(dto, 409);
+    }
+
+    private void performAndAssertStatus(CustomerRegistrationDto dto, int status) throws Exception {
+        mockMvc.perform(post("/")
+                .header("Origin", "*")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().is(status));
+    }
+
+    @Test
+    void shouldFailOnCustomerRegistrationValidation() throws Exception {
+        CustomerRegistrationDto dto = new CustomerRegistrationDto();
+
+        performAndAssertStatus(dto, 409);
+    }
 }
