@@ -4,6 +4,10 @@
  - VirtualBox
  - Minikube
  
+#### Development DB credentials set up
+``` 
+get-content .\env_setup_secret.txt | Invoke-Expression
+```
 #### Running microservices locally:
 ```
 minikube start --vm-driver=virtualbox --memory=3G --no-vtx-check
@@ -14,11 +18,26 @@ kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceacc
 
 mvn clean install
 
-docker build -t game-shop/shopping-cart ./shopping-cart-service/.
-docker build -t game-shop/product-catalog ./product-catalog-service/.
-docker build -t game-shop/payment-management ./payment-management-service/.
-docker build -t game-shop/order-management ./order-management-service/.
-docker build -t game-shop/customers ./customers-service/.
+docker build -t "game-shop/shopping-cart" `
+--build-arg DB_URL="$DB_URL_SHOPPING_CART" `
+--build-arg DB_USERNAME="$DB_USERNAME_SHOPPING_CART" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_SHOPPING_CART" ./shopping-cart-service/.
+docker build -t "game-shop/product-catalog" `
+--build-arg DB_URL="$DB_URL_PRODUCT_CATALOG" `
+--build-arg DB_USERNAME="$DB_USERNAME_PRODUCT_CATALOG" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_PRODUCT_CATALOG" ./product-catalog-service/.
+docker build -t "game-shop/payment-management" `
+--build-arg DB_URL="$DB_URL_PAYMENT_MANAGEMENT" `
+--build-arg DB_USERNAME="$DB_USERNAME_PAYMENT_MANAGEMENT" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_PAYMENT_MANAGEMENT" ./payment-management-service/.
+docker build -t "game-shop/order-management" `
+--build-arg DB_URL="$DB_URL_ORDER_MANAGEMENT" `
+--build-arg DB_USERNAME="$DB_USERNAME_ORDER_MANAGEMENT" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_ORDER_MANAGEMENT" ./order-management-service/.
+docker build -t "game-shop/customers" `
+--build-arg DB_URL="$DB_URL_CUSTOMERS" `
+--build-arg DB_USERNAME="$DB_USERNAME_CUSTOMERS" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_CUSTOMERS" ./customers-service/.
 docker build -t game-shop/authentication ./authentication-service/.
 
 kubectl apply -f ./shopping-cart-service/k8s/deployment-local.yaml
@@ -69,7 +88,10 @@ kubectl get ing # wait until you get address - that's your api gateway endpoint
 #### Deploy an updated microservice (e.g. shopping-cart)
 ```
 mvn clean install -pl shopping-cart-service -am
-docker build -t game-shop/shopping-cart ./shopping-cart-service/.
+docker build -t "game-shop/shopping-cart" `
+--build-arg DB_URL="$DB_URL_SHOPPING_CART" `
+--build-arg DB_USERNAME="$DB_USERNAME_SHOPPING_CART" `
+--build-arg DB_PASSWORD="$DB_PASSWORD_SHOPPING_CART" ./shopping-cart-service/.
 kubectl delete deployment -l app=shopping-cart
 kubectl apply -f ./shopping-cart-service/k8s/deployment.yaml
 # for local deployment:
