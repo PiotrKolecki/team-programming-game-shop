@@ -98,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/CustomerDto"
+                $ref: "#/components/schemas/CustomerDto"
     delete:
       tags:
         - Customers
@@ -123,12 +123,6 @@ paths:
 
 components:
   schemas:
-    BaseEntityDto:
-      description: Provides id of object
-      type: object
-      properties:
-        id:
-          type: integer
 
     UserType:
       type: string
@@ -138,34 +132,30 @@ components:
 
     CustomerDto:
       description: Keeps information about customer
-      allOf:
-        - $ref: '#/components/schemas/BaseEntityDto'
-        - type: object
-          properties:
-            mail:
-              type: string
-            name:
-              type: string
-            surname:
-              type: string
-            address:
-              type: string
-            city:
-              type: string
-            postalCode:
-              type: string
-            customerType:
-              type: string
-              enum:
-              - Customer
-              - Staff
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - id
+        - mail
+        - userType
 
     CustomerRegistrationDto:
       description: Keeps information about new customer
-      allOf:
-        - $ref: '#/components/schemas/BaseEntityDto'
-        - $ref: '#/components/schemas/CustomerDto'
-        - type: object
-          properties:
-            password:
-              type: string
+      type: object
+      properties:
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - mail
+        - password
+        - userType
