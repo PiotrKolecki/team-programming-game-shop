@@ -6,6 +6,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import classnames from "classnames";
 import { useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
+import { useHistory } from 'react-router-dom';
 
 type NavItem = {
   name: string;
@@ -57,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
 
+   root: {
+    border: "1px solid #5454ED",
+   },
+
   input: {
     color: "#c9c9c9",
     border: "1px solid #5454ED",
@@ -64,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     width: "60px",
     padding: "5px",
     textAlign: "center",
+
   },
 
   option: {
@@ -102,39 +108,39 @@ const categories: Array<NavItem> = [
   },
   {
     name: "Horror",
-    href: "/fantasy",
+    href: "/horror",
   },
   {
     name: "Multiplayer",
-    href: "/fantasy",
+    href: "/multiplayer",
   },
   {
     name: "Open World",
-    href: "/fantasy",
+    href: "/openworld",
   },
   {
     name: "Racing",
-    href: "/fantasy",
+    href: "/racing",
   },
   {
     name: "RPG",
-    href: "/fantasy",
+    href: "/rpg",
   },
   {
     name: "RTS",
-    href: "/fantasy",
+    href: "/rts",
   },
   {
     name: "Simulation",
-    href: "/fantasy",
+    href: "/simulation",
   },
   {
     name: "Sport",
-    href: "/fantasy",
+    href: "/sport",
   },
     {
     name: "Strategy",
-    href: "/fantasy",
+    href: "/strategy",
   },
 ];
 
@@ -145,7 +151,9 @@ export function Sidebar() {
 
     const [value, setValue] = useState<number>(100);
     const { pathname } = useLocation();
-console.log(pathname);
+    const history = useHistory();
+
+    console.log(pathname);
 
     const handleChange = (event: any, newValue?: number | number[]) => {
       if(!newValue){
@@ -156,6 +164,10 @@ console.log(pathname);
 
       setValue(newValue as number);
     };
+
+    const onCategoryClick = (category: string) => {
+      history.push(`/insight${category}`)
+    }
   
 
     return (
@@ -164,25 +176,22 @@ console.log(pathname);
         <Slider defaultValue={100} max={300} onChange={handleChange} aria-labelledby="continuous-slider" />
         <div className={classes.inputs}>
         <OutlinedInput
-            id="outlined-adornment-weight"
             value={0}
             classes={{
               input: classes.input,
             }}
-            aria-describedby="outlined-weight-helper-text"
             inputProps={{
               'aria-label': 'weight',
             }}
           />
           -
           <OutlinedInput
-                id="outlined-adornment-weight"
                 value={value}
                 classes={{
+                  root: classes.root,
                   input: classes.input,
                 }}
                 onChange={(event) => handleChange(event)}
-                aria-describedby="outlined-weight-helper-text"
                 inputProps={{
                   'aria-label': 'weight',
                 }}
@@ -191,12 +200,14 @@ console.log(pathname);
 
               <Categories>CATEGORIES</Categories>
               <List>
-                  {categories.map(category =>  <Button key={category.name}  href={`insight${category.href}`} className={classnames(
+                  {categories.map(category => <Button key={category.name} onClick={() => onCategoryClick(category.href)} className={classnames(
                     classes.option,
                     pathname === `/insight${category.href}` && classes.active
                   )}>
                     {category.name}
-                  </Button>)}
+                  </Button>
+                  
+                  )}
               </List>
         </Container>
     )

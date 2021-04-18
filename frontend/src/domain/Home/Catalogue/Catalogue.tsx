@@ -31,6 +31,8 @@ padding-top: 24px;
 `
 
   export function Catalogue() {
+    const item = { title: 'The Wither', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
+    const items = [item, item, item, item, item, item, item, item, item, item];
 
     return (
         <Container>
@@ -39,18 +41,8 @@ padding-top: 24px;
             </Header>
 
             <Items>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
-                <GameCard cover={witcher}/>
+                { items.map(({ title, categories, price, cover }) => <GameCard title={title} categories={categories} price={price} cover={cover}/>)}
+                
             </Items>
 
         </Container>
