@@ -60,15 +60,35 @@ jobs:
     - name: BuildDocker
       run: |-
         docker build -t "gcr.io/team-programming-game-shop/shopping-cart:$GITHUB_SHA" \
+          --build-arg DB_URL="$DB_URL_SHOPPING_CART" \
+          --build-arg DB_USERNAME="$DB_USERNAME_SHOPPING_CART" \
+          --build-arg DB_PASSWORD="$DB_PASSWORD_SHOPPING_CART" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./shopping-cart-service/.
+        
         docker build -t "gcr.io/team-programming-game-shop/product-catalog:$GITHUB_SHA" \
+          --build-arg DB_URL="$DB_URL_PRODUCT_CATALOG" \
+          --build-arg DB_USERNAME="$DB_USERNAME_PRODUCT_CATALOG" \
+          --build-arg DB_PASSWORD="$DB_PASSWORD_PRODUCT_CATALOG" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./product-catalog-service/.
+        
         docker build -t "gcr.io/team-programming-game-shop/payment-management:$GITHUB_SHA" \
+          --build-arg DB_URL="$DB_URL_PAYMENT_MANAGEMENT" \
+          --build-arg DB_USERNAME="$DB_USERNAME_PAYMENT_MANAGEMENT" \
+          --build-arg DB_PASSWORD="$DB_PASSWORD_PAYMENT_MANAGEMENT" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./payment-management-service/.
+        
         docker build -t "gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA" \
+          --build-arg DB_URL="$DB_URL_ORDER_MANAGEMENT" \
+          --build-arg DB_USERNAME="$DB_USERNAME_ORDER_MANAGEMENT" \
+          --build-arg DB_PASSWORD="$DB_PASSWORD_ORDER_MANAGEMENT" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./order-management-service/.
+        
         docker build -t "gcr.io/team-programming-game-shop/customers:$GITHUB_SHA" \
+          --build-arg DB_URL="$DB_URL_CUSTOMERS" \
+          --build-arg DB_USERNAME="$DB_USERNAME_CUSTOMERS" \
+          --build-arg DB_PASSWORD="$DB_PASSWORD_CUSTOMERS" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./customers-service/.
+        
         docker build -t "gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" ./authentication-service/.
 
