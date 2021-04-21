@@ -11,8 +11,6 @@ import java.util.Optional;
 
 @Component
 public class JwtTokenService {
-    private static final String SECRET = "secret";
-
     private final JwtGenerator jwtGenerator;
     private final JwtParser jwtParser;
     private final UserDetailsService userDetailsService;

@@ -1,6 +1,8 @@
 package agh.fis.authentication.security.filter;
 
 import agh.fis.authentication.service.JwtTokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class JwtFilter extends OncePerRequestFilter {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtFilter.class);
     private static final String BEARER_TOKEN = "Bearer ";
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private final JwtTokenService tokenService;
@@ -34,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     .map(this::createAuthentication)
                     .ifPresent(this::updateSecurityContext);
         } catch (Exception ex) {
-            // TODO log
+            LOGGER.warn("Could not set authentication using jwt token: " + ex);
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
