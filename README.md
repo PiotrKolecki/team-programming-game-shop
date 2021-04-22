@@ -73,14 +73,14 @@ docker build -t "game-shop/customers" `
 --build-arg DB_URL="$DB_URL_CUSTOMERS" `
 --build-arg DB_USERNAME="$DB_USERNAME_CUSTOMERS" `
 --build-arg DB_PASSWORD="$DB_PASSWORD_CUSTOMERS" ./customers-service/.
-docker build -t game-shop/authentication ./authentication-service/.
+docker build -t game-shop/authentication ./authentication-service/authentication-server/.
 
 kubectl apply -f ./shopping-cart-service/k8s/deployment-local.yaml
 kubectl apply -f ./product-catalog-service/k8s/deployment-local.yaml
 kubectl apply -f ./payment-management-service/k8s/deployment-local.yaml
 kubectl apply -f ./order-management-service/k8s/deployment-local.yaml
 kubectl apply -f ./customers-service/k8s/deployment-local.yaml
-kubectl apply -f ./authentication-service/k8s/deployment-local.yaml
+kubectl apply -f ./authentication-service/authentication-server/k8s/deployment-local.yaml
 
 minikube addons enable ingress
 kubectl apply -f ./k8s/ingress.yaml
@@ -100,7 +100,7 @@ docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-cata
 docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/.
 docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/.
 docker build -t gcr.io/team-programming-game-shop/customers ./customers-service/.
-docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/.
+docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/authentication-server/.
 
 docker push gcr.io/team-programming-game-shop/shopping-cart
 docker push gcr.io/team-programming-game-shop/product-catalog
@@ -114,7 +114,7 @@ kubectl apply -f ./product-catalog-service/k8s/deployment.yaml
 kubectl apply -f ./payment-management-service/k8s/deployment.yaml
 kubectl apply -f ./order-management-service/k8s/deployment.yaml
 kubectl apply -f ./customers-service/k8s/deployment.yaml
-kubectl apply -f ./authentication-service/k8s/deployment.yaml
+kubectl apply -f ./authentication-service/authentication-server/k8s/deployment.yaml
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
 kubectl apply -f ./k8s/ingress.yaml
