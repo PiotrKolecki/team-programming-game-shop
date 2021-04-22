@@ -87,10 +87,9 @@ jobs:
           --build-arg DB_URL="$DB_URL_CUSTOMERS" \
           --build-arg DB_USERNAME="$DB_USERNAME_CUSTOMERS" \
           --build-arg DB_PASSWORD="$DB_PASSWORD_CUSTOMERS" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" ./customers-service/.
-        
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./customers-service/customers-server/.
         docker build -t "gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" ./authentication-service/.
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./authentication-service/authentication-server/.
 
     # Push the Docker image to Google Container Registry
     - name: Publish
