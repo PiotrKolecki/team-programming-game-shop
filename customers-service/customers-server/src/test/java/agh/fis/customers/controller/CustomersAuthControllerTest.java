@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class CustomersControllerTest {
+class CustomersAuthControllerTest {
     private static final String MAIL1 = "MAIL1";
     private static final String MAIL2 = "MAIL2";
     private static final String PASSWORD = "PASSWORD";
@@ -41,7 +41,7 @@ class CustomersControllerTest {
     }
 
     private void performAndAssertCreation(CustomerRegistrationDto dto, int id, String mail) throws Exception {
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/auth")
                 .header("Origin", "*")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(dto)))
@@ -60,7 +60,7 @@ class CustomersControllerTest {
     }
 
     private void performAndAssertStatus(CustomerRegistrationDto dto, int status) throws Exception {
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/auth")
                 .header("Origin", "*")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(dto)))
