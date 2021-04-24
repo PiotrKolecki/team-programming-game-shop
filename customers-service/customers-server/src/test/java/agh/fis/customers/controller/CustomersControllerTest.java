@@ -11,6 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,5 +72,24 @@ class CustomersControllerTest {
         CustomerRegistrationDto dto = new CustomerRegistrationDto();
 
         performAndAssertStatus(dto, 409);
+    }
+
+    @Test
+    void shouldGetCustomerByMailPassword() throws Exception {
+        CustomerRegistrationDto dto = new CustomerRegistrationDto().mail(MAIL1).password(PASSWORD).userType(USER_TYPE);
+        performAndAssertCreation(dto, 1, MAIL1);
+
+        mockMvc.perform(get("/auth?mail=MAIL1&password=PASSWORD")
+                .header("Origin", "*"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.mail").value(MAIL1));
+    }
+
+    @Test
+    void shouldFailWhenCustomerByMailPasswordNotFound() throws Exception {
+        mockMvc.perform(get("/auth?mail=MAIL1&password=PASSWORD")
+                .header("Origin", "*"))
+                .andExpect(status().is(404));
     }
 }

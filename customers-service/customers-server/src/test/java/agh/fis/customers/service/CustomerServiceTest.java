@@ -11,8 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +55,34 @@ class CustomerServiceTest {
                     .returns(MAIL, CustomerDto::getMail)
                     .returns(USER_TYPE, CustomerDto::getUserType);
             assertThat(keeper.containsInfo("Customer of type Customer with id 1 created")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldGetCustomerByMailPassword() {
+        when(repository.getCustomerByMailAndPassword(MAIL, PASSWORD)).thenReturn(Optional.of(CUSTOMER));
+
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            CustomerDto customerDto = service.getByMailAndPassword(MAIL, PASSWORD);
+
+            assertThat(customerDto)
+                    .returns(ID, CustomerDto::getId)
+                    .returns(MAIL, CustomerDto::getMail)
+                    .returns(USER_TYPE, CustomerDto::getUserType);
+            assertThat(keeper.containsInfo("Returning customer with id 1")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldThrowWhenCustomerByMailPasswordNotFound() {
+        when(repository.getCustomerByMailAndPassword(MAIL, PASSWORD)).thenReturn(Optional.empty());
+
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.getByMailAndPassword(MAIL, PASSWORD))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("404 NOT_FOUND \"Customer not found\"");
+
+            assertThat(keeper.containsInfo(String.format("Customer M:%s P:%s not found", MAIL, PASSWORD))).isTrue();
         }
     }
 }

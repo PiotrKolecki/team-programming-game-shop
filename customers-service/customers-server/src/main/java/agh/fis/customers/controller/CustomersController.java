@@ -30,6 +30,12 @@ public class CustomersController implements CustomersApi {
     }
 
     @Override
+    public ResponseEntity<CustomerDto> getAuthCustomer(@Valid String mail, @Valid String password) {
+        CustomerDto customerDto = customerService.getByMailAndPassword(mail, password);
+        return ResponseEntity.ok(customerDto);
+    }
+
+    @Override
     public ResponseEntity<CustomerDto> updateCustomer(String authorization, @Valid CustomerDto customerDto) {
         return null;
     }
