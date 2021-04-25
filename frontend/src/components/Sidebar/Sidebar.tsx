@@ -149,49 +149,50 @@ const categories: Array<NavItem> = [
 export function Sidebar() {
     const classes = useStyles();
 
-    const [value, setValue] = useState<number>(100);
+    const [value, setValue] = useState<number[]>([0, 100]);
     const { pathname } = useLocation();
     const history = useHistory();
 
-    console.log(pathname);
-
     const handleChange = (event: any, newValue?: number | number[]) => {
-      if(!newValue){
-        console.log(event.target.value);
-          setValue(event.target.value);
-        return;
-      }
-
-      setValue(newValue as number);
+      setValue(newValue as number[]);
     };
 
     const onCategoryClick = (category: string) => {
       history.push(`/insight${category}`)
     }
   
+    const handlePrice =(event: any, isMin: boolean) => {
+      const minPrice = value[0];
+      const maxPrice = value[1];
+
+      const newPrice = isMin ? [Number(event.target.value), maxPrice] :  [minPrice, Number(event.target.value)] ;
+      setValue(newPrice);
+    }
 
     return (
         <Container>
         <Price>PRICE</Price>
-        <Slider defaultValue={100} max={300} onChange={handleChange} aria-labelledby="continuous-slider" />
+        <Slider value={value} max={300} onChange={handleChange} aria-labelledby="continuous-slider" />
         <div className={classes.inputs}>
         <OutlinedInput
-            value={0}
+            value={value[0]}
             classes={{
+              root: classes.root,
               input: classes.input,
             }}
+            onChange={(event) => handlePrice(event, true)}
             inputProps={{
               'aria-label': 'weight',
             }}
           />
           -
           <OutlinedInput
-                value={value}
+                value={value[1]}
                 classes={{
                   root: classes.root,
                   input: classes.input,
                 }}
-                onChange={(event) => handleChange(event)}
+                onChange={(event) => handlePrice(event, false)}
                 inputProps={{
                   'aria-label': 'weight',
                 }}
