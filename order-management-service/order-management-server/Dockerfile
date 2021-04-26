@@ -1,5 +1,5 @@
 FROM openjdk:8-jre-alpine
-ENV APP_FILE order-management-service-1.0.jar
+ENV APP_FILE order-management-server-1.0.jar
 ENV APP_HOME /usr/apps
 ARG DB_URL
 ENV DB_URL ${DB_URL}

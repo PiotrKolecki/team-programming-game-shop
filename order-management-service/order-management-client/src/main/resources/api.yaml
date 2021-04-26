@@ -1,0 +1,207 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Order management service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Order Management Service
+
+paths:
+  /:
+    get:
+      tags:
+        - Orders
+      description: Returns all orders
+      operationId: getCustomers
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      responses:
+        "200":
+          description: Returns all orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderDto"
+
+    post:
+      tags:
+        - Orders
+      description: Create new order
+      operationId: createOrder
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderDto"
+      responses:
+        "200":
+          description: Returns created order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDto"
+
+    put:
+      tags:
+        - Orders
+      description: Updates order
+      operationId: updateOrder
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderDto"
+      responses:
+        "200":
+          description: Returns updated order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDto"
+
+  /{id}:
+    get:
+      tags:
+        - Orders
+      description: Get order by id
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Order id
+      responses:
+        "200":
+          description: Returns specific order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDto"
+
+    delete:
+      tags:
+        - Orders
+      description: Delete order by id
+      operationId: deleteOrderById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Order id
+      responses:
+        "200":
+          description: Order deleted
+
+
+  /customer/{id}:
+    get:
+      tags:
+        - Orders
+      description: Returns all user's orders
+      operationId: getUsersOrders
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: User id
+      responses:
+        "200":
+          description: Returns all user's orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderDto"
+
+
+components:
+  schemas:
+
+    OrderStatus:
+      type: string
+      enum:
+        - Pending_payment
+        - Completed
+        - Canceled
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        publisher:
+          type: string
+        price:
+          type: float
+      required:
+        - id
+
+    OrderDto:
+      description: Information about order
+      type: object
+      properties:
+        id:
+          type: integer
+        paymentId:
+          type: integer
+        customerId:
+          type: integer
+        address:
+          type: string
+        orderStatus:
+          $ref: "#/components/schemas/OrderStatus"
+        products:
+            type: array
+            items:
+              $ref: "#/components/schemas/Product"
+        totalPrice:
+          type: float
