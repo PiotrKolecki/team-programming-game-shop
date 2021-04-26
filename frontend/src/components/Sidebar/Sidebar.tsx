@@ -7,6 +7,7 @@ import classnames from "classnames";
 import { useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
 import { useHistory } from 'react-router-dom';
+import { theme as appTheme } from "../../constants";
 
 type NavItem = {
   name: string;
@@ -15,7 +16,7 @@ type NavItem = {
 
 const Container = styled.div`
   grid-area: sidebar;
-  background-color: #060323;
+  background-color: ${appTheme.colors.blackRock};
   height: 1000px;
   padding: 40px 32px;
 `
@@ -24,10 +25,10 @@ const Price = styled.div`
   font-family: "Lao Sangam MN",
   font-weight: 300;
   font-size: 1.1rem;
-  color: #E6E6E6;
+  color: ${appTheme.colors.mercury};
 
   padding-bottom: 10px;
-  border-bottom: 1px solid #c9c9c9;
+  border-bottom: 1px solid ${appTheme.colors.silver};
   margin-bottom: 40px;
 
 `
@@ -36,11 +37,11 @@ const Categories = styled.div`
   font-family: "Lao Sangam MN",
   font-weight: 300;
   font-size: 1.1rem;
-  color: #E6E6E6;
+  color: ${appTheme.colors.mercury};
 
   padding-top: 40px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #c9c9c9;
+  border-bottom: 1px solid ${appTheme.colors.mercury};
   margin-bottom: 16px;
   `
 
@@ -59,12 +60,12 @@ const useStyles = makeStyles((theme) => ({
   },
 
    root: {
-    border: "1px solid #5454ED",
+    border: `1px solid ${appTheme.colors.mercury}`
    },
 
   input: {
-    color: "#c9c9c9",
-    border: "1px solid #5454ED",
+    color: appTheme.colors.silver,
+    border: `1px solid ${appTheme.colors.royalBlue}`,
     borderRadius: "4px",
     width: "60px",
     padding: "5px",
@@ -82,13 +83,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "16px",
 
     "&:hover": {
-      backgroundColor: "#3F3FB7",
-      borderRadius: "3px",
+      backgroundColor: appTheme.colors.governorBay,
+      borderRadius: "6px",
     }
   },
 
   active: {
-    backgroundColor: "#3F3FB7",
+    backgroundColor: appTheme.colors.governorBay,
       borderRadius: "3px",
   },
 }));

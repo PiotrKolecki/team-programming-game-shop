@@ -2,15 +2,16 @@ import React from "react";
 import styled from "styled-components";
 import { GameCard } from '../../../components/GameCard/GameCard';
 import witcher from "../../../assets/witcher.png";
+import { theme as appTheme } from "../../../constants";
 
 const Container = styled.div`
     padding: 40px 48px;
     grid-area: catalogue;
-    background-color: #161426;
+    background-color: ${appTheme.colors.blackRock};
 `
 
 const Header = styled.div`
-    border-left: 6px solid #3F3FB7;
+    border-left: 6px solid ${appTheme.colors.governorBay};
     padding-left: 16px;
     padding-top: 6px;
     font-size: 18px;
@@ -23,7 +24,7 @@ const Header = styled.div`
 `
 
 const Items = styled.div`
-padding-top: 24px;
+    padding-top: 24px;
 
     display: flex;
     flex-wrap: wrap; 

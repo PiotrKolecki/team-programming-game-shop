@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { Catalogue } from './Catalogue/Catalogue';
-
+import { theme as appTheme } from "../../constants";
 
 const Container = styled.div`
   display: grid;
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   element: {
-    color: "#e6e4e4",
+    color: appTheme.colors.mercury,
     textDecoration: "none",
     
     "&:hover": {
@@ -54,19 +54,15 @@ const useStyles = makeStyles((theme) => ({
 export function Home() {
   const classes = useStyles();
 
-  const handleClick = () =>{
-
-  }
 
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" classes={{ ol: classes.breadcrumbs }}>
-        <Link to="/" onClick={handleClick} className={classes.element}>
+        <Link to="/" className={classes.element}>
           Home
         </Link>
         <Link
           to="/insight"
-          onClick={handleClick}
           aria-current="page"
           className={classes.element}
           >
