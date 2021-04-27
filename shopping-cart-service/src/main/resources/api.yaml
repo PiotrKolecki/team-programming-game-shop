@@ -1,0 +1,174 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Shopping Cart service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Shopping Cart Service
+paths:
+  /:
+    post:
+      tags:
+        - Shopping Cart
+      description: Creates new shopping cart
+      operationId: createShoppingCart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingCartCreationDto'
+        required: true
+      responses:
+        "200":
+          description: Returns created shopping cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCartDto"
+  /{id}:
+    get:
+      tags:
+        - Shopping Cart
+      description: Get shopping cart by id
+      operationId: getShoppingCartById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Shopping Cart id
+      responses:
+        "200":
+          description: Returns specific shopping cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCartDto"
+    put:
+      tags:
+        - Shopping Cart
+      description: Add/Remove item from shopping Cart
+      operationId: addOrRemoveItemFromShoppingCart
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Shopping Cart id
+      requestBody:
+        description: Customer with updated values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShoppingCartModificationDto'
+      responses:
+        "200":
+          description: Returns updated shopping cart
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCartDto"
+    delete:
+      tags:
+        - Shopping Cart
+      description: Delete shopping cart by id
+      operationId: deleteShoppingCartById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Shopping Cart id
+      responses:
+        "200":
+          description: Specific shopping cart deleted
+
+components:
+  schemas:
+
+    Operation:
+      type: string
+      enum:
+        - Add
+        - Remove
+
+    GameDto:
+      description: Keeps information about game
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        publisher:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - publisher
+
+    ShoppingCartDto:
+      description: Keeps information about shopping cart
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id:
+          type: integer
+        date_created:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameDto'
+      required:
+        - id
+        - customer_id
+        - date_created
+        - products
+
+    ShoppingCartCreationDto:
+      description: Keeps information needed to create cart
+      type: object
+      properties:
+        customer_id:
+          type: integer
+      required:
+        - customer_id
+
+    ShoppingCartModificationDto:
+      description: Keeps information about cart modification
+      type: object
+      properties:
+        game_id:
+          type: integer
+        operation:
+          $ref: '#/components/schemas/Operation'
+      required:
+        - game_id
+        - operation
