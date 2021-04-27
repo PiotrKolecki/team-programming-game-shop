@@ -11,6 +11,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class CustomersControllerTest {
+class CustomersAuthControllerTest {
     private static final String MAIL1 = "MAIL1";
     private static final String MAIL2 = "MAIL2";
     private static final String PASSWORD = "PASSWORD";
@@ -40,7 +41,7 @@ class CustomersControllerTest {
     }
 
     private void performAndAssertCreation(CustomerRegistrationDto dto, int id, String mail) throws Exception {
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/auth")
                 .header("Origin", "*")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(dto)))
@@ -59,7 +60,7 @@ class CustomersControllerTest {
     }
 
     private void performAndAssertStatus(CustomerRegistrationDto dto, int status) throws Exception {
-        mockMvc.perform(post("/")
+        mockMvc.perform(post("/auth")
                 .header("Origin", "*")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(dto)))
@@ -71,5 +72,24 @@ class CustomersControllerTest {
         CustomerRegistrationDto dto = new CustomerRegistrationDto();
 
         performAndAssertStatus(dto, 409);
+    }
+
+    @Test
+    void shouldGetCustomerByMailPassword() throws Exception {
+        CustomerRegistrationDto dto = new CustomerRegistrationDto().mail(MAIL1).password(PASSWORD).userType(USER_TYPE);
+        performAndAssertCreation(dto, 1, MAIL1);
+
+        mockMvc.perform(get("/auth?mail=MAIL1&password=PASSWORD")
+                .header("Origin", "*"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.mail").value(MAIL1));
+    }
+
+    @Test
+    void shouldFailWhenCustomerByMailPasswordNotFound() throws Exception {
+        mockMvc.perform(get("/auth?mail=MAIL1&password=PASSWORD")
+                .header("Origin", "*"))
+                .andExpect(status().is(404));
     }
 }
