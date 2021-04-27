@@ -158,13 +158,8 @@ components:
       properties:
         customer_id:
           type: integer
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/GameDto'
       required:
         - customer_id
-        - products
 
     ShoppingCartModificationDto:
       description: Keeps information about cart modification
