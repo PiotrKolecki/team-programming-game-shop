@@ -181,3 +181,51 @@ components:
         - mail
         - password
         - userType
+
+    ### SHOPPING_CART SCHEMA
+    GameDto:
+      description: Keeps information about game
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        publisher:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - publisher
+
+    ShoppingCartDto:
+      description: Keeps information about shopping cart
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id:
+          type: integer
+        date_created:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameDto'
+      required:
+        - id
+        - customer_id
+        - date_created
+        - products
+
+    ShoppingCartCreationDto:
+      description: Keeps information needed to create cart
+      type: object
+      properties:
+        customer_id:
+          type: integer
+      required:
+        - customerId
