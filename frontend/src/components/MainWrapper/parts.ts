@@ -17,6 +17,7 @@ export const Breadcrumbs = styled.p`
    font-size: 23px;
    line-height: 30px;
    letter-spacing: 0.07px;
+   font-family: "Lao Sangam MN";
 `;
 
 export const Title = styled.h2`
@@ -27,6 +28,7 @@ export const Title = styled.h2`
    line-height: 47px;
    letter-spacing: 0.12px;
    text-transform: uppercase;
+   font-family: "Rubik";
 `;
 
 export const AsideCol = styled.div`
@@ -34,7 +36,12 @@ export const AsideCol = styled.div`
    padding: 50px 100px 50px 24px;
 `;
 
-export const MainContet = styled.div`
+export const MainContent = styled.div`
+   display: flex;
+   width: 100%;
+`;
+
+export const Section = styled.div`
    flex-grow: 1;
 `;
 

@@ -29,4 +29,5 @@ export const Email = styled.h3`
    line-height: 25px;
    text-transform: uppercase;
    font-weight: 400;
+   font-family: "Rubik";
 `;

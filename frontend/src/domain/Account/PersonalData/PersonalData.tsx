@@ -24,7 +24,6 @@ export const PersonalData: React.FC = () => {
    const [isEditEnable, setIsEditEnable] = useState(false);
 
    const onSubmit = (values: Record<string, string>) => {
-      console.log(values);
       setIsEditEnable(false);
       // FIXME: Dispatch save action
    }

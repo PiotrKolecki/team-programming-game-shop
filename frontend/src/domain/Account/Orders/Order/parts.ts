@@ -24,6 +24,7 @@ export const Text = styled.p`
    display: flex;
    align-items: center;
    justify-content: center;
+   font-family: "Rubik";
 `;
 
 export const ImageWrapper = styled.div`
@@ -66,6 +67,7 @@ export const ProductName = styled.p`
    line-height: 18px;
    display: flex;
    align-items: center;
+   font-family: "Rubik";
 `;
 
 export const ProductInfo = styled.p`
@@ -77,6 +79,7 @@ export const ProductInfo = styled.p`
    display: flex;
    align-items: center;
    justify-content: center;
+   font-family: "Rubik";
 `;
 
 export const SummaryWrapper = styled.div`
@@ -107,6 +110,7 @@ export const TotalInfo = styled.p`
    border-top: 1px solid #7E7E7E;
    padding: 12px 0;
    font-weight: 700;
+   font-family: "Rubik";
 `;
 
 export const DeliveryDetails = styled.div`
@@ -128,6 +132,7 @@ export const DeliveryLabel = styled.p`
    font-size: 16px;
    line-height: 18px;
    font-weight: 700;
+   font-family: "Rubik";
 `;
 
 export const DeliveryText = styled.p`
@@ -136,4 +141,5 @@ export const DeliveryText = styled.p`
    color: #E6E6E6;
    font-size: 14px;
    line-height: 20px;
+   font-family: "Rubik";
 `;

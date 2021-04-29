@@ -197,7 +197,6 @@ export const Orders: React.FC = () => (
             <P.Label>Payment method</P.Label>
             <P.Label>Total price</P.Label>
             <P.Label>Status</P.Label>
-            <P.Label />
          </P.Header>
          {mockData.map((order) => <Order order={order} />)}
       </P.OrdersWrapper>
