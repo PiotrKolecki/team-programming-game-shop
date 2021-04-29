@@ -12,6 +12,7 @@ export const Title = styled.h4`
    line-height: 26px;
    color: #E6E6E6;
    border-bottom: 1px solid #E6E6E6;
+   font-family: "Lao Sangam MN";
 `;
 
 export const LinksWrapper = styled.div`
@@ -28,6 +29,7 @@ export const NavLink = styled(Link)< { isActive: boolean }>`
    text-decoration: none !important;
    color: #E6E6E6;
    border-radius: 6px;
+   font-family: "Lao Sangam MN";
 
    &:hover, &:active {
       color: #A42CEF;

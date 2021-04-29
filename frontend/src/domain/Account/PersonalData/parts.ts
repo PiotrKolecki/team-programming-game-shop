@@ -75,6 +75,7 @@ export const Label = styled.p`
    font-size: 12px;
    line-height: 15px;
    color: #D6D5D5;
+   font-family: "Lao Sangam MN";
 `;
 
 export const StyledInput = styled.input`
@@ -87,7 +88,7 @@ export const StyledInput = styled.input`
    outline: none !important;
    border: none;
    border-bottom: 1px solid #E6E6E6;
-   font-family: 'Roboto';
+   font-family: "Lao Sangam MN";
    width: 250px;
 
    &:disabled {

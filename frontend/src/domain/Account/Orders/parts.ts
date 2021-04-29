@@ -21,4 +21,5 @@ export const Label = styled.p`
    line-height: 18px;
    text-align: center;
    color: #E6E6E6;
+   font-family: "Rubik";
 `;

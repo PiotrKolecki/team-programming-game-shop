@@ -23,11 +23,13 @@ export const MainWrapper: React.FC<MainWrapperProps> = ({
          <P.Breadcrumbs>{breadcrumbs.join(' / ')}</P.Breadcrumbs>
          <P.Title>{pageTitle}</P.Title>
       </P.PageTitle>
+      <P.MainContent>
       {aside && <P.AsideCol>{aside}</P.AsideCol>}
-      <P.MainContet>
+      <P.Section>
          <P.Content>{children}</P.Content>
          {subContent && <P.Recommended>{subContent}</P.Recommended>}
-      </P.MainContet>
+      </P.Section>
+      </P.MainContent>
    </P.MainWrapper>
 )
 
