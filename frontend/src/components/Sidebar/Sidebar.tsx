@@ -162,7 +162,7 @@ export function Sidebar() {
       history.push(`/insight${category}`)
     }
   
-    const handlePrice =(event: any, isMin: boolean) => {
+    const handlePrice = (isMin: boolean) => (event: any) =>  {
       const minPrice = value[0];
       const maxPrice = value[1];
 
@@ -181,7 +181,7 @@ export function Sidebar() {
               root: classes.root,
               input: classes.input,
             }}
-            onChange={(event) => handlePrice(event, true)}
+            onChange={handlePrice(true)}
             inputProps={{
               'aria-label': 'weight',
             }}
@@ -193,7 +193,7 @@ export function Sidebar() {
                   root: classes.root,
                   input: classes.input,
                 }}
-                onChange={(event) => handlePrice(event, false)}
+                onChange={handlePrice(false)}
                 inputProps={{
                   'aria-label': 'weight',
                 }}

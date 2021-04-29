@@ -40,11 +40,8 @@ const Items = styled.div`
             <Header>
                 Action
             </Header>
-
             <Items>
-                { items.map(({ title, categories, price, cover }) => <GameCard title={title} categories={categories} price={price} cover={cover}/>)}
-                
+                { items.map(({ title, categories, price, cover }) => <GameCard key={title} title={title} categories={categories} price={price} cover={cover}/>)}  
             </Items>
-
         </Container>
      )}
