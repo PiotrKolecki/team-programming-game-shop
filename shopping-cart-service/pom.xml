@@ -45,6 +45,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,4 +63,37 @@
             <version>1.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>5.0.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <configOptions>
+                                <interfaceOnly>true</interfaceOnly>
+                                <openApiNullable>false</openApiNullable>
+                                <sourceFolder>src/gen/java/main</sourceFolder>
+                                <library>spring-cloud</library>
+                                <modelPackage>agh.fis.shopping_cart.model</modelPackage>
+                                <apiPackage>agh.fis.shopping_cart.controller.api</apiPackage>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -7,24 +7,6 @@ info:
   title: Customers Service
 paths:
   /:
-    post:
-      tags:
-        - Customers
-      description: Creates new customer
-      operationId: createCustomer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CustomerRegistrationDto"
-        required: true
-      responses:
-        "200":
-          description: Returns created customer
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CustomerDto"
     get:
       tags:
         - Customers
@@ -120,6 +102,46 @@ paths:
       responses:
         "200":
           description: Specific customer deleted
+  /auth:
+    post:
+      tags:
+        - CustomersAuth
+      description: Creates new customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerRegistrationDto"
+        required: true
+      responses:
+        "200":
+          description: Returns created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+    get:
+      tags:
+        - CustomersAuth
+      description: Gets customer by mail and password
+      operationId: getAuthCustomer
+      parameters:
+        - in: query
+          name: mail
+          schema:
+            type: string
+        - in: query
+          name: password
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns customer by mail and password
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
 
 components:
   schemas:

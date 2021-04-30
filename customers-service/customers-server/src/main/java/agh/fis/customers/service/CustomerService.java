@@ -7,7 +7,11 @@ import agh.fis.customers.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -29,5 +33,16 @@ public class CustomerService {
 
         logger.info("Customer of type {} with id {} created", customer.getUserType(), customer.getId());
         return modelMapper.map(customer, CustomerDto.class);
+    }
+
+    public CustomerDto getByMailAndPassword(String mail, String password) {
+        Optional<Customer> customerOptional = repository.getCustomerByMailAndPassword(mail, password);
+        if (customerOptional.isPresent()) {
+            Customer customer = customerOptional.get();
+            logger.info("Returning customer with id " + customer.getId());
+            return modelMapper.map(customer, CustomerDto.class);
+        }
+        logger.info("Customer M:{} P:{} not found", mail, password);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
     }
 }
