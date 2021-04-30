@@ -12,7 +12,7 @@ paths:
       tags:
         - Orders
       description: Returns all orders
-      operationId: getCustomers
+      operationId: getOrders
       parameters:
         - in: header
           name: Authorization

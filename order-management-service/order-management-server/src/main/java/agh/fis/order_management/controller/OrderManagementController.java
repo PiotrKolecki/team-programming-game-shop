@@ -2,6 +2,7 @@ package agh.fis.order_management.controller;
 
 import agh.fis.order_management.controller.api.OrdersApi;
 import agh.fis.order_management.model.OrderDto;
+import agh.fis.order_management.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,12 @@ import java.util.List;
 public class OrderManagementController implements OrdersApi {
     private static final Logger logger = LoggerFactory.getLogger(OrderManagementController.class);
 
+    private final OrderService orderService;
+
+    public OrderManagementController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @Override
     public ResponseEntity<OrderDto> createOrder(String authorization, @Valid OrderDto orderDto) {
         return null;
@@ -26,7 +33,7 @@ public class OrderManagementController implements OrdersApi {
     }
 
     @Override
-    public ResponseEntity<List<OrderDto>> getCustomers(String authorization) {
+    public ResponseEntity<List<OrderDto>> getOrders(String authorization) {
         return null;
     }
 
