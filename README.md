@@ -36,7 +36,7 @@ To load credentials into shell variables execute all above lines or "run" the fi
 
 **Windows:**
 ```
-get-content .\env_setup_secret.txt | Invoke-Expression
+Invoke-Expression(get-content .\env_setup_secret.txt -Raw)
 ```
 **Unix:**
 ```

@@ -1,16 +1,23 @@
 package agh.fis.customers.controller;
 
+import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.CustomerRegistrationDto;
+import agh.fis.customers.model.ShoppingCartCreationDto;
 import agh.fis.customers.model.UserType;
+import agh.fis.customers.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,6 +37,11 @@ class CustomersAuthControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Mock
+    private CustomerRepository customerRepository;
+
+    @MockBean
+    private ShoppingCartClient shoppingCartClient;
 
     @Test
     void shouldCreateCustomers() throws Exception {
@@ -91,5 +103,20 @@ class CustomersAuthControllerTest {
         mockMvc.perform(get("/auth?mail=MAIL1&password=PASSWORD")
                 .header("Origin", "*"))
                 .andExpect(status().is(404));
+    }
+
+    @Test
+    void shouldFailOnCustomerShoppingCartCreation() throws Exception {
+        doThrow(new RuntimeException()).when(shoppingCartClient).createShoppingCart(new ShoppingCartCreationDto().customerId(1));
+
+        CustomerRegistrationDto dto = new CustomerRegistrationDto().mail(MAIL1).password(PASSWORD).userType(USER_TYPE);
+
+        mockMvc.perform(post("/auth")
+                .header("Origin", "*")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().is(400));
+
+        assertThat(customerRepository.findAll()).isEmpty();
     }
 }
