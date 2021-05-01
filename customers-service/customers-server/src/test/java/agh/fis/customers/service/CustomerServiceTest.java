@@ -1,6 +1,7 @@
 package agh.fis.customers.service;
 
 import agh.fis.common.util.LogKeeper;
+import agh.fis.customers.model.*;
 import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;
@@ -60,30 +61,30 @@ class CustomerServiceTest {
     }
 
     @Test
-    void shouldGetCustomerByMailPassword() {
-        when(repository.getCustomerByMailAndPassword(MAIL, PASSWORD)).thenReturn(Optional.of(CUSTOMER));
+    void shouldGetCustomerByMail() {
+        when(repository.getCustomerByMail(MAIL)).thenReturn(Optional.of(CUSTOMER));
 
         try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
-            CustomerDto customerDto = service.getByMailAndPassword(MAIL, PASSWORD);
+            CustomerAuthDto customerAuthDto = service.getByMail(MAIL);
 
-            assertThat(customerDto)
-                    .returns(ID, CustomerDto::getId)
-                    .returns(MAIL, CustomerDto::getMail)
-                    .returns(USER_TYPE, CustomerDto::getUserType);
+            assertThat(customerAuthDto)
+                    .returns(ID, CustomerAuthDto::getId)
+                    .returns(MAIL, CustomerAuthDto::getMail)
+                    .returns(USER_TYPE, CustomerAuthDto::getUserType);
             assertThat(keeper.containsInfo("Returning customer with id 1")).isTrue();
         }
     }
 
     @Test
-    void shouldThrowWhenCustomerByMailPasswordNotFound() {
-        when(repository.getCustomerByMailAndPassword(MAIL, PASSWORD)).thenReturn(Optional.empty());
+    void shouldThrowWhenCustomerByMailNotFound() {
+        when(repository.getCustomerByMail(MAIL)).thenReturn(Optional.empty());
 
         try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
-            assertThatThrownBy(() -> service.getByMailAndPassword(MAIL, PASSWORD))
+            assertThatThrownBy(() -> service.getByMail(MAIL))
                     .isExactlyInstanceOf(ResponseStatusException.class)
                     .hasMessage("404 NOT_FOUND \"Customer not found\"");
 
-            assertThat(keeper.containsInfo(String.format("Customer M:%s P:%s not found", MAIL, PASSWORD))).isTrue();
+            assertThat(keeper.containsInfo(String.format("Customer M:%s not found", MAIL))).isTrue();
         }
     }
 

@@ -124,24 +124,20 @@ paths:
     get:
       tags:
         - CustomersAuth
-      description: Gets customer by mail and password
+      description: Gets customer by mail
       operationId: getAuthCustomer
       parameters:
         - in: query
           name: mail
           schema:
             type: string
-        - in: query
-          name: password
-          schema:
-            type: string
       responses:
         "200":
-          description: Returns customer by mail and password
+          description: Returns customer by mail
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CustomerDto"
+                $ref: "#/components/schemas/CustomerAuthDto"
 
 components:
   schemas:
@@ -165,6 +161,24 @@ components:
       required:
         - id
         - mail
+        - userType
+
+    CustomerAuthDto:
+      description: Keeps information about customer in the context of the authentication process
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - id
+        - mail
+        - password
         - userType
 
     CustomerRegistrationDto:

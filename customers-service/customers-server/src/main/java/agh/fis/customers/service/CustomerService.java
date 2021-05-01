@@ -2,6 +2,7 @@ package agh.fis.customers.service;
 
 import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.Customer;
+import agh.fis.customers.model.CustomerAuthDto;
 import agh.fis.customers.model.CustomerDto;
 import agh.fis.customers.model.CustomerRegistrationDto;
 import agh.fis.customers.model.ShoppingCartCreationDto;
@@ -49,15 +50,15 @@ public class CustomerService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to create customer shopping cart");
         }
     }
-
-    public CustomerDto getByMailAndPassword(String mail, String password) {
-        Optional<Customer> customerOptional = repository.getCustomerByMailAndPassword(mail, password);
+    
+    public CustomerAuthDto getByMail(String mail) {
+        Optional<Customer> customerOptional = repository.getCustomerByMail(mail);
         if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
             logger.info("Returning customer with id " + customer.getId());
-            return modelMapper.map(customer, CustomerDto.class);
+            return modelMapper.map(customer, CustomerAuthDto.class);
         }
-        logger.info("Customer M:{} P:{} not found", mail, password);
+        logger.info("Customer M:{} not found", mail);
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
     }
 }
