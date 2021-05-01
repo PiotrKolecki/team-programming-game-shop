@@ -19,11 +19,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
-    private final CustomerServiceClient client;
+    private final CustomerServiceClient customerServiceClient;
     private final CustomerToUserDetailsMapper customerToUserDetailsMapper;
 
-    public UserDetailsServiceImpl(CustomerServiceClient client, CustomerToUserDetailsMapper customerToUserDetailsMapper) {
-        this.client = client;
+    public UserDetailsServiceImpl(CustomerServiceClient customerServiceClient, CustomerToUserDetailsMapper customerToUserDetailsMapper) {
+        this.customerServiceClient = customerServiceClient;
         this.customerToUserDetailsMapper = customerToUserDetailsMapper;
     }
 
@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         CustomerAuthDto customer;
         try {
-            customer = client.getCustomerById(username);
+            customer = customerServiceClient.getCustomerById(username);
         } catch (Exception e) {
             LOGGER.warn("Exception while executing customers service call: " + e.getMessage());
             throw new UsernameNotFoundException("Not able to retrieve user with username: " + username);
