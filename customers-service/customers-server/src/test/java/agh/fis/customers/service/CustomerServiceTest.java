@@ -1,7 +1,6 @@
 package agh.fis.customers.service;
 
 import agh.fis.common.util.LogKeeper;
-import agh.fis.customers.model.*;
 import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;

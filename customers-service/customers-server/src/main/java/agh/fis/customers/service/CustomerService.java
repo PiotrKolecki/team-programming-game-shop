@@ -1,11 +1,7 @@
 package agh.fis.customers.service;
 
 import agh.fis.customers.client.ShoppingCartClient;
-import agh.fis.customers.model.Customer;
-import agh.fis.customers.model.CustomerAuthDto;
-import agh.fis.customers.model.CustomerDto;
-import agh.fis.customers.model.CustomerRegistrationDto;
-import agh.fis.customers.model.ShoppingCartCreationDto;
+import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -50,7 +46,7 @@ public class CustomerService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to create customer shopping cart");
         }
     }
-    
+
     public CustomerAuthDto getByMail(String mail) {
         Optional<Customer> customerOptional = repository.getCustomerByMail(mail);
         if (customerOptional.isPresent()) {
