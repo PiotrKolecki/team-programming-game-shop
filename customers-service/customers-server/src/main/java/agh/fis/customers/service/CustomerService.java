@@ -1,10 +1,7 @@
 package agh.fis.customers.service;
 
 import agh.fis.customers.client.ShoppingCartClient;
-import agh.fis.customers.model.Customer;
-import agh.fis.customers.model.CustomerDto;
-import agh.fis.customers.model.CustomerRegistrationDto;
-import agh.fis.customers.model.ShoppingCartCreationDto;
+import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -50,14 +47,14 @@ public class CustomerService {
         }
     }
 
-    public CustomerDto getByMailAndPassword(String mail, String password) {
-        Optional<Customer> customerOptional = repository.getCustomerByMailAndPassword(mail, password);
+    public CustomerAuthDto getByMail(String mail) {
+        Optional<Customer> customerOptional = repository.getCustomerByMail(mail);
         if (customerOptional.isPresent()) {
             Customer customer = customerOptional.get();
             logger.info("Returning customer with id " + customer.getId());
-            return modelMapper.map(customer, CustomerDto.class);
+            return modelMapper.map(customer, CustomerAuthDto.class);
         }
-        logger.info("Customer M:{} P:{} not found", mail, password);
+        logger.info("Customer M:{} not found", mail);
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
     }
 }

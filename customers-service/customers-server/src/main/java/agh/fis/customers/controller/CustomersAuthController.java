@@ -1,6 +1,7 @@
 package agh.fis.customers.controller;
 
 import agh.fis.customers.controller.api.CustomersAuthApi;
+import agh.fis.customers.model.CustomerAuthDto;
 import agh.fis.customers.model.CustomerDto;
 import agh.fis.customers.model.CustomerRegistrationDto;
 import agh.fis.customers.service.CustomerService;
@@ -24,8 +25,8 @@ public class CustomersAuthController implements CustomersAuthApi {
     }
 
     @Override
-    public ResponseEntity<CustomerDto> getAuthCustomer(@Valid String mail, @Valid String password) {
-        CustomerDto customerDto = customerService.getByMailAndPassword(mail, password);
-        return ResponseEntity.ok(customerDto);
+    public ResponseEntity<CustomerAuthDto> getAuthCustomer(@Valid String mail) {
+        CustomerAuthDto customerAuthDto = customerService.getByMail(mail);
+        return ResponseEntity.ok(customerAuthDto);
     }
 }
