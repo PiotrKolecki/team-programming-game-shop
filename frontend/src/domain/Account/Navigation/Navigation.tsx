@@ -6,7 +6,6 @@ const links = [
    { text: 'Cart', to: '/cart' },
    { text: 'Orders', to: '/orders' },
    { text: 'Personal data', to: '/profile' },
-   { text: 'Return the article', to: '/returns' },
 ];
 
 const Navigation: React.FC = () => {
