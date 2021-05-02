@@ -32,7 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         CustomerAuthDto customer;
         try {
-            customer = customerServiceClient.getCustomerById(username);
+            customer = customerServiceClient.getCustomerByMail(username);
         } catch (Exception e) {
             LOGGER.warn("Exception while executing customers service call: " + e.getMessage());
             throw new UsernameNotFoundException("Not able to retrieve user with username: " + username);

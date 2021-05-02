@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CustomerServiceClient {
 
     @GetMapping("/auth")
-    CustomerAuthDto getCustomerById(@RequestParam("mail") String mail);
+    CustomerAuthDto getCustomerByMail(@RequestParam("mail") String mail);
 }
 
