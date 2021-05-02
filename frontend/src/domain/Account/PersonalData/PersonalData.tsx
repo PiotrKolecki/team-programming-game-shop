@@ -20,6 +20,75 @@ const mockData = {
    country: 'Mock Country',
 }
 
+interface PersonalDataField {
+   name: keyof typeof mockData;
+   label: string;
+   validate: (value: string) => void;
+   inputType?: string;
+   parse?: (value: string) => string;
+}
+
+const personalDataFields: PersonalDataField[] = [
+   {
+      name: 'name',
+      label: 'First name',
+      validate: basicValidation,
+   },
+   {
+      name: 'surname',
+      label: 'Last name',
+      validate: basicValidation,
+   },
+   {
+      name: 'phone',
+      label: 'Phone number',
+      validate: basicValidation,
+      parse: (value) => value ? normalizeToNumber(value) : value,
+   },
+   {
+      name: 'birthDate',
+      label: 'Date of birth',
+      inputType: 'date',
+      validate: fieldRequired,
+   },
+];
+
+const addressDatafield: PersonalDataField[] = [
+   {
+      name: 'street',
+      label: 'Street',
+      validate: basicValidation,
+   },
+   {
+      name: 'houseNumber',
+      label: 'House number',
+      validate: fieldRequired,
+      parse: (value) => value ? normalizeToNumber(value) : value,
+   },
+   {
+      name: 'apartment',
+      label: 'Apartment number',
+      validate: fieldRequired,
+      parse: (value) => value ? normalizeToNumber(value) : value,
+   },
+   {
+      name: 'code',
+      label: 'Zip code',
+      validate: basicValidation,
+      parse: (value) => value ? normalizeToZipCode(value) : value,
+   },
+   {
+      name: 'city',
+      label: 'City',
+      validate: basicValidation,
+   },
+   {
+      name: 'country',
+      label: 'Country',
+      validate: basicValidation,
+   },
+];
+
 export const PersonalData: React.FC = () => {
    const [isEditEnable, setIsEditEnable] = useState(false);
 
@@ -42,132 +111,38 @@ export const PersonalData: React.FC = () => {
                   <form onSubmit={handleSubmit}>
                      <P.UserDataWrapper>
                         <P.Col>
-                           <Field
-                              name="name"
-                              initialValue={mockData.name}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>First name</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="surname"
-                              initialValue={mockData.surname}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Last name</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="phone"
-                              initialValue={mockData.phone}
-                              parse={(value) => value ? normalizeToNumber(value) : value}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Phone number</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="birthDate"
-                              initialValue={mockData.birthDate}
-                              validate={fieldRequired}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Date of birth</P.Label>
-                                    <P.StyledInput {...input} type="date" disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
+                           {personalDataFields.map(({ name, label, inputType, validate, parse }) => (
+                              <Field
+                                 name={name}
+                                 initialValue={mockData[name]}
+                                 parse={parse}
+                                 validate={validate}
+                                 render={({ input, meta }) => (
+                                    <P.InputWrapper>
+                                       <P.Label>{label}</P.Label>
+                                       <P.StyledInput {...input} type={inputType} disabled={!isEditEnable} />
+                                       {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
+                                    </P.InputWrapper>
+                                 )}
+                              />
+                           ))}
                         </P.Col>
                         <P.Col>
-                           <Field
-                              name="street"
-                              initialValue={mockData.street}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Street</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="houseNumber"
-                              initialValue={mockData.houseNumber}
-                              parse={(value) => value ? normalizeToNumber(value) : value}
-                              validate={fieldRequired}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>House number</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="apartment"
-                              initialValue={mockData.apartment}
-                              parse={(value) => value ? normalizeToNumber(value) : value}
-                              validate={fieldRequired}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Apartment number</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="code"
-                              initialValue={mockData.code}
-                              parse={(value) => value ? normalizeToZipCode(value) : value}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Zip code</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="city"
-                              initialValue={mockData.city}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>City</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
-                           <Field
-                              name="country"
-                              initialValue={mockData.country}
-                              validate={basicValidation}
-                              render={({ input, meta }) => (
-                                 <P.InputWrapper>
-                                    <P.Label>Country</P.Label>
-                                    <P.StyledInput {...input} disabled={!isEditEnable} />
-                                    {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
-                                 </P.InputWrapper>
-                              )}
-                           />
+                           {addressDatafield.map(({ name, label, inputType, validate, parse }) => (
+                              <Field
+                                 name={name}
+                                 initialValue={mockData[name]}
+                                 parse={parse}
+                                 validate={validate}
+                                 render={({ input, meta }) => (
+                                    <P.InputWrapper>
+                                       <P.Label>{label}</P.Label>
+                                       <P.StyledInput {...input} type={inputType} disabled={!isEditEnable} />
+                                       {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
+                                    </P.InputWrapper>
+                                 )}
+                              />
+                           ))}
                         </P.Col>
                      </P.UserDataWrapper>
                      {isEditEnable ? (

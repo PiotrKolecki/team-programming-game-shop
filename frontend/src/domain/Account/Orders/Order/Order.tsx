@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Collapsible from 'react-collapsible';
 import * as P from './parts';
-import Arrow from '../../../../assets/arrow.svg';
+import AdditionalCosts from './AdditionalCosts';
+import Trigger from './Trigger/Trigger';
 import User from '../../../../assets/user.svg';
 
 interface TempProduct {
@@ -37,21 +38,14 @@ interface OrderProps {
 export const Orders: React.FC<OrderProps> = ({ order }) => {
    const [isOpen, setIsOpen] = useState(false);
 
-   const Trigger = (
-      <P.TriggerWrapper>
-         <P.Text>{order.id}</P.Text>
-         <P.Text>{order.date}</P.Text>
-         <P.Text>{order.delivery}</P.Text>
-         <P.Text>{order.payment}</P.Text>
-         <P.Text>$ {order.total}</P.Text>
-         <P.Text>{order.status}</P.Text>
-         <P.ImageWrapper><P.Image isOpen={isOpen} src={Arrow} /></P.ImageWrapper>
-      </P.TriggerWrapper>
-   );
-
    return (
       <P.Order>
-         <Collapsible transitionTime={220} trigger={Trigger} onOpening={() => setIsOpen(true)} onClosing={() => setIsOpen(false)}>
+         <Collapsible
+            trigger={<Trigger order={order} isOpen={isOpen} />}
+            transitionTime={220}
+            onOpening={() => setIsOpen(true)}
+            onClosing={() => setIsOpen(false)}
+         >
             <P.OrderDetailsWrapper>
                <P.DeliveryDetails>
                   <P.Delivery>
@@ -76,24 +70,9 @@ export const Orders: React.FC<OrderProps> = ({ order }) => {
                      </P.Product>
                   ))}
                   <P.SummaryWrapper>
-                     <P.AdditionalCosts>
-                        <P.ProductImage />
-                        <P.ProductName />
-                        <P.ProductInfo>Basket: </P.ProductInfo>
-                        <P.ProductInfo>$ {order.basketPrice}</P.ProductInfo>
-                     </P.AdditionalCosts>
-                     <P.AdditionalCosts>
-                        <P.ProductImage />
-                        <P.ProductName />
-                        <P.ProductInfo>Delivery: </P.ProductInfo>
-                        <P.ProductInfo>$ {order.deliveryCost}</P.ProductInfo>
-                     </P.AdditionalCosts>
-                     <P.AdditionalCosts>
-                        <P.ProductImage />
-                        <P.ProductName />
-                        <P.ProductInfo>Payment: </P.ProductInfo>
-                        <P.ProductInfo>$ {order.paymentCost}</P.ProductInfo>
-                     </P.AdditionalCosts>
+                     <AdditionalCosts label={'Basket'} value={order.basketPrice} />
+                     <AdditionalCosts label={'Delivery'} value={order.deliveryCost} />
+                     <AdditionalCosts label={'Payment'} value={order.paymentCost} />
                      <P.Summary>
                         <P.ProductImage />
                         <P.ProductName />
