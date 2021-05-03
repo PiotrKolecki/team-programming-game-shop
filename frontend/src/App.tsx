@@ -1,6 +1,6 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { WelcomeScreen, Home } from "./domain";
+import { WelcomeScreen, Home, SingleGame } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 
@@ -36,8 +36,11 @@ function App() {
           <Route path="/register">
             <WelcomeScreen type="register" />
           </Route>
-          <Route path="/insight">
+          <Route path="/insight/:category" exact>
             <Home />
+          </Route>
+          <Route path="/insight/:category/:id" component={SingleGame}>
+            <SingleGame />
           </Route>
           <Redirect to="/signin" />
         </Switch>

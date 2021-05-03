@@ -7,7 +7,7 @@ import { theme as appTheme } from "../../../constants";
 const Container = styled.div`
     padding: 40px 48px;
     grid-area: catalogue;
-    background-color: ${appTheme.colors.blackRock};
+    background-color: ${appTheme.colors.mirage};
 `
 
 const Header = styled.div`
@@ -32,7 +32,7 @@ const Items = styled.div`
 `
 
   export function Catalogue() {
-    const item = { title: 'The Wither', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
+    const item = { title: 'The Witcher', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
     const items = [item, item, item, item, item, item, item, item, item, item];
 
     return (
