@@ -1,33 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Button from "@material-ui/core/Button";
 import { theme as appTheme } from "../../constants";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import { Sidebar } from '../../components/Sidebar/Sidebar';
+import { Home } from '../index';
 import gta from "../../assets/gta.png";
 
-const Container = styled.div`
-  display: grid;
-  grid-template-rows: 40px 50px auto;
-  grid-template-areas: "breadcrumbs" "navHeader" "content";
-  margin-top: 50px;
-`;
-
-const NavHeader =  styled.div`
-  grid-area: navHeader;
-  font-family: "Rubik";
-  padding-left: 24px;
-  font-size: 2rem;
-  font-weight: 450;
-`;
-
-const Content = styled.div`
-  display: grid;
-  grid-template-columns: 250px auto;
-  grid-template-areas: "sidebar catalogue"
-`
 
 const GameContainer = styled.div`
     padding: 40px 90px 40px 48px;
@@ -182,65 +160,51 @@ const useStyles = makeStyles((theme) => ({
 
 export function SingleGame() {
     const classes = useStyles();
+    const breadcrumbs = [{to: "/", label: "Home"}, {to: "/insight/adventure", label: "Adventure"}, {to: "/insight/adventure/1", label: "Grand Theft Auto"}];
 
     return (
-        <Container>
-          <Breadcrumbs aria-label="breadcrumb" classes={{ ol: classes.breadcrumbs }}>
-            <Link to="/" className={classes.element}>
-              Home
-            </Link>
-            <Link
-              to="/insight"
-              aria-current="page"
-              className={classes.element}
-              >
-              Store
-            </Link>
-          </Breadcrumbs>
-          <NavHeader>AAAAA</NavHeader>
-          <Content>
-            <Sidebar/>
-            <GameContainer>
-            <Header>
-              <Title>
-                GRAND THEFT AUTO
-              </Title>
-              <Manufactory>
-                ROCKSTAR GAMES
-              </Manufactory>
-            </Header>
-            <img src={gta} alt="Avatar" className={classes.cover}/>
-            <Price>9.99 $</Price>
-            <Description>
-              The Grand Theft Auto series is split into separate fictional universes, named after the primary 
-              level of graphics capability used in each era. The original Grand Theft Auto, its expansions 
-              and its sequel are considered the “2D universe”. Grand Theft Auto III and its sequels are 
-              considered the “3D universe”.  Grand Theft Auto IV, its expansions and Grand Theft Auto V 
-              are considered the “HD universe”. Each universe is considered separate with only brands, place 
-              names and background characters shared between them.
-            </Description>
-            <Categories>
-              <Category>
-                Action
-              </Category>
-              <Category>
-                Adventure
-              </Category> 
-              <Category>
-                Multiplayer
-              </Category>
-            </Categories>
-            <Buttons>
-              <Button className={classes.buyButton} >
-                  Buy now
-              </Button>
-              <Button className={classes.addButton} >
-                  Add to cart
-              </Button>
-            </Buttons>
+      <Home breadcrumbs={breadcrumbs}>
+        <GameContainer>
+        <Header>
+          <Title>
+            GRAND THEFT AUTO
+          </Title>
+          <Manufactory>
+            ROCKSTAR GAMES
+          </Manufactory>
+        </Header>
+        <img src={gta} alt="Avatar" className={classes.cover}/>
+        <Price>9.99 $</Price>
+        <Description>
+          The Grand Theft Auto series is split into separate fictional universes, named after the primary 
+          level of graphics capability used in each era. The original Grand Theft Auto, its expansions 
+          and its sequel are considered the “2D universe”. Grand Theft Auto III and its sequels are 
+          considered the “3D universe”.  Grand Theft Auto IV, its expansions and Grand Theft Auto V 
+          are considered the “HD universe”. Each universe is considered separate with only brands, place 
+          names and background characters shared between them.
+        </Description>
+        <Categories>
+          <Category>
+            Action
+          </Category>
+          <Category>
+            Adventure
+          </Category> 
+          <Category>
+            Multiplayer
+          </Category>
+        </Categories>
+        <Buttons>
+          <Button className={classes.buyButton} >
+              Buy now
+          </Button>
+          <Button className={classes.addButton} >
+              Add to cart
+          </Button>
+        </Buttons>
 
-            </GameContainer>
-          </Content>
-        </Container>
+        </GameContainer>
+       </Home>
+            
       )
 }

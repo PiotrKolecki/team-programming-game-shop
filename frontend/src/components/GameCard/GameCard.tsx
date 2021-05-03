@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
 
 const Container = styled("div")<{image: string}>`
@@ -42,6 +43,21 @@ const useStyles = makeStyles(() => ({
         cursor: "pointer",
         display: "block",    
         backgroundColor: appTheme.colors.governorBay,
+    }
+ },
+
+ title: {
+    gridArea: "title",
+    zIndex: 1,
+    fontSize: "16px",
+    fontFamily: "Lao MN",
+    fontWeight: 600,
+    color: "white",
+    textDecoration: "none",
+
+    "&:hover": {
+    textDecoration: "underline",
+
     }
  }
 }));
@@ -112,7 +128,9 @@ export function GameCard({ title, categories, price, cover }: CardProps) {
             Add to cart
         </Button>
         <Details>
-            <Title>{ title }</Title>
+        <Link key={title} to={'/insight/adventure/1'} className={classes.title}>
+          {title}
+        </Link>
             <Price>{ `${price} $` }</Price>
             <Categories>{ categories.join(', ') }</Categories>
         </Details>

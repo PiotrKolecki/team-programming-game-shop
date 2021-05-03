@@ -4,7 +4,6 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { Sidebar } from '../../components/Sidebar/Sidebar';
-import { Catalogue } from './Catalogue/Catalogue';
 import { theme as appTheme } from "../../constants";
 
 const Container = styled.div`
@@ -20,6 +19,7 @@ const NavHeader =  styled.div`
   padding-left: 24px;
   font-size: 2rem;
   font-weight: 450;
+  text-transform: uppercase;
 `;
 
 const Content = styled.div`
@@ -51,28 +51,31 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export function Home() {
+interface BreadcrumbsInterFace {
+  to: string,
+  label: string
+}
+interface HomeProps {
+  breadcrumbs: BreadcrumbsInterFace[];
+  children: React.ReactNode
+}
+
+export function Home({ breadcrumbs, children }: HomeProps) {
   const classes = useStyles();
 
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" classes={{ ol: classes.breadcrumbs }}>
-        <Link to="/" className={classes.element}>
-          Home
-        </Link>
-        <Link
-          to="/insight"
-          aria-current="page"
-          className={classes.element}
-          >
-          Store
-        </Link>
+      {breadcrumbs.map(({ to, label }) =>  <Link key={label} to={to} className={classes.element}>
+          {label}
+        </Link>)}
       </Breadcrumbs>
-      <NavHeader>STORE</NavHeader>
+      <NavHeader>{breadcrumbs[breadcrumbs.length-1].label}</NavHeader>
       <Content>
         <Sidebar/>
-        <Catalogue/>
+        { children }
       </Content>
     </Container>
   )
 }
+
