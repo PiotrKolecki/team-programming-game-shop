@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static final String LOGIN_PATH = "/authenticate/**";
+    private static final String REGISTER_PATH = "/register/**";
     private static final String API_DOCS = "/doc/**";
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
@@ -55,6 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGIN_PATH)
+                .permitAll()
+                .antMatchers(REGISTER_PATH)
                 .permitAll()
                 .antMatchers(API_DOCS)
                 .permitAll()
