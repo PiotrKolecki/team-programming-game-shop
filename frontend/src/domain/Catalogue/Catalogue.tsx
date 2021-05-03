@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { GameCard } from '../../../components/GameCard/GameCard';
-import witcher from "../../../assets/witcher.png";
-import { theme as appTheme } from "../../../constants";
+import { GameCard } from '../../components/GameCard/GameCard';
+import witcher from "../../assets/witcher.png";
+import { theme as appTheme } from "../../constants";
+import { Home } from '../Home/Home';
 
 const Container = styled.div`
     padding: 40px 48px;
@@ -34,14 +35,16 @@ const Items = styled.div`
   export function Catalogue() {
     const item = { title: 'The Witcher', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
     const items = [item, item, item, item, item, item, item, item, item, item];
+    const breadcrumbs = [{to: "/", label: "Home"}, {to: "/insight/action", label: "Store"}];
 
-    return (
-        <Container>
-            <Header>
-                Action
-            </Header>
-            <Items>
-                { items.map(({ title, categories, price, cover }) => <GameCard key={title} title={title} categories={categories} price={price} cover={cover}/>)}  
-            </Items>
-        </Container>
+    return (<Home breadcrumbs={breadcrumbs}>
+                <Container>
+                        <Header>
+                            Action
+                        </Header>
+                        <Items>
+                            { items.map(({ title, categories, price, cover }, index) => <GameCard key={index} title={title} categories={categories} price={price} cover={cover}/>)}  
+                        </Items>
+                    </Container> 
+            </Home>
      )}

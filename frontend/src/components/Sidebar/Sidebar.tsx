@@ -204,7 +204,7 @@ export function Sidebar() {
               <List>
                   {categories.map(category => <Button key={category.name} onClick={() => onCategoryClick(category.href)} className={classnames(
                     classes.option,
-                    pathname === `/insight${category.href}` && classes.active
+                    pathname.startsWith(`/insight${category.href}`) && classes.active
                   )}>
                     {category.name}
                   </Button>
