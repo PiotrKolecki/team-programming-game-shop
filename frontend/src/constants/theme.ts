@@ -13,6 +13,7 @@ export const colors = {
   royalBlue: "#5454ED",
   tundora: "#424242",
   guardsmanRed: "#E60000",
+  mirage: '#161426',
 };
 
 export const fonts = {

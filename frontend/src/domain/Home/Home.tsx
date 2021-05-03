@@ -54,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
 export function Home() {
   const classes = useStyles();
 
-
   return (
     <Container>
       <Breadcrumbs aria-label="breadcrumb" classes={{ ol: classes.breadcrumbs }}>

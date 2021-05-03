@@ -62,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
 const navItems: Array<NavItem> = [
   {
     name: "store",
-    href: "/insight",
     loggedIn: null,
+    href: "/insight/action",
   },
   {
     name: "sign in",

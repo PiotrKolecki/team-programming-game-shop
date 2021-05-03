@@ -1,7 +1,7 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { WelcomeScreen, Home, Logout } from "./domain";
+import { WelcomeScreen, Home, SingleGame, Logout } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
@@ -102,6 +102,19 @@ function App() {
               </Route>
             ))}
           <Redirect to="/insight" />
+          <Route path="/signin">
+            <WelcomeScreen type="sign in" />
+          </Route>
+          <Route path="/register">
+            <WelcomeScreen type="register" />
+          </Route>
+          <Route path="/insight/:category" exact>
+            <Home />
+          </Route>
+          <Route path="/insight/:category/:id">
+            <SingleGame />
+          </Route>
+          <Redirect to="/signin" />
         </Switch>
       </Fade>
     </Main>
