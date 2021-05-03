@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import { theme as appTheme } from "../../constants";
 import { makeStyles } from "@material-ui/core/styles";
+import { GameCard } from '../../components/GameCard/GameCard';
+import witcher from "../../assets/witcher.png";
 import { Home } from '../index';
 import gta from "../../assets/gta.png";
 
@@ -13,14 +15,16 @@ const GameContainer = styled.div`
     background-color: ${appTheme.colors.mirage};
 
     display: grid;
-    grid-template-rows: 0.07fr 0.12fr max-content 0.1fr 0.1fr;
+    grid-template-rows: 0.05fr 0.5fr max-content 0.2fr 0.2fr max-content;
     grid-template-columns: 3fr 3fr;
     grid-template-areas: 'header header'
       'cover price'
       'cover description'
       'cover categories'
-      'cover buttons';
+      'cover buttons'
+      'recommended recommended';
     grid-column-gap: 25px;
+    grid-row-gap: 25px;
 `
 
 const Header = styled.div`
@@ -37,7 +41,7 @@ const Title = styled.span`
     border-left: 6px solid ${appTheme.colors.governorBay};
     padding-left: 16px;
     font-family: "Rubik";
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 500;
 `
 
@@ -57,7 +61,7 @@ const Price = styled.div`
     text-align: center;
     padding-top: 7px;
     margin-right: 5px;
-    margin-top: 15px;
+    margin-top: 40px;
     z-index:1;
     border-radius: 13px;
 
@@ -89,6 +93,7 @@ const Category = styled.div`
     padding-left: 20px;
     padding-right: 20px;
     margin-right: 15px;
+    margin-top: 10px;
     z-index:1;
     border-radius: 12px;
 
@@ -100,6 +105,27 @@ const Buttons = styled.div`
 
 `
 
+const Recommended = styled.div`
+    margin-top: 8rem;
+    grid-area: recommended;
+`
+
+const RecommendedCaption = styled.span`
+    border-left: 6px solid ${appTheme.colors.governorBay};
+    padding-left: 16px;
+    font-family: "Rubik";
+    font-size: 20px;
+    font-weight: 500;
+`
+
+const RecommendedItems = styled.div`
+    padding-top: 24px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+`
 
 const useStyles = makeStyles((theme) => ({
     breadcrumbs: {
@@ -161,7 +187,11 @@ const useStyles = makeStyles((theme) => ({
 export function SingleGame() {
     const classes = useStyles();
     const breadcrumbs = [{to: "/", label: "Home"}, {to: "/insight/adventure", label: "Adventure"}, {to: "/insight/adventure/1", label: "Grand Theft Auto"}];
+    const categories = ['Action', 'Adventure', 'Multiplayer'];
 
+    const item = { title: 'The Witcher', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
+    const items = [item, item, item, item, item];
+   
     return (
       <Home breadcrumbs={breadcrumbs}>
         <GameContainer>
@@ -184,15 +214,7 @@ export function SingleGame() {
           names and background characters shared between them.
         </Description>
         <Categories>
-          <Category>
-            Action
-          </Category>
-          <Category>
-            Adventure
-          </Category> 
-          <Category>
-            Multiplayer
-          </Category>
+          {categories.map(category => <Category> {category} </Category>)}
         </Categories>
         <Buttons>
           <Button className={classes.buyButton} >
@@ -202,7 +224,12 @@ export function SingleGame() {
               Add to cart
           </Button>
         </Buttons>
-
+        <Recommended>
+            <RecommendedCaption>POPULAR</RecommendedCaption>
+            <RecommendedItems>
+              { items.map(({ title, categories, price, cover }, index) => <GameCard key={index} title={title} categories={categories} price={price} cover={cover}/>)}  
+            </RecommendedItems>
+        </Recommended>
         </GameContainer>
        </Home>
             

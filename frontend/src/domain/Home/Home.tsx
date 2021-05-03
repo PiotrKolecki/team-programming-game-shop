@@ -23,6 +23,7 @@ const NavHeader =  styled.div`
 `;
 
 const Content = styled.div`
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 250px auto;
   grid-template-areas: "sidebar catalogue"
