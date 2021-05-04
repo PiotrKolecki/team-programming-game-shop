@@ -87,7 +87,7 @@ const Categories = styled.div`
 const Category = styled.div`
     font-size: 13px;
     height: 22px;
-    background-color: #2A283C;
+    background-color: ${appTheme.colors.steelGray};
     text-align: center;
     padding-top: 6px;
     padding-left: 20px;
@@ -155,7 +155,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     buyButton:{
-      backgroundColor: '#5F3FB7',
+      backgroundColor: appTheme.colors.studio,
       color: "white",
       borderRadius: 0,
       fontFamily: "Lao Sangam MN",
@@ -165,14 +165,14 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(3),
 
       "&:hover": {
-        backgroundColor: "#6643c6",
+        backgroundColor: appTheme.colors.fuchsiaBlue,
       }
     },
 
     addButton:{
       backgroundColor: 'rgba(255, 252, 252, 0.1)',
-      border: "1px solid #F2F0F0",
-      color: "#F2F0F0",
+      border: `1px solid ${appTheme.colors.ivory}`,
+      color: appTheme.colors.ivory,
       borderRadius: 0,
       fontFamily: "Lao Sangam MN",
       fontSize: "15px",

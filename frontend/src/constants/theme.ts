@@ -14,6 +14,9 @@ export const colors = {
   tundora: "#424242",
   guardsmanRed: "#E60000",
   mirage: '#161426',
+  steelGray: '#2A283C',
+  studio :'#5F3FB7',
+  fuchsiaBlue: '#6643c6',
 };
 
 export const fonts = {
