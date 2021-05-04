@@ -15,12 +15,12 @@ public class OrderEntity {
     private int orderNumber;
 
     @Column(nullable = false)
-    private java.sql.Date date;
+    private Date date;
 
     @Column(nullable = false)
     private String deliveryMethod;
 
-    @Column
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)

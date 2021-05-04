@@ -5,6 +5,7 @@ import agh.fis.order_management.model.OrderDto;
 import agh.fis.order_management.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,8 @@ import java.util.List;
 public class OrderManagementController implements OrdersApi {
     private static final Logger logger = LoggerFactory.getLogger(OrderManagementController.class);
 
-    private final OrderService orderService;
-
-    public OrderManagementController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public ResponseEntity<OrderDto> createOrder(String authorization, @Valid OrderDto orderDto) {
@@ -34,6 +32,8 @@ public class OrderManagementController implements OrdersApi {
 
     @Override
     public ResponseEntity<List<OrderDto>> getOrders(String authorization) {
+
+
         return null;
     }
 
@@ -43,7 +43,7 @@ public class OrderManagementController implements OrdersApi {
     }
 
     @Override
-    public ResponseEntity<OrderDto> idGet(String authorization, Integer id) {
+    public ResponseEntity<OrderDto> getOrderById(String authorization, Integer id) {
         return null;
     }
 

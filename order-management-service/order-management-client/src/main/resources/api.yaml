@@ -87,6 +87,7 @@ paths:
       tags:
         - Orders
       description: Get order by id
+      operationId: getOrderById
       parameters:
         - in: header
           name: Authorization
