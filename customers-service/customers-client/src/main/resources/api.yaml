@@ -124,24 +124,20 @@ paths:
     get:
       tags:
         - CustomersAuth
-      description: Gets customer by mail and password
+      description: Gets customer by mail
       operationId: getAuthCustomer
       parameters:
         - in: query
           name: mail
           schema:
             type: string
-        - in: query
-          name: password
-          schema:
-            type: string
       responses:
         "200":
-          description: Returns customer by mail and password
+          description: Returns customer by mail
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CustomerDto"
+                $ref: "#/components/schemas/CustomerAuthDto"
 
 components:
   schemas:
@@ -167,6 +163,24 @@ components:
         - mail
         - userType
 
+    CustomerAuthDto:
+      description: Keeps information about customer in the context of the authentication process
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - id
+        - mail
+        - password
+        - userType
+
     CustomerRegistrationDto:
       description: Keeps information about new customer
       type: object
@@ -181,3 +195,51 @@ components:
         - mail
         - password
         - userType
+
+    ### SHOPPING_CART SCHEMA
+    GameDto:
+      description: Keeps information about game
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        publisher:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - publisher
+
+    ShoppingCartDto:
+      description: Keeps information about shopping cart
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id:
+          type: integer
+        date_created:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameDto'
+      required:
+        - id
+        - customer_id
+        - date_created
+        - products
+
+    ShoppingCartCreationDto:
+      description: Keeps information needed to create cart
+      type: object
+      properties:
+        customer_id:
+          type: integer
+      required:
+        - customerId
