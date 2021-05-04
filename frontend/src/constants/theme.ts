@@ -12,6 +12,9 @@ export const colors = {
   mercury: "#E6E6E6",
   royalBlue: "#5454ED",
   mirage: '#161426',
+  steelGray: '#2A283C',
+  studio :'#5F3FB7',
+  fuchsiaBlue: '#6643c6',
 };
 
 export const fonts = {
