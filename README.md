@@ -68,7 +68,7 @@ docker build -t "game-shop/payment-management" `
 docker build -t "game-shop/order-management" `
 --build-arg DB_URL="$DB_URL_ORDER_MANAGEMENT" `
 --build-arg DB_USERNAME="$DB_USERNAME_ORDER_MANAGEMENT" `
---build-arg DB_PASSWORD="$DB_PASSWORD_ORDER_MANAGEMENT" ./order-management-service/.
+--build-arg DB_PASSWORD="$DB_PASSWORD_ORDER_MANAGEMENT" ./order-management-service/order-management-server/.
 docker build -t "game-shop/customers" `
 --build-arg DB_URL="$DB_URL_CUSTOMERS" `
 --build-arg DB_USERNAME="$DB_USERNAME_CUSTOMERS" `
@@ -78,7 +78,7 @@ docker build -t game-shop/authentication ./authentication-service/authentication
 kubectl apply -f ./shopping-cart-service/k8s/deployment-local.yaml
 kubectl apply -f ./product-catalog-service/k8s/deployment-local.yaml
 kubectl apply -f ./payment-management-service/k8s/deployment-local.yaml
-kubectl apply -f ./order-management-service/k8s/deployment-local.yaml
+kubectl apply -f ./order-management-service/order-management-server/k8s/deployment-local.yaml
 kubectl apply -f ./customers-service/customers-server/k8s/deployment-local.yaml
 kubectl apply -f ./authentication-service/authentication-server/k8s/deployment-local.yaml
 
@@ -98,7 +98,7 @@ mvn clean install
 docker build -t gcr.io/team-programming-game-shop/shopping-cart ./shopping-cart-service/.
 docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-catalog-service/.
 docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/.
-docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/.
+docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/order-management-server/.
 docker build -t gcr.io/team-programming-game-shop/customers ./customers-service/customers-server/.
 docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/authentication-server/.
 
