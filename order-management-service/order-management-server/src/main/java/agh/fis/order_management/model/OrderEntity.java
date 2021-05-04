@@ -12,9 +12,6 @@ public class OrderEntity {
     private int id;
 
     @Column(nullable = false)
-    private int orderNumber;
-
-    @Column(nullable = false)
     private Date date;
 
     @Column(nullable = false)
@@ -25,6 +22,12 @@ public class OrderEntity {
 
     @Column(nullable = false)
     private String paymentMethod;
+
+    @Column(nullable = false)
+    private int paymentId;
+
+    @Column(nullable = false)
+    private int customerId;
 
     @Column(nullable = false)
     private float price;
@@ -41,14 +44,6 @@ public class OrderEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public Date getDate() {
@@ -114,9 +109,8 @@ public class OrderEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(int id, int orderNumber, Date date, String deliveryMethod, String address, String paymentMethod, float price, String status, List<ItemEntity> items) {
+    public OrderEntity(int id, Date date, String deliveryMethod, String address, String paymentMethod, float price, String status, List<ItemEntity> items) {
         this.id = id;
-        this.orderNumber = orderNumber;
         this.date = date;
         this.deliveryMethod = deliveryMethod;
         this.address = address;

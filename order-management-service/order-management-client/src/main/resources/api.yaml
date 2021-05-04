@@ -181,10 +181,13 @@ components:
           type: string
         publisher:
           type: string
+        quantity:
+          type: integer
         price:
           type: float
       required:
         - id
+        - quantity
 
     OrderDto:
       description: Information about order
@@ -192,17 +195,29 @@ components:
       properties:
         id:
           type: integer
+        date:
+          type: string
+        deliveryMethod:
+          type: string
+        address:
+          type: string
+        paymentMethod:
+          type: string
         paymentId:
           type: integer
         customerId:
           type: integer
-        address:
-          type: string
-        orderStatus:
+        status:
           $ref: "#/components/schemas/OrderStatus"
-        products:
+        items:
             type: array
             items:
               $ref: "#/components/schemas/Product"
-        totalPrice:
+        price:
           type: float
+      required:
+        - deliveryMethod
+        - address
+        - paymentMethod
+        - customerId
+        - items

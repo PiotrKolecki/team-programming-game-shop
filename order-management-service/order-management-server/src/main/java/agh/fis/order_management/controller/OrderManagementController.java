@@ -22,6 +22,7 @@ public class OrderManagementController implements OrdersApi {
 
     @Override
     public ResponseEntity<OrderDto> createOrder(String authorization, @Valid OrderDto orderDto) {
+        orderService.PostOrder(orderDto);
         return null;
     }
 
@@ -32,8 +33,6 @@ public class OrderManagementController implements OrdersApi {
 
     @Override
     public ResponseEntity<List<OrderDto>> getOrders(String authorization) {
-
-
         return null;
     }
 

@@ -16,4 +16,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    public void PostOrder(OrderDto order) {
+        logger.info(order.toString());
+    }
+
 }
