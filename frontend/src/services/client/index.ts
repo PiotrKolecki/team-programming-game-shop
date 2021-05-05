@@ -1,7 +1,9 @@
+import config from '../../config';
+
 async function fetchCatalogue() {
-    const response = await fetch('http://35.232.212.214/api/games');
-    let result = await response.text();
-    
+    const response = await fetch(`${config.api.baseUrl}/games`);
+    const result = await response.text();
+
     return result;
 }
 
