@@ -2,7 +2,7 @@ server:
     port: 8090
 
 documentation:
-    baseurl: https://35.232.212.214/api/
+    baseurl: http://35.232.212.214/api/
     swagger:
         services:
             - name: Authentication
