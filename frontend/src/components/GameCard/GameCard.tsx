@@ -84,14 +84,6 @@ const Details = styled.div`
     grid-template-areas: "title price" "category price"
 `
 
-const Title =styled.div`
-    grid-area: title;
-    z-index:1;
-    font-size: 16px;
-    font-family: "Lao MN";
-    font-weight: 600;
-`
-
 const Categories = styled.div`
     font-size: 12px;
     z-index:1;
