@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GameCard } from '../../components/GameCard/GameCard';
 import witcher from "../../assets/witcher.png";
 import { theme as appTheme } from "../../constants";
 import { Home } from '../Home/Home';
 import { catalogueFetch } from '../../store/catalogue/index';
+import { getCatalogue } from '../../store/catalogue/selectors';
 
 const Container = styled.div`
     padding: 40px 48px;
@@ -40,6 +41,8 @@ export function Catalogue() {
 
     const dispatch = useDispatch();
 
+    const catalogue = useSelector(getCatalogue);
+
     useEffect(() => {
         dispatch(catalogueFetch());
     }, [dispatch]);
@@ -48,7 +51,7 @@ export function Catalogue() {
     return (<Home breadcrumbs={breadcrumbs}>
                 <Container>
                         <Header>
-                            Action
+                            {catalogue}
                         </Header>
                         <Items>
                             { items.map(({ title, categories, price, cover }, index) => <GameCard key={index} title={title} categories={categories} price={price} cover={cover}/>)}  

@@ -1,6 +1,6 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { WelcomeScreen, Catalogue, SingleGame, Home } from "./domain";
+import { WelcomeScreen, Catalogue, SingleGame } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 
