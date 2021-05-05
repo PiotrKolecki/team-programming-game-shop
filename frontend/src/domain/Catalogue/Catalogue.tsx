@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
 import { GameCard } from '../../components/GameCard/GameCard';
 import witcher from "../../assets/witcher.png";
 import { theme as appTheme } from "../../constants";
 import { Home } from '../Home/Home';
+import { catalogueFetch } from '../../store/catalogue/index';
 
 const Container = styled.div`
     padding: 40px 48px;
@@ -31,11 +33,17 @@ const Items = styled.div`
     flex-wrap: wrap; 
     justify-content: space-between;
 `
-
-  export function Catalogue() {
+export function Catalogue() {
     const item = { title: 'The Witcher', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
     const items = [item, item, item, item, item, item, item, item, item, item];
     const breadcrumbs = [{to: "/", label: "Home"}, {to: "/insight/action", label: "Store"}];
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(catalogueFetch());
+    }, [dispatch]);
+
 
     return (<Home breadcrumbs={breadcrumbs}>
                 <Container>

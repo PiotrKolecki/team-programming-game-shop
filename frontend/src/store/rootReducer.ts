@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
+import catalogue from './catalogue/index';
 
 const rootReducer = combineReducers({
-  // REDUCERS to put here
+  catalogue,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -1,14 +1,8 @@
-import { all, fork } from "redux-saga/effects";
-
-function* mockedSaga() {
-  yield all([]);
-}
+import { all } from "redux-saga/effects";
+import catalogue from './catalogue/sagas';
 
 export function* rootSaga() {
-  yield all([
-    fork(
-      // SAGAS to put here
-      mockedSaga
-    ),
+  yield all([  
+      ...catalogue,
   ]);
 }
