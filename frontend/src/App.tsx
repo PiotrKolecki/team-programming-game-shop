@@ -50,7 +50,7 @@ function App() {
           </Route>
           <Redirect to="/signin" />
         </Switch>
-        <Footer />
+        {/* <Footer /> */}
       </Fade>
     </Main>
   );
