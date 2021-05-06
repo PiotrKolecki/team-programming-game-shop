@@ -81,7 +81,7 @@ jobs:
           --build-arg DB_URL="${{ secrets.DB_URL_ORDER_MANAGEMENT }}" \
           --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_ORDER_MANAGEMENT }}" \
           --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_ORDER_MANAGEMENT }}" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" ./order-management-service/.
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./order-management-service/order-management-server/.
         
         docker build -t "gcr.io/team-programming-game-shop/customers:$GITHUB_SHA" \
           --build-arg DB_URL="${{ secrets.DB_URL_CUSTOMERS }}" \

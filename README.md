@@ -112,7 +112,7 @@ docker push gcr.io/team-programming-game-shop/authentication
 kubectl apply -f ./shopping-cart-service/k8s/deployment.yaml
 kubectl apply -f ./product-catalog-service/k8s/deployment.yaml
 kubectl apply -f ./payment-management-service/k8s/deployment.yaml
-kubectl apply -f ./order-management-service/k8s/deployment.yaml
+kubectl apply -f ./order-management-service/order-management-server/k8s/deployment.yaml
 kubectl apply -f ./customers-service/customers-server/k8s/deployment.yaml
 kubectl apply -f ./authentication-service/authentication-server/k8s/deployment.yaml
 
