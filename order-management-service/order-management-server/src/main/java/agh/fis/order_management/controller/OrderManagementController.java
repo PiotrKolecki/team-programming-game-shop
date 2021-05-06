@@ -22,8 +22,8 @@ public class OrderManagementController implements OrdersApi {
 
     @Override
     public ResponseEntity<OrderDto> createOrder(String authorization, @Valid OrderDto orderDto) {
-        orderService.PostOrder(orderDto);
-        return null;
+        OrderDto responseBody = orderService.PostOrder(orderDto);
+        return ResponseEntity.ok(responseBody);
     }
 
     @Override
@@ -33,17 +33,21 @@ public class OrderManagementController implements OrdersApi {
 
     @Override
     public ResponseEntity<List<OrderDto>> getOrders(String authorization) {
-        return null;
+        return ResponseEntity.ok(orderService.GetAllOrders());
     }
 
     @Override
     public ResponseEntity<List<OrderDto>> getUsersOrders(String authorization, Integer id) {
-        return null;
+
+        List<OrderDto> responseBody = orderService.GetOrdersByCustomerId(id);
+        return ResponseEntity.ok(responseBody);
     }
 
     @Override
-    public ResponseEntity<OrderDto> getOrderById(String authorization, Integer id) {
-        return null;
+    public ResponseEntity<OrderDto> getOrderById(String authorization, Integer id)
+    {
+        OrderDto responseBody = orderService.GetOrderById(id);
+        return ResponseEntity.ok(responseBody);
     }
 
     @Override

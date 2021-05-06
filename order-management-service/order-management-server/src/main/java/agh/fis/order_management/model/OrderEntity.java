@@ -1,7 +1,10 @@
 package agh.fis.order_management.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,8 +38,12 @@ public class OrderEntity {
     @Column(nullable = false)
     private String status;
 
-    @OneToMany(mappedBy="orderId")
-    private List<ItemEntity> items;
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ItemEntity> items = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -94,6 +101,22 @@ public class OrderEntity {
         this.status = status;
     }
 
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
     public List<ItemEntity> getItems() {
         return items;
     }
@@ -109,12 +132,14 @@ public class OrderEntity {
     public OrderEntity() {
     }
 
-    public OrderEntity(int id, Date date, String deliveryMethod, String address, String paymentMethod, float price, String status, List<ItemEntity> items) {
+    public OrderEntity(int id, Date date, String deliveryMethod, String address, String paymentMethod, int paymentId, int customerId, float price, String status, List<ItemEntity> items) {
         this.id = id;
         this.date = date;
         this.deliveryMethod = deliveryMethod;
         this.address = address;
         this.paymentMethod = paymentMethod;
+        this.paymentId = paymentId;
+        this.customerId = customerId;
         this.price = price;
         this.status = status;
         this.items = items;
