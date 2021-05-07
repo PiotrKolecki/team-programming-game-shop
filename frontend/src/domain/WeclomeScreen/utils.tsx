@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { theme } from "../../constants";
 import { FormProps } from "./Form/Form";
 
-type WelcomeType = "sign in" | "register";
+export type WelcomeType = "sign in" | "register";
 
 export type Props = {
   type: WelcomeType;
