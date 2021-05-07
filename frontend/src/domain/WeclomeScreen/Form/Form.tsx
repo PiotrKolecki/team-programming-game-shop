@@ -1,5 +1,6 @@
 import React from "react";
 import classnames from "classnames";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -7,6 +8,11 @@ import Divider from "@material-ui/core/Divider";
 import { Input } from "../../../components";
 import { Form as FinalForm, Field, FieldProps } from "react-final-form";
 import { theme as appTheme } from "../../../constants";
+import { WelcomeType } from "../utils";
+import {
+  fetchUserRequest,
+  registerUserRequest,
+} from "../../../store/user/actions";
 
 type FooterProps = {
   label: string;
@@ -20,7 +26,7 @@ type InputProps = Pick<FieldProps<any, any>, "validate"> & {
 };
 
 export type FormProps = {
-  submitTitle: string;
+  submitTitle: WelcomeType;
   footer: FooterProps;
   formElements: Array<InputProps>;
 };
@@ -100,10 +106,26 @@ const validator = (elements: Array<InputProps>) => (
 
 export function Form({ submitTitle, footer, formElements }: FormProps) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <FinalForm
-      onSubmit={console.log}
+      onSubmit={(payload) => {
+        submitTitle === "sign in"
+          ? dispatch(
+              fetchUserRequest({
+                login: payload.email,
+                password: payload.password,
+              })
+            )
+          : dispatch(
+              registerUserRequest({
+                mail: payload.email,
+                password: payload.password,
+                userType: "Customer",
+              })
+            );
+      }}
       validate={validator(formElements)}
       render={({ handleSubmit, pristine, submitting, hasValidationErrors }) => {
         return (
