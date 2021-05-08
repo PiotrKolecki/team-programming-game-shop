@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
+import gta from "../../assets/gta.png";
 
 const Container = styled("div")<{image: string}>`
     height: 350px;
@@ -120,7 +121,17 @@ export function GameCard({ title, categories, price, cover }: CardProps) {
             Add to cart
         </Button>
         <Details>
-        <Link key={title} to={'/insight/adventure/1'} className={classes.title}>
+        <Link key={title} to={
+            {pathname: "/insight/adventure/1",
+                state: { 
+                    title, 
+                    categories, 
+                    price, 
+                    cover: gta
+                }
+              }
+            } 
+              className={classes.title}>
           {title}
         </Link>
             <Price>{ `${price} $` }</Price>

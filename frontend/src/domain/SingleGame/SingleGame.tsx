@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { GameCard } from '../../components/GameCard/GameCard';
 import witcher from "../../assets/witcher.png";
 import { Home } from '../index';
-import gta from "../../assets/gta.png";
+import { useLocation } from 'react-router-dom';
 
 
 const GameContainer = styled.div`
@@ -184,34 +184,42 @@ const useStyles = makeStyles((theme) => ({
   
   }));
 
+  type SingleGameProps = {
+      title: string
+      manufactory: string,
+      price: number,
+      cover: string;
+  };
+
 export function SingleGame() {
     const classes = useStyles();
+    const location = useLocation<SingleGameProps>();
+    const { title, manufactory, cover, price }: SingleGameProps = location.state;
+
+    // INFO: description will be obtained from redux store not from props, so mock it for now in that way
+    const description = "The Grand Theft Auto series is split into separate fictional universes, named after the primary level of graphics capability used in each era. The original Grand Theft Auto, its expansions and its sequel are considered the '2D universe'. Grand Theft Auto III and its sequels are considered the '3D universe'.  Grand Theft Auto IV, its expansions and Grand Theft Auto V are considered the 'HD universe'. Each universe is considered separate with only brands, place names and background characters shared between them.";
+    
     const breadcrumbs = [{to: "/", label: "Home"}, {to: "/insight/adventure", label: "Adventure"}, {to: "/insight/adventure/1", label: "Grand Theft Auto"}];
     const categories = ['Action', 'Adventure', 'Multiplayer'];
 
     const item = { title: 'The Witcher', categories: ['Action', 'Adventure'], price: 19.99, cover: witcher} ;
     const items = [item, item, item, item, item];
-   
+    
     return (
       <Home breadcrumbs={breadcrumbs}>
         <GameContainer>
         <Header>
           <Title>
-            GRAND THEFT AUTO
+            {title}
           </Title>
           <Manufactory>
-            ROCKSTAR GAMES
+            {manufactory}
           </Manufactory>
         </Header>
-        <img src={gta} alt="Avatar" className={classes.cover}/>
-        <Price>9.99 $</Price>
+        <img src={cover} alt="Avatar" className={classes.cover}/>
+        <Price>{`${price} $`}</Price>
         <Description>
-          The Grand Theft Auto series is split into separate fictional universes, named after the primary 
-          level of graphics capability used in each era. The original Grand Theft Auto, its expansions 
-          and its sequel are considered the “2D universe”. Grand Theft Auto III and its sequels are 
-          considered the “3D universe”.  Grand Theft Auto IV, its expansions and Grand Theft Auto V 
-          are considered the “HD universe”. Each universe is considered separate with only brands, place 
-          names and background characters shared between them.
+          {description}
         </Description>
         <Categories>
           {categories.map(category => <Category> {category} </Category>)}
