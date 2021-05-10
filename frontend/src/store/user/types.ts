@@ -5,6 +5,7 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
+  LOGOUT_USER,
 } from "./actionTypes";
 
 export interface IUser {
@@ -60,6 +61,10 @@ export type FetchUserFailure = {
   payload: FetchUserFailurePayload;
 };
 
+export type LogoutUser = {
+  type: typeof LOGOUT_USER;
+};
+
 export type RegisterUserRequest = {
   type: typeof REGISTER_USER_REQUEST;
   payload: RegisterUserPayload;
@@ -79,6 +84,7 @@ export type UserActions =
   | FetchUserRequest
   | FetchUserSuccess
   | FetchUserFailure
+  | LogoutUser
   | RegisterUserRequest
   | RegisterUserSuccess
   | RegisterUserFailure;
