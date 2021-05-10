@@ -1,18 +1,20 @@
 import React from "react";
 import classnames from "classnames";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
-import { Input } from "../../../components";
 import { Form as FinalForm, Field, FieldProps } from "react-final-form";
+import { Input } from "../../../components";
 import { theme as appTheme } from "../../../constants";
 import { WelcomeType } from "../utils";
 import {
   fetchUserRequest,
   registerUserRequest,
 } from "../../../store/user/actions";
+import { AppState } from "../../../store/rootReducer";
+import { getErrorSelector } from "../../../store/user/selectors";
 
 type FooterProps = {
   label: string;
@@ -47,6 +49,12 @@ const useStyles = makeStyles((theme) => ({
     color: appTheme.colors.guardsmanRed,
     position: "absolute",
     right: 8,
+  },
+  formError: {
+    ...theme.typography.body2,
+    color: appTheme.colors.guardsmanRed,
+    width: "100%",
+    textAlign: "center",
   },
   submit: {
     color: "inherit",
@@ -107,82 +115,82 @@ const validator = (elements: Array<InputProps>) => (
 export function Form({ submitTitle, footer, formElements }: FormProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const error = useSelector<AppState>(getErrorSelector);
+
+  const handleSubmit = (payload: Record<string, any>) => {
+    submitTitle === "sign in"
+      ? dispatch(
+          fetchUserRequest({
+            login: payload.email,
+            password: payload.password,
+          })
+        )
+      : dispatch(
+          registerUserRequest({
+            mail: payload.email,
+            password: payload.password,
+            userType: "Customer",
+          })
+        );
+  };
 
   return (
     <FinalForm
-      onSubmit={(payload) => {
-        submitTitle === "sign in"
-          ? dispatch(
-              fetchUserRequest({
-                login: payload.email,
-                password: payload.password,
-              })
-            )
-          : dispatch(
-              registerUserRequest({
-                mail: payload.email,
-                password: payload.password,
-                userType: "Customer",
-              })
-            );
-      }}
+      onSubmit={handleSubmit}
       validate={validator(formElements)}
-      render={({ handleSubmit, pristine, submitting, hasValidationErrors }) => {
-        return (
-          <form onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              {formElements.map(({ label, inputProps, validate }) => (
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  key={label}
-                  className={classes.gridItem}
-                >
-                  <Field name={label} validate={validate}>
-                    {({ input, meta }) => (
-                      <>
-                        <label className={classes.label}>{label}</label>
-                        {meta.touched && meta.error && (
-                          <span className={classes.errorInfo}>
-                            {meta.error}
-                          </span>
+      render={({ handleSubmit, pristine, submitting, hasValidationErrors }) => (
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            {formElements.map(({ label, inputProps, validate }) => (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                key={label}
+                className={classes.gridItem}
+              >
+                <Field name={label} validate={validate}>
+                  {({ input, meta }) => (
+                    <>
+                      <label className={classes.label}>{label}</label>
+                      {meta.touched && meta.error && (
+                        <span className={classes.errorInfo}>{meta.error}</span>
+                      )}
+                      <Input
+                        {...input}
+                        {...inputProps}
+                        className={classnames(
+                          meta.error && meta.touched && classes.error
                         )}
-                        <Input
-                          {...input}
-                          {...inputProps}
-                          className={classnames(
-                            meta.error && meta.touched && classes.error
-                          )}
-                        />
-                      </>
-                    )}
-                  </Field>
-                </Grid>
-              ))}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={submitting || pristine || hasValidationErrors}
-                className={classes.submit}
-              >
-                {submitTitle}
-              </Button>
-              <Divider className={classes.divider} variant="fullWidth" />
-              <p className={classes.newCustomer}>{footer.title}</p>
-              <Button
-                fullWidth
-                href={footer.href}
-                variant="outlined"
-                className={classes.register}
-              >
-                {footer.label}
-              </Button>
-            </Grid>
-          </form>
-        );
-      }}
+                      />
+                    </>
+                  )}
+                </Field>
+              </Grid>
+            ))}
+            {error && <span className={classes.formError}>Login failed</span>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={submitting || pristine || hasValidationErrors}
+              className={classes.submit}
+            >
+              {submitTitle}
+            </Button>
+            <Divider className={classes.divider} variant="fullWidth" />
+            <p className={classes.newCustomer}>{footer.title}</p>
+            <Button
+              fullWidth
+              href={footer.href}
+              variant="outlined"
+              className={classes.register}
+            >
+              {footer.label}
+            </Button>
+          </Grid>
+        </form>
+      )}
     />
   );
 }

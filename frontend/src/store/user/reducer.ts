@@ -5,6 +5,7 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
+  LOGOUT_USER,
 } from "./actionTypes";
 
 import { UserActions, UserState } from "./types";
@@ -37,6 +38,13 @@ const userReducer = (state = initialState, action: UserActions) => {
         pending: false,
         user: null,
         error: action.payload.error,
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        pending: false,
+        user: null,
+        error: null,
       };
     case REGISTER_USER_REQUEST:
       return {

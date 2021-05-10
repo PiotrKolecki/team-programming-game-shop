@@ -5,6 +5,7 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
+  LOGOUT_USER,
 } from "./actionTypes";
 import {
   FetchUserRequest,
@@ -19,6 +20,7 @@ import {
   RegisterUserFailure,
   RegisterUserFailurePayload,
   RegisterUserPayload,
+  LogoutUser,
 } from "./types";
 
 export const fetchUserRequest = (
@@ -61,4 +63,8 @@ export const registerUserFailure = (
 ): RegisterUserFailure => ({
   type: REGISTER_USER_FAILURE,
   payload,
+});
+
+export const logoutUser = (): LogoutUser => ({
+  type: LOGOUT_USER,
 });
