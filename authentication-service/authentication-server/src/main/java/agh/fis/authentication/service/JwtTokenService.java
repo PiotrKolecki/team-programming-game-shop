@@ -20,7 +20,11 @@ public class JwtTokenService {
     private final CustomerServiceClient customerServiceClient;
     private final ModelMapper modelMapper;
 
-    public JwtTokenService(JwtGenerator jwtGenerator, JwtParser jwtParser, UserDetailsService userDetailsService, CustomerServiceClient customerServiceClient, ModelMapper modelMapper) {
+    public JwtTokenService(JwtGenerator jwtGenerator,
+                           JwtParser jwtParser,
+                           UserDetailsService userDetailsService,
+                           CustomerServiceClient customerServiceClient,
+                           ModelMapper modelMapper) {
         this.jwtGenerator = jwtGenerator;
         this.jwtParser = jwtParser;
         this.userDetailsService = userDetailsService;
