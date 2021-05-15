@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             getJwtFromRequest(httpServletRequest)
                     .filter(this::isTokenValid)
-                    .flatMap(tokenService::getUserFromToken)
+                    .flatMap(tokenService::getUserDetailsFromToken)
                     .map(this::createAuthentication)
                     .ifPresent(this::updateSecurityContext);
         } catch (Exception ex) {
