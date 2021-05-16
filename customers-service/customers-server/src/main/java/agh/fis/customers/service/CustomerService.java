@@ -1,5 +1,7 @@
 package agh.fis.customers.service;
 
+import agh.fis.authentication.model.AuthCustomerDto;
+import agh.fis.authentication.model.AuthUserType;
 import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;
@@ -11,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -57,4 +61,16 @@ public class CustomerService {
         logger.info("Customer M:{} not found", mail);
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
     }
+
+    public List<CustomerDto> getAll(AuthCustomerDto authCustomerDto) {
+        if (authCustomerDto.getUserType() == AuthUserType.STAFF) {
+            return repository.findAll().stream()
+                    .map(customer -> modelMapper.map(customer, CustomerDto.class))
+                    .collect(Collectors.toList());
+        }
+        String authMail = authCustomerDto.getMail();
+        logger.error(authMail + " tried to get all customers but it's not authorized");
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot get all customers");
+    }
+
 }
