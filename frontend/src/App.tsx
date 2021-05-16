@@ -6,6 +6,7 @@ import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
 import PersonalData from "./domain/Account/PersonalData/PersonalData";
 import Orders from "./domain/Account/Orders/Orders";
+import Cart from "./domain/Account/Cart/Cart";
 
 const Main = styled.main`
   background: transparent url(${background}) no-repeat center center fixed;
@@ -38,6 +39,9 @@ function App() {
           </Route>
           <Route path="/insight">
             <Home />
+          </Route>
+          <Route path="/cart">
+            <Cart />
           </Route>
           <Route path="/profile">
             <PersonalData />
