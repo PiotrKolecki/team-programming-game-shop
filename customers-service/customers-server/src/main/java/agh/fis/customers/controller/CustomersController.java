@@ -38,7 +38,9 @@ public class CustomersController implements CustomersApi {
 
     @Override
     public ResponseEntity<CustomerDto> getCustomerById(String authorization, Integer id) {
-        return null;
+        Optional<AuthCustomerDto> customerDtoOpt = customerByTokenProvider.provide(authorization);
+        return customerDtoOpt.map(authCustomerDto -> ResponseEntity.ok(customerService.getById(authCustomerDto, id)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
     }
 
     @Override

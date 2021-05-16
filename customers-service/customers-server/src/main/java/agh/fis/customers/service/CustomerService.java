@@ -73,4 +73,14 @@ public class CustomerService {
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot get all customers");
     }
 
+    public CustomerDto getById(AuthCustomerDto authCustomerDto, int id) {
+        if (authCustomerDto.getUserType() == AuthUserType.STAFF || authCustomerDto.getId() == id) {
+            Customer customer = repository.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+            return modelMapper.map(customer, CustomerDto.class);
+        }
+        String authMail = authCustomerDto.getMail();
+        logger.error(authMail + " tried to get customer with id {} but it's not authorized", id);
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot get customer with id " + id);
+    }
 }
