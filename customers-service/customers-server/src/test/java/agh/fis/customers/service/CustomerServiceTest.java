@@ -136,4 +136,26 @@ class CustomerServiceTest {
             assertThat(keeper.containsError("MAIL tried to get all customers but it's not authorized")).isTrue();
         }
     }
+
+    @Test
+    void shouldGetCustomerById() {
+        when(repository.findById(1)).thenReturn(Optional.of(CUSTOMER));
+
+        CustomerDto customer = service.getById(new AuthCustomerDto().userType(AuthUserType.STAFF), 1);
+
+        assertThat(customer)
+                .extracting(CustomerDto::getId, CustomerDto::getMail, CustomerDto::getUserType)
+                .containsExactly(ID, MAIL, USER_TYPE);
+    }
+
+    @Test
+    void shouldThrowDuringGettingById() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.getById(new AuthCustomerDto().id(0).mail("MAIL").userType(AuthUserType.CUSTOMER), 1))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot get customer with id 1\"");
+
+            assertThat(keeper.containsError("MAIL tried to get customer with id 1 but it's not authorized")).isTrue();
+        }
+    }
 }
