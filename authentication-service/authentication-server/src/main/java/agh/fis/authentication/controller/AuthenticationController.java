@@ -1,8 +1,12 @@
 package agh.fis.authentication.controller;
 
 import agh.fis.authentication.api.AuthenticationApi;
+import agh.fis.authentication.api.CheckTokenApi;
+import agh.fis.authentication.exception.ResourceNotFoundException;
+import agh.fis.authentication.model.AuthCustomerDto;
 import agh.fis.authentication.model.AuthenticationRequest;
 import agh.fis.authentication.model.AuthenticationResponse;
+import agh.fis.authentication.model.CheckTokenDto;
 import agh.fis.authentication.service.JwtTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-public class AuthenticationController implements AuthenticationApi {
+public class AuthenticationController implements AuthenticationApi, CheckTokenApi {
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final AuthenticationManager authenticationManager;
@@ -43,5 +47,13 @@ public class AuthenticationController implements AuthenticationApi {
 
     private Authentication createAuthenticationToken(AuthenticationRequest request) {
         return new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword());
+    }
+
+    @Override
+    public ResponseEntity<AuthCustomerDto> checkToken(@Valid CheckTokenDto checkTokenDto) {
+        String token = checkTokenDto.getToken();
+        return jwtTokenService.getCustomerFromToken(token)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for: " + checkTokenDto));
     }
 }

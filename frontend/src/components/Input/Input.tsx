@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     color: "inherit",
   },
   inputInput: {
+    border: "1px solid transparent",
     marginTop: theme.spacing(1),
     padding: theme.spacing(1, 1),
     background: appTheme.colors.inputBackground,

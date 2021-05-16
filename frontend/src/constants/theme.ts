@@ -25,6 +25,8 @@ export const colors = {
   raisinBlack: "#262626",
   fireBrick: "#B71C1C",
   black: "#000000",
+  tundora: "#424242",
+  guardsmanRed: "#E60000",
 };
 
 export const fonts = {

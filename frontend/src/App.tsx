@@ -1,12 +1,15 @@
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { WelcomeScreen, Home } from "./domain";
+import { WelcomeScreen, Home, Logout } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
 import PersonalData from "./domain/Account/PersonalData/PersonalData";
 import Orders from "./domain/Account/Orders/Orders";
 import Cart from "./domain/Account/Cart/Cart";
+import { AppState } from "./store/rootReducer";
+import { getTokenSelector } from "./store/user/selectors";
 
 const Main = styled.main`
   background: transparent url(${background}) no-repeat center center fixed;
@@ -25,33 +28,92 @@ const Fade = styled.div`
   left: 0;
 `;
 
+type RouteItem = {
+  path: string;
+  component: React.ReactElement;
+  authenticated: boolean | null;
+};
+
+const routeItems: Array<RouteItem> = [
+  {
+    path: "/logout",
+    component: <Logout />,
+    authenticated: true,
+  },
+  {
+    path: "/signin",
+    component: <WelcomeScreen type="sign in" />,
+    authenticated: false,
+  },
+  {
+    path: "/register",
+    component: <WelcomeScreen type="register" />,
+    authenticated: false,
+  },
+  {
+    path: "/insight",
+    component: (
+      <>
+        <Home />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+  },
+  {
+    path: "/profile",
+    component: (
+      <>
+        <PersonalData />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+  },
+  {
+    path: "/orders",
+    component: (
+      <>
+        <Orders />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+  },
+  {
+    path: "/cart",
+    component: (
+      <>
+        <Cart />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+  },
+];
+
 function App() {
+  const token = useSelector<AppState>(getTokenSelector);
+
+  const isLoggedIn = Boolean(token);
+
   return (
     <Main>
       <Fade>
         <Masthead />
         <Switch>
-          <Route path="/signin">
-            <WelcomeScreen type="sign in" />
-          </Route>
-          <Route path="/register">
-            <WelcomeScreen type="register" />
-          </Route>
-          <Route path="/insight">
-            <Home />
-          </Route>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/profile">
-            <PersonalData />
-          </Route>
-          <Route path="/orders">
-            <Orders />
-          </Route>
-          <Redirect to="/signin" />
+          {routeItems
+            .filter(
+              ({ authenticated }) =>
+                authenticated === isLoggedIn || authenticated === null
+            )
+            .map((item) => (
+              <Route key={item.path} path={item.path}>
+                {item.component}
+              </Route>
+            ))}
+          <Redirect to="/insight" />
         </Switch>
-        <Footer />
       </Fade>
     </Main>
   );

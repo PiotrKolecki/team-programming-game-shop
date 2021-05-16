@@ -43,6 +43,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthCustomerDto"
+  /checkToken:
+    post:
+      tags:
+        - checkToken
+      description: Check token and return user
+      operationId: checkToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckTokenDto"
+        required: true
+      responses:
+        "200":
+          description: Returns user if token is valid or error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthCustomerDto"
 components:
   schemas:
     AuthenticationRequest:
@@ -96,3 +115,15 @@ components:
         - id
         - mail
         - userType
+    CheckTokenDto:
+      description: contains token to be checked
+      type: object
+      properties:
+        token:
+          type: string
+    AuthErrorDto:
+      description: contains error information
+      type: object
+      properties:
+        description:
+          type: string
