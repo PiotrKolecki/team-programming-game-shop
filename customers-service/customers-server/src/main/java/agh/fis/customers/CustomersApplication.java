@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"agh.fis.customers", "agh.fis.common"})
 @Import(SharedAutoConfiguration.class)
 public class CustomersApplication {
 
