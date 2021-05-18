@@ -36,11 +36,6 @@ public class PaymentManagementController implements PaymentsApi {
     }
 
     @Override
-    public ResponseEntity<List<PaymentDto>> deletePaymentForOrder(String authorization, Integer id) {
-        return null;
-    }
-
-    @Override
     public ResponseEntity<List<PaymentDto>> getAllPaymentMethods(String authorization) {
         List<PaymentDto> paymentDtos = paymentService.getAllPayments();
         return ResponseEntity.ok(paymentDtos);
@@ -50,11 +45,6 @@ public class PaymentManagementController implements PaymentsApi {
     public ResponseEntity<PaymentDto> getPaymentById(String authorization, Integer id) {
         PaymentDto paymentDto = paymentService.getPaymentById(id);
         return ResponseEntity.ok(paymentDto);
-    }
-
-    @Override
-    public ResponseEntity<List<PaymentDto>> getPaymentForOrder(String authorization, Integer id) {
-        return null;
     }
 
     @Override

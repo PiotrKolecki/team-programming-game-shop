@@ -134,64 +134,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/PaymentDto"
 
-
-  /order/{id}:
-    get:
-      tags:
-        - Payments
-      description: Returns payment for order
-      operationId: getPaymentForOrder
-      parameters:
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          required: true
-          description: Authorization token
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Order id
-      responses:
-        "200":
-          description: Returns payment for order
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PaymentDto"
-    delete:
-      tags:
-        - Payments
-      description: Deletes payment for order
-      operationId: deletePaymentForOrder
-      parameters:
-        - in: header
-          name: Authorization
-          schema:
-            type: string
-          required: true
-          description: Authorization token
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-          description: Order id
-      responses:
-        "200":
-          description: Deletes payment for order
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PaymentDto"
-
-
 components:
   schemas:
 
