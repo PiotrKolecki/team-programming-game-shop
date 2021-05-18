@@ -129,6 +129,10 @@ paths:
       responses:
         "200":
           description: Payment deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentDto"
 
 
   /order/{id}:
@@ -198,19 +202,6 @@ components:
         - Completed
         - Cancelled
 
-#    Payment:
-#      type: object
-#      properties:
-#        id:
-#          type: integer
-#        name:
-#          type: string
-#        provider:
-#          type: string
-#        price:
-#          type: float
-#      required:
-#        - id
 
     PaymentDto:
       description: Information about payment

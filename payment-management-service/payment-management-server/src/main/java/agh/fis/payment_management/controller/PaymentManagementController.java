@@ -4,6 +4,7 @@ package agh.fis.payment_management.controller;
 
 import agh.fis.payment_management.controller.api.PaymentsApi;
 import agh.fis.payment_management.model.PaymentDto;
+import agh.fis.payment_management.model.PaymentStatus;
 import agh.fis.payment_management.service.PaymentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +30,9 @@ public class PaymentManagementController implements PaymentsApi {
     }
 
     @Override
-    public ResponseEntity<Void> deletePaymentById(String authorization, Integer id) {
-        return null;
+    public ResponseEntity<PaymentDto> deletePaymentById(String authorization, Integer id) {
+        PaymentDto deletedPayment = paymentService.deletePaymentById(id);
+        return ResponseEntity.ok(deletedPayment);
     }
 
     @Override
@@ -46,7 +48,8 @@ public class PaymentManagementController implements PaymentsApi {
 
     @Override
     public ResponseEntity<PaymentDto> getPaymentById(String authorization, Integer id) {
-        return null;
+        PaymentDto paymentDto = paymentService.getPaymentById(id);
+        return ResponseEntity.ok(paymentDto);
     }
 
     @Override
@@ -56,6 +59,7 @@ public class PaymentManagementController implements PaymentsApi {
 
     @Override
     public ResponseEntity<PaymentDto> updatePayment(String authorization, PaymentDto paymentDto) {
-        return null;
+        PaymentDto updatedPaymentDto = paymentService.updatePayment(paymentDto);
+        return ResponseEntity.ok(updatedPaymentDto);
     }
 }

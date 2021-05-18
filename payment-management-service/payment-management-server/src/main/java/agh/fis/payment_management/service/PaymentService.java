@@ -8,11 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -21,38 +25,81 @@ public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    private PaymentDto getPaymentDtoFromPaymentEntity(PaymentEntity paymentEntity){
+            PaymentDto paymentDto = new PaymentDto();
+            paymentDto.setId(paymentEntity.getId());
+            paymentDto.setPaymentProvider(paymentEntity.getPaymentProvider());
+            paymentDto.setPaymentStatus(paymentEntity.getPaymentStatus());
+            paymentDto.setDate(paymentEntity.getDate().toString());
+            paymentDto.setPrice(paymentEntity.getPrice());
+            return paymentDto;
+    }
+
     public PaymentDto createPayment(PaymentDto paymentDto){
         java.util.Date utilDate = new java.util.Date();
-
-        PaymentEntity p = new PaymentEntity(paymentDto.getPaymentProvider(), PaymentStatus.PENDING.toString(),
-                                        new Date(utilDate.getTime()), paymentDto.getPrice());
+        PaymentEntity p = new PaymentEntity(paymentDto.getPaymentProvider(), new Date(utilDate.getTime()), paymentDto.getPrice(), PaymentStatus.PENDING);
 
         paymentRepository.save(p);
 
         paymentDto.setId(p.getId());
-
-        //        REWORK:
-        paymentDto.setPaymentStatus(PaymentStatus.PENDING);
+        paymentDto.setPaymentStatus(p.getPaymentStatus());
         paymentDto.setDate(p.getDate().toString());
 
+        logger.info("New {} payment with id: {} created",paymentDto.getPaymentStatus(), paymentDto.getId());
         return paymentDto;
     }
 
     public List<PaymentDto> getAllPayments(){
-
-        List<PaymentEntity> lpe = paymentRepository.findAll();
+        List<PaymentEntity> fetchedPaymentEntities = paymentRepository.findAll();
         List<PaymentDto> paymentDtos = new ArrayList<>();
-        for (PaymentEntity pe: lpe) {
-            PaymentDto temp = new PaymentDto();
-            temp.setId(pe.getId());
-            temp.setPaymentProvider(pe.getPaymentProvider());
-            //            REWORK:
-            temp.setPaymentStatus(PaymentStatus.PENDING);
-            temp.setDate(pe.getDate().toString());
-            temp.setPrice(pe.getPrice());
-
-            paymentDtos.add(temp);
+        for (PaymentEntity paymentEntity: fetchedPaymentEntities) {
+            paymentDtos.add(getPaymentDtoFromPaymentEntity(paymentEntity));
         }
+        logger.info("Returning a list of {} Payment Entites", paymentDtos.size());
         return paymentDtos;
+    }
+
+    public PaymentDto getPaymentById(Integer id){
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
+        if (paymentEntity.isPresent()){
+            logger.info("Returning Payment with id: {}", paymentEntity.get().getId());
+            return getPaymentDtoFromPaymentEntity(paymentEntity.get());
+        }
+        logger.warn("Payment with id: {} does not exist", id);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
+    }
+
+    public PaymentDto deletePaymentById(Integer id){
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
+        if (paymentEntity.isPresent()){
+            paymentRepository.delete(paymentEntity.get());
+            logger.info("Deleted Payment with id: {}", paymentEntity.get().getId());
+            return getPaymentDtoFromPaymentEntity(paymentEntity.get());
+        }
+        logger.warn("Deletion aborted! Payment with id: {} does not exist", id);
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
+    }
+
+    public PaymentDto updatePayment(PaymentDto paymentDto){
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(paymentDto.getId());
+        if (paymentEntity.isPresent()){
+            paymentEntity.get().setPaymentStatus(paymentDto.getPaymentStatus());
+            paymentEntity.get().setPaymentProvider(paymentDto.getPaymentProvider());
+
+            try {
+                paymentEntity.get().setDate(paymentDto.getDate());
+            } catch (Exception e) {
+                logger.error("Omitting payment date update due to exception:", e);
+            }
+
+            paymentEntity.get().setPrice(paymentDto.getPrice());
+            paymentRepository.save(paymentEntity.get());
+
+            logger.info("Updated Payment with id: {}", paymentEntity.get().getId());
+            return getPaymentDtoFromPaymentEntity(paymentEntity.get());
+        }
+        logger.warn("Update aborted! Payment with id: {} does not exist", paymentEntity.get().getId());
+        throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
+
     }
 }

@@ -23,6 +23,15 @@ public class PaymentEntity {
     @Column(nullable = false)
     private float price;
 
+    private PaymentStatus paymentStatus;
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 
     public float getPrice() {
         return price;
@@ -64,21 +73,28 @@ public class PaymentEntity {
         this.date = date;
     }
 
+    public void setDate(String date) {
+        this.date.valueOf(date);
+    }
+
     public PaymentEntity() {
     }
 
-    public PaymentEntity(String paymentProvider, String status, Date date, float price) {
+    public PaymentEntity(String paymentProvider, Date date, float price, PaymentStatus paymentStatus) {
         this.paymentProvider = paymentProvider;
-        this.status = status;
         this.date = date;
         this.price = price;
+        this.paymentStatus = paymentStatus;
+        this.status = this.paymentStatus.toString();
     }
 
-    public PaymentEntity(int id, String paymentProvider, String status, Date date, float price) {
+    public PaymentEntity(int id, String paymentProvider, Date date, float price, PaymentStatus paymentStatus) {
         this.id = id;
         this.paymentProvider = paymentProvider;
-        this.status = status;
         this.date = date;
         this.price = price;
+        this.paymentStatus = paymentStatus;
+        this.status = this.paymentStatus.toString();
     }
+
 }
