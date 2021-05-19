@@ -36,7 +36,8 @@ public class ShoppingCartController implements ShoppingCartApi {
 
     @Override
     public ResponseEntity<ShoppingCartDto> addOrRemoveItemFromShoppingCart(String authorization, Integer id, @Valid ShoppingCartModificationDto shoppingCartModificationDto) {
-        return null;
+        ShoppingCartDto shoppingCartDto = shoppingCartService.updateShoppingCart(id, shoppingCartModificationDto);
+        return ResponseEntity.ok(shoppingCartDto);
     }
 
     @Override
