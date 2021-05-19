@@ -1,0 +1,20 @@
+name: Build and Deploy front to Heroku
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    # Deploy to Heroku
+    - name: Deploy
+      run: |-
+        git subtree push --prefix frontend https://${{secrets.Heroku_API_key}}@git.heroku.com/team-programming-game-shop.git main
