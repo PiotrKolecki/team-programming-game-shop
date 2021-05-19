@@ -1,0 +1,129 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Authentication service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Authentication Service
+paths:
+  /authenticate:
+    post:
+      tags:
+        - authentication
+      operationId: authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthenticationRequest"
+        required: true
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthenticationResponse"
+  /register:
+    post:
+      tags:
+        - registration
+      description: Registers new customer
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistrationDto"
+        required: true
+      responses:
+        "200":
+          description: Returns created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthCustomerDto"
+  /checkToken:
+    post:
+      tags:
+        - checkToken
+      description: Check token and return user
+      operationId: checkToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckTokenDto"
+        required: true
+      responses:
+        "200":
+          description: Returns user if token is valid or error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthCustomerDto"
+components:
+  schemas:
+    AuthenticationRequest:
+      type: object
+      description: authentication request
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+      required:
+        - login
+        - password
+    AuthenticationResponse:
+      type: object
+      description: authentication response
+      properties:
+        token:
+          type: string
+          description: jwt token
+    AuthUserType:
+      type: string
+      enum:
+        - Customer
+        - Staff
+    RegistrationDto:
+      description: Holds new customer registration data
+      type: object
+      properties:
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/AuthUserType'
+      required:
+        - mail
+        - password
+        - userType
+    AuthCustomerDto:
+      description: Keeps information about customer
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        userType:
+          $ref: '#/components/schemas/AuthUserType'
+      required:
+        - id
+        - mail
+        - userType
+    CheckTokenDto:
+      description: contains token to be checked
+      type: object
+      properties:
+        token:
+          type: string
+    AuthErrorDto:
+      description: contains error information
+      type: object
+      properties:
+        description:
+          type: string

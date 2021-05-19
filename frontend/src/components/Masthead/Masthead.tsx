@@ -1,7 +1,7 @@
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { makeStyles } from "@material-ui/core/styles";
-import { Logo } from "./Logo";
+import { Logo } from "../Logo/Logo";
 import { Search } from "./Search";
 import { Navigation } from "./Navigation";
 

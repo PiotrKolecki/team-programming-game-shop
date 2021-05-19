@@ -1,0 +1,245 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Customers service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Customers Service
+paths:
+  /:
+    get:
+      tags:
+        - Customers
+      description: Get all customers
+      operationId: getAllCustomers
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      responses:
+        "200":
+          description: Returns list of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerDto"
+    put:
+      tags:
+        - Customers
+      description: Update customer
+      operationId: updateCustomer
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        description: Customer with updated values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDto'
+      responses:
+        "200":
+          description: Returns updated customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+
+  /{id}:
+    get:
+      tags:
+        - Customers
+      description: Get customer by id
+      operationId: getCustomerById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Customer id
+      responses:
+        "200":
+          description: Returns specific customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+    delete:
+      tags:
+        - Customers
+      description: Delete customer by id
+      operationId: deleteCustomerById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Customer id
+      responses:
+        "200":
+          description: Specific customer deleted
+  /auth:
+    post:
+      tags:
+        - CustomersAuth
+      description: Creates new customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerRegistrationDto"
+        required: true
+      responses:
+        "200":
+          description: Returns created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerDto"
+    get:
+      tags:
+        - CustomersAuth
+      description: Gets customer by mail
+      operationId: getAuthCustomer
+      parameters:
+        - in: query
+          name: mail
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns customer by mail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerAuthDto"
+
+components:
+  schemas:
+
+    UserType:
+      type: string
+      enum:
+        - Customer
+        - Staff
+
+    CustomerDto:
+      description: Keeps information about customer
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - id
+        - mail
+        - userType
+
+    CustomerAuthDto:
+      description: Keeps information about customer in the context of the authentication process
+      type: object
+      properties:
+        id:
+          type: integer
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - id
+        - mail
+        - password
+        - userType
+
+    CustomerRegistrationDto:
+      description: Keeps information about new customer
+      type: object
+      properties:
+        mail:
+          type: string
+        password:
+          type: string
+        userType:
+          $ref: '#/components/schemas/UserType'
+      required:
+        - mail
+        - password
+        - userType
+
+    ### SHOPPING_CART SCHEMA
+    GameDto:
+      description: Keeps information about game
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        publisher:
+          type: string
+      required:
+        - id
+        - name
+        - price
+        - publisher
+
+    ShoppingCartDto:
+      description: Keeps information about shopping cart
+      type: object
+      properties:
+        id:
+          type: integer
+        customer_id:
+          type: integer
+        date_created:
+          type: string
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/GameDto'
+      required:
+        - id
+        - customer_id
+        - date_created
+        - products
+
+    ShoppingCartCreationDto:
+      description: Keeps information needed to create cart
+      type: object
+      properties:
+        customer_id:
+          type: integer
+      required:
+        - customerId

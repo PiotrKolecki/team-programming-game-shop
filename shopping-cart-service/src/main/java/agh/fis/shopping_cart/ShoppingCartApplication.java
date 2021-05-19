@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"agh.fis.shopping_cart", "agh.fis.common"})
 @Import(SharedAutoConfiguration.class)
 public class ShoppingCartApplication {
 

@@ -8,20 +8,26 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api-documentation" />
         <module name="payment-management-service" />
-        <module name="authentication-service" />
         <module name="common" />
         <module name="product-catalog-service" />
+        <module name="authentication-server" />
         <module name="order-management-service" />
-        <module name="customers-service" />
+        <module name="customers-server" />
         <module name="shopping-cart-service" />
+        <module name="authentication-client" />
+        <module name="customers-client" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-documentation" options="-parameters" />
+      <module name="authentication-client" options="-parameters" />
+      <module name="authentication-server" options="-parameters" />
       <module name="authentication-service" options="-parameters" />
       <module name="common" options="-parameters" />
+      <module name="customers-client" options="-parameters" />
+      <module name="customers-server" options="-parameters" />
       <module name="customers-service" options="-parameters" />
       <module name="order-management-service" options="-parameters" />
       <module name="payment-management-service" options="-parameters" />
