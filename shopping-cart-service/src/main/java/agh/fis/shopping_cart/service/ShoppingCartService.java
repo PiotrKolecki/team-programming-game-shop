@@ -1,65 +1,62 @@
 package agh.fis.shopping_cart.service;
 
+import org.modelmapper.ModelMapper;
 import agh.fis.shopping_cart.model.*;
 import agh.fis.shopping_cart.client.ProductCatalogClient;
+import agh.fis.shopping_cart.repository.ShoppingCartRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
 import java.util.*;
-import java.text.SimpleDateFormat;
-import java.math.BigDecimal;
 
 @Service
 public class ShoppingCartService {
     private static final Logger logger = LoggerFactory.getLogger(ShoppingCartService.class);
 
     private final ProductCatalogClient productCatalogClient;
+    private final ShoppingCartRepository repository;
+    private final ModelMapper modelMapper;
 
-    public ShoppingCartService(ProductCatalogClient productCatalogClient) {
+    public ShoppingCartService(ProductCatalogClient productCatalogClient, ShoppingCartRepository repository, ModelMapper modelMapper) {
         this.productCatalogClient = productCatalogClient;
+        this.repository = repository;
+        this.modelMapper = modelMapper;
     }
 
     public ShoppingCartDto create(ShoppingCartCreationDto shoppingCartCreationDto) {
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-        ShoppingCartDto shoppingCartDto = createShoppingCartObject(10, shoppingCartCreationDto.getCustomerId(), formatter.format(date), new ArrayList<GameDto>());
-        return shoppingCartDto;
+
+        ShoppingCart existingShoppingCart = repository.findByCustomerId(shoppingCartCreationDto.getCustomerId());
+        if (existingShoppingCart != null) {
+            logger.error("Shopping cart already exists for customer ID: " + shoppingCartCreationDto.getCustomerId());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shopping cart already exists for customer ID: "
+                    + shoppingCartCreationDto.getCustomerId());
+        }
+
+        ShoppingCart newShoppingCart = modelMapper.map(shoppingCartCreationDto, ShoppingCart.class);
+        newShoppingCart = repository.save(newShoppingCart);
+        newShoppingCart.setItems(new HashSet<ShoppingCartItem>());
+        return modelMapper.map(newShoppingCart, ShoppingCartDto.class);
     }
 
-    // only to create dummy data, probably will be removed
     public ShoppingCartDto getShoppingCartById(Integer id) {
-        ShoppingCartDto shoppingCartDto = createShoppingCartObject(id, 5, "04-05-2021 07:29:42", createGamesList());
-        return shoppingCartDto;
+        ShoppingCart shoppingCart = repository.findByCustomerId(id);
+        if (shoppingCart == null){
+            logger.error("Shopping cart not found for customer ID: " + id);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shopping cart not found for customer ID: " + id);
+        }
+        return modelMapper.map(shoppingCart, ShoppingCartDto.class);
     }
 
-    // only to create dummy data, probably will be removed
-    public ShoppingCartDto createShoppingCartObject(Integer id, Integer customer_id, String date,
-                                                    List<GameDto> products){
-        ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
-        shoppingCartDto.setId(id);
-        shoppingCartDto.setCustomerId(customer_id);
-        shoppingCartDto.setDateCreated(date);
-        shoppingCartDto.setProducts(products);
-        return shoppingCartDto;
+    public void deleteShoppingCart(Integer id) {
+        ShoppingCart shoppingCart = repository.findByCustomerId(id);
+        if (shoppingCart == null){
+            logger.error("Shopping cart not found for customer ID: " + id);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shopping cart not found for customer ID: " + id);
+        }
+        repository.delete(shoppingCart);
     }
 
-    // only to create dummy data, probably will be removed
-    public List<GameDto> createGamesList(){
-        GameDto game1 = new GameDto();
-        game1.setId(1);
-        game1.setName("GTA V");
-        game1.setPrice(BigDecimal.valueOf(30.99));
-        game1.setPublisher("Rocsktar Games");
-        GameDto game2 = new GameDto();
-        game2.setId(2);
-        game2.setName("The Witcher");
-        game2.setPrice(BigDecimal.valueOf(52.99));
-        game2.setPublisher("CD Projekt");
-        return Arrays.asList(new GameDto[]{game1, game2});
-    }
 }

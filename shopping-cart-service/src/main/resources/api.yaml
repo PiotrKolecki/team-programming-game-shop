@@ -120,17 +120,11 @@ components:
       properties:
         id:
           type: integer
-        name:
-          type: string
-        price:
-          type: number
-        publisher:
-          type: string
+        quantity:
+          type: integer
       required:
         - id
-        - name
-        - price
-        - publisher
+        - quantity
 
     ShoppingCartDto:
       description: Keeps information about shopping cart
@@ -140,8 +134,6 @@ components:
           type: integer
         customer_id:
           type: integer
-        date_created:
-          type: string
         products:
           type: array
           items:
@@ -149,7 +141,6 @@ components:
       required:
         - id
         - customer_id
-        - date_created
         - products
 
     ShoppingCartCreationDto:

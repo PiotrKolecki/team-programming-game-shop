@@ -6,7 +6,6 @@ import agh.fis.shopping_cart.service.ShoppingCartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -25,6 +24,7 @@ public class ShoppingCartController implements ShoppingCartApi {
     @Override
     public ResponseEntity<ShoppingCartDto> createShoppingCart(@Valid ShoppingCartCreationDto shoppingCartCreationDto) {
         ShoppingCartDto shoppingCartDto = shoppingCartService.create(shoppingCartCreationDto);
+        logger.info("Shopping cart created for customer ID: " + shoppingCartCreationDto.getCustomerId());
         return ResponseEntity.ok(shoppingCartDto);
     }
 
@@ -41,7 +41,9 @@ public class ShoppingCartController implements ShoppingCartApi {
 
     @Override
     public ResponseEntity<Void> deleteShoppingCartById(String authorization, Integer id) {
-        return null;
+        shoppingCartService.deleteShoppingCart(id);
+        logger.info("Shopping cart deleted for customer ID: " + id);
+        return ResponseEntity.noContent().build();
     }
 
 }
