@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Slider from '@material-ui/core/Slider';
+import Slider from "@material-ui/core/Slider";
 import { makeStyles } from "@material-ui/core/styles";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+import OutlinedInput from "@material-ui/core/OutlinedInput";
 import classnames from "classnames";
 import { useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
 
 type NavItem = {
@@ -19,7 +19,7 @@ const Container = styled.div`
   background-color: ${appTheme.colors.blackRock};
   height: 1000px;
   padding: 40px 32px;
-`
+`;
 
 const Price = styled.div`
   font-family: "Lao Sangam MN",
@@ -31,7 +31,7 @@ const Price = styled.div`
   border-bottom: 1px solid ${appTheme.colors.silver};
   margin-bottom: 40px;
 
-`
+`;
 
 const Categories = styled.div`
   font-family: "Lao Sangam MN",
@@ -43,25 +43,23 @@ const Categories = styled.div`
   padding-bottom: 10px;
   border-bottom: 1px solid ${appTheme.colors.mercury};
   margin-bottom: 16px;
-  `
+  `;
 
-  const List = styled.div`
-    display: flex;
-    flex-direction: column;
-  `
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   inputs: {
     paddingTop: theme.spacing(2),
     display: "flex",
     justifyContent: "space-between",
   },
 
-   root: {
-    border: `1px solid ${appTheme.colors.mercury}`
-   },
+  root: {
+    border: `1px solid ${appTheme.colors.mercury}`,
+  },
 
   input: {
     color: appTheme.colors.silver,
@@ -70,27 +68,26 @@ const useStyles = makeStyles((theme) => ({
     width: "60px",
     padding: "5px",
     textAlign: "center",
-
   },
 
   option: {
-    color:'white',
+    color: "white",
     padding: "8px 6px",
     cursor: "pointer",
     fontFamily: "Lao Sangam MN",
-    justifyContent: 'left',
+    justifyContent: "left",
     textTransform: "capitalize",
     fontSize: "16px",
 
     "&:hover": {
       backgroundColor: appTheme.colors.governorBay,
       borderRadius: "6px",
-    }
+    },
   },
 
   active: {
     backgroundColor: appTheme.colors.governorBay,
-      borderRadius: "3px",
+    borderRadius: "3px",
   },
 }));
 
@@ -139,78 +136,87 @@ const categories: Array<NavItem> = [
     name: "Sport",
     href: "/sport",
   },
-    {
+  {
     name: "Strategy",
     href: "/strategy",
   },
 ];
 
-
-
 export function Sidebar() {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [value, setValue] = useState<number[]>([0, 100]);
-    const { pathname } = useLocation();
-    const history = useHistory();
+  const [value, setValue] = useState<number[]>([0, 100]);
+  const { pathname } = useLocation();
+  const history = useHistory();
 
-    const handleChange = (event: any, newValue?: number | number[]) => {
-      setValue(newValue as number[]);
-    };
+  const handleChange = (event: any, newValue?: number | number[]) => {
+    setValue(newValue as number[]);
+  };
 
-    const onCategoryClick = (category: string) => {
-      history.push(`/insight${category}`)
-    }
-  
-    const handlePrice = (isMin: boolean) => (event: any) =>  {
-      const minPrice = value[0];
-      const maxPrice = value[1];
+  const onCategoryClick = (category: string) => {
+    history.push(`/insight${category}`);
+  };
 
-      const newPrice = isMin ? [Number(event.target.value), maxPrice] :  [minPrice, Number(event.target.value)] ;
-      setValue(newPrice);
-    }
+  const handlePrice = (isMin: boolean) => (event: any) => {
+    const minPrice = value[0];
+    const maxPrice = value[1];
 
-    return (
-        <Container>
-        <Price>PRICE</Price>
-        <Slider value={value} max={300} onChange={handleChange} aria-labelledby="continuous-slider" />
-        <div className={classes.inputs}>
+    const newPrice = isMin
+      ? [Number(event.target.value), maxPrice]
+      : [minPrice, Number(event.target.value)];
+    setValue(newPrice);
+  };
+
+  return (
+    <Container>
+      <Price>PRICE</Price>
+      <Slider
+        value={value}
+        max={300}
+        onChange={handleChange}
+        aria-labelledby="continuous-slider"
+      />
+      <div className={classes.inputs}>
         <OutlinedInput
-            value={value[0]}
-            classes={{
-              root: classes.root,
-              input: classes.input,
-            }}
-            onChange={handlePrice(true)}
-            inputProps={{
-              'aria-label': 'weight',
-            }}
-          />
-          -
-          <OutlinedInput
-                value={value[1]}
-                classes={{
-                  root: classes.root,
-                  input: classes.input,
-                }}
-                onChange={handlePrice(false)}
-                inputProps={{
-                  'aria-label': 'weight',
-                }}
-              />
-              </div>
+          value={value[0]}
+          classes={{
+            root: classes.root,
+            input: classes.input,
+          }}
+          onChange={handlePrice(true)}
+          inputProps={{
+            "aria-label": "weight",
+          }}
+        />
+        -
+        <OutlinedInput
+          value={value[1]}
+          classes={{
+            root: classes.root,
+            input: classes.input,
+          }}
+          onChange={handlePrice(false)}
+          inputProps={{
+            "aria-label": "weight",
+          }}
+        />
+      </div>
 
-              <Categories>CATEGORIES</Categories>
-              <List>
-                  {categories.map(category => <Button key={category.name} onClick={() => onCategoryClick(category.href)} className={classnames(
-                    classes.option,
-                    pathname.startsWith(`/insight${category.href}`) && classes.active
-                  )}>
-                    {category.name}
-                  </Button>
-                  
-                  )}
-              </List>
-        </Container>
-    )
+      <Categories>CATEGORIES</Categories>
+      <List>
+        {categories.map(category => (
+          <Button
+            key={category.name}
+            onClick={() => onCategoryClick(category.href)}
+            className={classnames(
+              classes.option,
+              pathname.startsWith(`/insight${category.href}`) && classes.active
+            )}
+          >
+            {category.name}
+          </Button>
+        ))}
+      </List>
+    </Container>
+  );
 }

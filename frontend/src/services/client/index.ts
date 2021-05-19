@@ -1,10 +1,10 @@
-import config from '../../config';
+import config from "../../config";
 
 async function fetchCatalogue() {
-    const response = await fetch(`${config.api.baseUrl}/games`);
-    const result = await response.text();
+  const response = await fetch(`${config.api.baseUrl}/games`);
+  const result = await response.text();
 
-    return result;
+  return result;
 }
 
 export { fetchCatalogue };

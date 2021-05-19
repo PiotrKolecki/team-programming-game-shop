@@ -33,7 +33,7 @@ export type FormProps = {
   formElements: Array<InputProps>;
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   label: {
     color: "inherit",
     textTransform: "uppercase",

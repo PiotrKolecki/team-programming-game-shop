@@ -1,3 +1,5 @@
-export const getCatalogue = (state: any) => {
-    return state.catalogue.items;
-}
+import { AppState } from "../rootReducer";
+
+export const getCatalogue = (state: AppState) => {
+  return state.catalogue.items;
+};
