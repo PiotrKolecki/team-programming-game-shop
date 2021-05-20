@@ -17,11 +17,9 @@ public class OrderEntity {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private String deliveryMethod;
-
-    @Column(nullable = false)
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_id", referencedColumnName = "id")
+    private DeliveryEntity delivery;
 
     @Column(nullable = false)
     private String paymentMethod;
@@ -33,10 +31,10 @@ public class OrderEntity {
     private int customerId;
 
     @Column(nullable = false)
-    private float price;
+    private String status;
 
     @Column(nullable = false)
-    private String status;
+    private float price;
 
     @OneToMany(
             mappedBy = "order",
@@ -61,20 +59,12 @@ public class OrderEntity {
         this.date = date;
     }
 
-    public String getDeliveryMethod() {
-        return deliveryMethod;
+    public DeliveryEntity getDelivery() {
+        return delivery;
     }
 
-    public void setDeliveryMethod(String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDelivery(DeliveryEntity delivery) {
+        this.delivery = delivery;
     }
 
     public String getPaymentMethod() {
@@ -83,22 +73,6 @@ public class OrderEntity {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public int getPaymentId() {
@@ -117,6 +91,22 @@ public class OrderEntity {
         this.customerId = customerId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public List<ItemEntity> getItems() {
         return items;
     }
@@ -125,23 +115,18 @@ public class OrderEntity {
         this.items = items;
     }
 
-    public OrderEntity(int id) {
-        this.id = id;
-    }
-
-    public OrderEntity() {
-    }
-
-    public OrderEntity(int id, Date date, String deliveryMethod, String address, String paymentMethod, int paymentId, int customerId, float price, String status, List<ItemEntity> items) {
+    public OrderEntity(int id, Date date, DeliveryEntity delivery, String paymentMethod, int paymentId, int customerId, String status, float price, List<ItemEntity> items) {
         this.id = id;
         this.date = date;
-        this.deliveryMethod = deliveryMethod;
-        this.address = address;
+        this.delivery = delivery;
         this.paymentMethod = paymentMethod;
         this.paymentId = paymentId;
         this.customerId = customerId;
-        this.price = price;
         this.status = status;
+        this.price = price;
         this.items = items;
+    }
+
+    public OrderEntity() {
     }
 }
