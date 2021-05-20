@@ -1,7 +1,7 @@
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { WelcomeScreen, Catalogue, SingleGame, Home, Logout} from "./domain";
+import { WelcomeScreen, Catalogue, SingleGame, Logout} from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
@@ -31,6 +31,7 @@ type RouteItem = {
   path: string;
   component: React.ReactElement;
   authenticated: boolean | null;
+  exact: boolean | undefined;
 };
 
 const routeItems: Array<RouteItem> = [
@@ -38,26 +39,42 @@ const routeItems: Array<RouteItem> = [
     path: "/logout",
     component: <Logout />,
     authenticated: true,
+    exact: false,
   },
   {
     path: "/signin",
     component: <WelcomeScreen type="sign in" />,
     authenticated: false,
+    exact: false,
   },
   {
     path: "/register",
     component: <WelcomeScreen type="register" />,
     authenticated: false,
+    exact: false,
   },
   {
-    path: "/insight",
+    path: "/insight/:category",
     component: (
       <>
-        <Home />
+        <Catalogue />
         <Footer />
       </>
     ),
     authenticated: null,
+    exact: true
+  },
+
+  {
+    path: "/insight/:category/:id",
+    component: (
+      <>
+        <SingleGame />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+    exact: false,
   },
   {
     path: "/profile",
@@ -68,6 +85,7 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: null,
+    exact: false,
   },
   {
     path: "/orders",
@@ -78,6 +96,7 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: null,
+    exact: false,
   },
 ];
 
@@ -97,24 +116,11 @@ function App() {
                 authenticated === isLoggedIn || authenticated === null
             )
             .map((item) => (
-              <Route key={item.path} path={item.path}>
+              <Route key={item.path} path={item.path} exact={item.exact}>
                 {item.component}
               </Route>
             ))}
-          <Redirect to="/insight" />
-          <Route path="/signin">
-            <WelcomeScreen type="sign in" />
-          </Route>
-          <Route path="/register">
-            <WelcomeScreen type="register" />
-          </Route>
-          <Route path="/insight/:category" exact>
-            <Catalogue />
-          </Route>
-          <Route path="/insight/:category/:id">
-            <SingleGame />
-          </Route>
-          <Redirect to="/signin" />
+         
         </Switch>
       </Fade>
     </Main>

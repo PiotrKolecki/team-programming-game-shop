@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import catalogue from "./catalogue/index";
-
 import userReducer from "./user/reducer";
 
 const rootReducer = combineReducers({

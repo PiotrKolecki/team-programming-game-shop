@@ -37,27 +37,27 @@ export const catalogueFetchError = ({
 const initialState: CatalogueState = {
   isFetching: false,
   items: null,
-  error: null,
+  error: false,
 };
 
-export default function reducer(
+const catalogueReducer = (
   state = initialState,
   action: CatalogueActions
-) {
+) => {
   switch (action.type) {
-    case CATALOGUE_FETCH: {
+    case CATALOGUE_FETCH: 
       return { ...state, isFetching: true, error: false };
-    }
 
-    case CATALOGUE_FETCH_SUCCESS: {
+    case CATALOGUE_FETCH_SUCCESS: 
       return { ...state, isFetching: false, items: action.payload.catalogue };
-    }
 
-    case CATALOGUE_FETCH_ERROR: {
+    case CATALOGUE_FETCH_ERROR: 
       return { ...state, isFetching: false, error: true };
-    }
 
-    default:
-      return state;
+    default:{
+      return {...state};
+    }
   }
 }
+
+export default catalogueReducer;

@@ -7,7 +7,7 @@ import {
 export interface CatalogueState {
   isFetching: boolean;
   items: string | null;
-  error: string | null;
+  error: boolean;
 }
 
 export interface FetchCatalogueSuccessPayload {
