@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import * as P from './parts'
 import AccountWrapper from '../AccountWrapper/AccountWrapper';
 import { Field, Form } from 'react-final-form';
-import { normalizeToNumber, normalizeToZipCode } from './helpers';
-import { fieldRequired, basicValidation } from './validators';
+import { normalizeToNumber, normalizeToZipCode } from '../../../utils/formParsers';
+import { fieldRequired, basicValidation } from '../../../utils/validators';
 
 // FIXME: use selector to get info about user
 const mockData = {
@@ -23,7 +23,7 @@ const mockData = {
 interface PersonalDataField {
    name: keyof typeof mockData;
    label: string;
-   validate: (value: string) => void;
+   validate?: (value: string) => void;
    inputType?: string;
    parse?: (value: string) => string;
 }
@@ -68,7 +68,6 @@ const addressDatafield: PersonalDataField[] = [
    {
       name: 'apartment',
       label: 'Apartment number',
-      validate: fieldRequired,
       parse: (value) => value ? normalizeToNumber(value) : value,
    },
    {

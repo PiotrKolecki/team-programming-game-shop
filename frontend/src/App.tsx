@@ -7,6 +7,7 @@ import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
 import PersonalData from "./domain/Account/PersonalData/PersonalData";
 import Orders from "./domain/Account/Orders/Orders";
+import Cart from "./domain/Account/Cart/Cart";
 import { AppState } from "./store/rootReducer";
 import { getTokenSelector } from "./store/user/selectors";
 
@@ -74,6 +75,16 @@ const routeItems: Array<RouteItem> = [
     component: (
       <>
         <Orders />
+        <Footer />
+      </>
+    ),
+    authenticated: null,
+  },
+  {
+    path: "/cart",
+    component: (
+      <>
+        <Cart />
         <Footer />
       </>
     ),
