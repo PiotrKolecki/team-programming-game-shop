@@ -1,9 +1,12 @@
 package agh.fis.customers.service;
 
+import agh.fis.authentication.model.AuthCustomerDto;
+import agh.fis.authentication.model.AuthUserType;
 import agh.fis.common.util.LogKeeper;
 import agh.fis.customers.client.ShoppingCartClient;
 import agh.fis.customers.model.*;
 import agh.fis.customers.repository.CustomerRepository;
+import com.google.common.collect.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -107,6 +112,50 @@ class CustomerServiceTest {
                     .hasMessage("400 BAD_REQUEST \"Unable to create customer shopping cart\"");
 
             assertThat(keeper.containsError("Exception during customer shopping cart creation:")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldGetAllCustomers() {
+        when(repository.findAll()).thenReturn(Collections.singletonList(CUSTOMER));
+
+        List<CustomerDto> customers = service.getAll(new AuthCustomerDto().userType(AuthUserType.STAFF));
+
+        assertThat(Iterables.getOnlyElement(customers))
+                .extracting(CustomerDto::getId, CustomerDto::getMail, CustomerDto::getUserType)
+                .containsExactly(ID, MAIL, USER_TYPE);
+    }
+
+    @Test
+    void shouldThrowDuringGettingAll() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.getAll(new AuthCustomerDto().mail("MAIL").userType(AuthUserType.CUSTOMER)))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot get all customers\"");
+
+            assertThat(keeper.containsError("MAIL tried to get all customers but it's not authorized")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldGetCustomerById() {
+        when(repository.findById(1)).thenReturn(Optional.of(CUSTOMER));
+
+        CustomerDto customer = service.getById(new AuthCustomerDto().userType(AuthUserType.STAFF), 1);
+
+        assertThat(customer)
+                .extracting(CustomerDto::getId, CustomerDto::getMail, CustomerDto::getUserType)
+                .containsExactly(ID, MAIL, USER_TYPE);
+    }
+
+    @Test
+    void shouldThrowDuringGettingById() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.getById(new AuthCustomerDto().id(0).mail("MAIL").userType(AuthUserType.CUSTOMER), 1))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot get customer with id 1\"");
+
+            assertThat(keeper.containsError("MAIL tried to get customer with id 1 but it's not authorized")).isTrue();
         }
     }
 }
