@@ -172,19 +172,64 @@ components:
         - Completed
         - Canceled
 
-    Product:
+    Item:
       type: object
       properties:
         id:
           type: integer
-        name:
-          type: string
-        publisher:
-          type: string
-        price:
-          type: float
+        quantity:
+          type: integer
       required:
         - id
+        - quantity
+
+    Address:
+      type: object
+      properties:
+        type:
+          type: string
+        country:
+          type: string
+        street:
+          type: string
+        city:
+          type: string
+        zip-code:
+          type: string
+        buildingNumber:
+          type: string
+        apartmentNumber:
+          type: string
+      required:
+        - type
+        - country
+        - street
+        - city
+        - zip-code
+        - buildingNumber
+
+    Delivery:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        method:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+      required:
+        - firstName
+        - lastName
+        - email
+        - phone
+        - method
+        - address
 
     OrderDto:
       description: Information about order
@@ -192,17 +237,26 @@ components:
       properties:
         id:
           type: integer
+        date:
+          type: string
+        delivery:
+          $ref: "#/components/schemas/Delivery"
+        paymentMethod:
+          type: string
         paymentId:
           type: integer
         customerId:
           type: integer
-        address:
-          type: string
-        orderStatus:
+        status:
           $ref: "#/components/schemas/OrderStatus"
-        products:
+        items:
             type: array
             items:
-              $ref: "#/components/schemas/Product"
-        totalPrice:
+              $ref: "#/components/schemas/Item"
+        price:
           type: float
+      required:
+        - delivery
+        - paymentMethod
+        - customerId
+        - items

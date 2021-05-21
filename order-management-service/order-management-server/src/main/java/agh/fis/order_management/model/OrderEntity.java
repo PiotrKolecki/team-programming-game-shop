@@ -1,7 +1,10 @@
 package agh.fis.order_management.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,28 +15,33 @@ public class OrderEntity {
     private int id;
 
     @Column(nullable = false)
-    private int orderNumber;
-
-    @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private String deliveryMethod;
-
-    @Column(nullable = false)
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "delivery_id", referencedColumnName = "id")
+    private DeliveryEntity delivery;
 
     @Column(nullable = false)
     private String paymentMethod;
 
     @Column(nullable = false)
-    private float price;
+    private int paymentId;
+
+    @Column(nullable = false)
+    private int customerId;
 
     @Column(nullable = false)
     private String status;
 
-    @OneToMany(mappedBy="orderId")
-    private List<ItemEntity> items;
+    @Column(nullable = false)
+    private float price;
+
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<ItemEntity> items = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -41,14 +49,6 @@ public class OrderEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public Date getDate() {
@@ -59,20 +59,12 @@ public class OrderEntity {
         this.date = date;
     }
 
-    public String getDeliveryMethod() {
-        return deliveryMethod;
+    public DeliveryEntity getDelivery() {
+        return delivery;
     }
 
-    public void setDeliveryMethod(String deliveryMethod) {
-        this.deliveryMethod = deliveryMethod;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDelivery(DeliveryEntity delivery) {
+        this.delivery = delivery;
     }
 
     public String getPaymentMethod() {
@@ -83,12 +75,20 @@ public class OrderEntity {
         this.paymentMethod = paymentMethod;
     }
 
-    public float getPrice() {
-        return price;
+    public int getPaymentId() {
+        return paymentId;
     }
 
-    public void setPrice(float price) {
-        this.price = price;
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getStatus() {
@@ -99,6 +99,14 @@ public class OrderEntity {
         this.status = status;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
     public List<ItemEntity> getItems() {
         return items;
     }
@@ -107,22 +115,18 @@ public class OrderEntity {
         this.items = items;
     }
 
-    public OrderEntity(int id) {
+    public OrderEntity(int id, Date date, DeliveryEntity delivery, String paymentMethod, int paymentId, int customerId, String status, float price, List<ItemEntity> items) {
         this.id = id;
+        this.date = date;
+        this.delivery = delivery;
+        this.paymentMethod = paymentMethod;
+        this.paymentId = paymentId;
+        this.customerId = customerId;
+        this.status = status;
+        this.price = price;
+        this.items = items;
     }
 
     public OrderEntity() {
-    }
-
-    public OrderEntity(int id, int orderNumber, Date date, String deliveryMethod, String address, String paymentMethod, float price, String status, List<ItemEntity> items) {
-        this.id = id;
-        this.orderNumber = orderNumber;
-        this.date = date;
-        this.deliveryMethod = deliveryMethod;
-        this.address = address;
-        this.paymentMethod = paymentMethod;
-        this.price = price;
-        this.status = status;
-        this.items = items;
     }
 }
