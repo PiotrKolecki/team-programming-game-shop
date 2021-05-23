@@ -30,9 +30,9 @@ public class PaymentManagementController implements PaymentsApi {
     }
 
     @Override
-    public ResponseEntity<PaymentDto> deletePaymentById(String authorization, Integer id) {
-        PaymentDto deletedPayment = paymentService.deletePaymentById(id);
-        return ResponseEntity.ok(deletedPayment);
+    public ResponseEntity<Void> deletePaymentById(String authorization, Integer id) {
+        paymentService.deletePaymentById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @Override

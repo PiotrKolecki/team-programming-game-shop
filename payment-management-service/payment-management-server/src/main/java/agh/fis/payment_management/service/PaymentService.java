@@ -67,36 +67,37 @@ public class PaymentService {
         throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
     }
 
-    public PaymentDto deletePaymentById(Integer id){
+    public Void deletePaymentById(Integer id){
         Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
         if (paymentEntity.isPresent()){
             paymentRepository.delete(paymentEntity.get());
             logger.info("Deleted Payment with id: {}", paymentEntity.get().getId());
-            return getPaymentDtoFromPaymentEntity(paymentEntity.get());
         }
         logger.warn("Deletion aborted! Payment with id: {} does not exist", id);
         throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
     }
 
     public PaymentDto updatePayment(PaymentDto paymentDto){
-        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(paymentDto.getId());
-        if (paymentEntity.isPresent()){
-            paymentEntity.get().setPaymentStatus(paymentDto.getPaymentStatus());
-            paymentEntity.get().setPaymentProvider(paymentDto.getPaymentProvider());
+        Optional<PaymentEntity> paymentEntityOptional = paymentRepository.findById(paymentDto.getId());
+        PaymentEntity paymentEntity;
+        if (paymentEntityOptional.isPresent()){
+            paymentEntity = paymentEntityOptional.get();
+            paymentEntity.setPaymentStatus(paymentDto.getPaymentStatus());
+            paymentEntity.setPaymentProvider(paymentDto.getPaymentProvider());
 
             try {
-                paymentEntity.get().setDate(paymentDto.getDate());
+                paymentEntity.setDate(paymentDto.getDate());
             } catch (Exception e) {
                 logger.error("Omitting payment date update due to exception:", e);
             }
 
-            paymentEntity.get().setPrice(paymentDto.getPrice());
-            paymentRepository.save(paymentEntity.get());
+            paymentEntity.setPrice(paymentDto.getPrice());
+            paymentRepository.save(paymentEntity);
 
-            logger.info("Updated Payment with id: {}", paymentEntity.get().getId());
-            return getPaymentDtoFromPaymentEntity(paymentEntity.get());
+            logger.info("Updated Payment with id: {}", paymentEntity.getId());
+            return getPaymentDtoFromPaymentEntity(paymentEntity);
         }
-        logger.warn("Update aborted! Payment with id: {} does not exist", paymentEntity.get().getId());
+        logger.warn("Update aborted! Payment with id: {} does not exist", paymentDto.getId());
         throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
 
     }
