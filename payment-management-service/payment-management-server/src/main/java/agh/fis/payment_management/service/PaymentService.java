@@ -67,14 +67,17 @@ public class PaymentService {
         throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
     }
 
-    public Void deletePaymentById(Integer id){
-        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
-        if (paymentEntity.isPresent()){
-            paymentRepository.delete(paymentEntity.get());
-            logger.info("Deleted Payment with id: {}", paymentEntity.get().getId());
+    public void deletePaymentById(Integer id){
+        Optional<PaymentEntity> paymentEntityOptional = paymentRepository.findById(id);
+        if (paymentEntityOptional.isPresent()){
+            PaymentEntity paymentEntity = paymentEntityOptional.get();
+            paymentRepository.delete(paymentEntity);
+            logger.info("Deleted Payment with id: {}", paymentEntity.getId());
         }
-        logger.warn("Deletion aborted! Payment with id: {} does not exist", id);
-        throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
+        else {
+            logger.warn("Deletion aborted! Payment with id: {} does not exist", id);
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Payment with given id does not exist");
+        }
     }
 
     public PaymentDto updatePayment(PaymentDto paymentDto){
