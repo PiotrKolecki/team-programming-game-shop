@@ -9,8 +9,9 @@ public class ItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private int orderId;
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private OrderEntity order;
 
     @Column(nullable = false)
     private int productId;
@@ -24,14 +25,6 @@ public class ItemEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 
     public int getProductId() {
@@ -50,11 +43,19 @@ public class ItemEntity {
         this.quantity = quantity;
     }
 
-    public ItemEntity(int id, int orderId, int productId, int quantity) {
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
+    }
+
+    public ItemEntity(int id, int productId, int quantity, OrderEntity order) {
         this.id = id;
-        this.orderId = orderId;
         this.productId = productId;
         this.quantity = quantity;
+        this.order = order;
     }
 
     public ItemEntity(int id) {

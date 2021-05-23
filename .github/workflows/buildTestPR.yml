@@ -1,0 +1,57 @@
+name: Build Test on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    # Build the application
+    - name: Build
+      run: |-
+        mvn clean install
+    
+    # Build the Docker images
+    - name: BuildDocker
+      run: |-
+        docker build -t "gcr.io/team-programming-game-shop/shopping-cart:$GITHUB_SHA" \
+          --build-arg DB_URL="${{ secrets.DB_URL_SHOPPING_CART }}" \
+          --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_SHOPPING_CART }}" \
+          --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_SHOPPING_CART }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./shopping-cart-service/.
+        
+        docker build -t "gcr.io/team-programming-game-shop/product-catalog:$GITHUB_SHA" \
+          --build-arg DB_URL="${{ secrets.DB_URL_PRODUCT_CATALOG }}" \
+          --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_PRODUCT_CATALOG }}" \
+          --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_PRODUCT_CATALOG }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./product-catalog-service/.
+        
+        docker build -t "gcr.io/team-programming-game-shop/payment-management:$GITHUB_SHA" \
+          --build-arg DB_URL="${{ secrets.DB_URL_PAYMENT_MANAGEMENT }}" \
+          --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_PAYMENT_MANAGEMENT }}" \
+          --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_PAYMENT_MANAGEMENT }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./payment-management-service/.
+        
+        docker build -t "gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA" \
+          --build-arg DB_URL="${{ secrets.DB_URL_ORDER_MANAGEMENT }}" \
+          --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_ORDER_MANAGEMENT }}" \
+          --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_ORDER_MANAGEMENT }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./order-management-service/order-management-server/.
+        
+        docker build -t "gcr.io/team-programming-game-shop/customers:$GITHUB_SHA" \
+          --build-arg DB_URL="${{ secrets.DB_URL_CUSTOMERS }}" \
+          --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_CUSTOMERS }}" \
+          --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_CUSTOMERS }}" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./customers-service/customers-server/.
+        
+        docker build -t "gcr.io/team-programming-game-shop/authentication:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./authentication-service/authentication-server/.
