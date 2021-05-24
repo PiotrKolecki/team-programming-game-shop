@@ -97,4 +97,26 @@ public class CustomerService {
         logger.error(authMail + " tried to update customer with id {} but it's not authorized", customerIdToUpdate);
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot update customer with id " + customerIdToUpdate);
     }
+
+    public void delete(AuthCustomerDto authCustomerDto, String authorization, int id) {
+        if (authCustomerDto.getUserType() == AuthUserType.CUSTOMER && authCustomerDto.getId() == id) {
+            deleteInternal(authorization, id);
+        } else if (authCustomerDto.getUserType() == AuthUserType.STAFF) {
+            if (authCustomerDto.getId() == id) {
+                throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, String.format("Operation not permitted " +
+                        "for id %s - cannot remove yourself.", id));
+            }
+            deleteInternal(authorization, id);
+        } else {
+            String authMail = authCustomerDto.getMail();
+            logger.error(authMail + " tried to delete customer with id {} but it's not authorized", id);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot delete customer with id " + id);
+        }
+    }
+
+    private void deleteInternal(String authorization, int id) {
+        shoppingCartClient.deleteShoppingCartById(authorization, id);
+        repository.deleteById(id);
+        logger.info("User with id {} deleted", id);
+    }
 }
