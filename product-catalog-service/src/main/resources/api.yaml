@@ -1,0 +1,197 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Product catalog service
+  version: 1.0.0
+  title: Product Catalog Service
+paths:
+  /:
+    post:
+      tags:
+        - Product Catalog
+      description: Creates new Product
+      operationId: createProduct
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreationDto'
+        required: true
+      responses:
+        "200":
+          description: Returns created Product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductDto"
+    get:
+      tags:
+        - Product Catalog
+      description: Get Products
+      operationId: getAllProducts
+      responses:
+        "200":
+          description: Returns all Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductDto"
+  /{id}:
+    get:
+      tags:
+        - Product Catalog
+      description: Get product with specific ID
+      operationId: getProduct
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Product id
+      responses:
+        "200":
+          description: Returns Product with specific ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductDto"
+    delete:
+      tags:
+        - Product Catalog
+      description: Delete product with specific ID
+      operationId: deleteProduct
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Product id
+      responses:
+        "200":
+          description: Delete Product with specific ID
+
+    put:
+      tags:
+        - Product Catalog
+      description: Update product with specific ID
+      operationId: updateProduct
+      parameters:   
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Product id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdateDto'
+        required: true
+      responses:
+        "200":
+          description: Update Product with specific ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductDto"
+  
+
+components:
+  schemas:
+
+    Operation:
+      type: string
+      enum:
+        - Add
+        - Remove
+
+    ProductDto:
+      description: Keeps information about Products
+      type: object
+      properties:
+        id:
+          type: integer
+        product_name:
+          type: string
+        date_published:
+          type: string
+        short_description:
+          type: string
+        description:
+          type: string
+        publisher: 
+          type: string
+        price:
+          type: number
+        category: 
+          type: string
+
+      required:
+        - id
+        - product_name
+
+    ProductCreationDto:
+      description: Data needed to create product
+      type: object
+      properties:
+          product_name:
+            type: string
+          date_published:
+            type: string
+          short_description:
+            type: string
+          description:
+            type: string
+          publisher: 
+            type: string
+          price:
+            type: number
+          category: 
+            type: string
+
+      required:
+        - product_name
+
+    ProductUpdateDto:
+      description: Data needed to update product
+      type: object
+      properties:
+          product_name:
+            type: string
+          date_published:
+            type: string
+          short_description:
+            type: string
+          description:
+            type: string
+          publisher: 
+            type: string
+          price:
+            type: number
+          category: 
+            type: string
