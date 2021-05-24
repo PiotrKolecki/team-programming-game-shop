@@ -83,4 +83,18 @@ public class CustomerService {
         logger.error(authMail + " tried to get customer with id {} but it's not authorized", id);
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot get customer with id " + id);
     }
+
+    public CustomerDto update(AuthCustomerDto authCustomerDto, CustomerDto customerDto) {
+        Integer customerIdToUpdate = customerDto.getId();
+        if (authCustomerDto.getUserType() == AuthUserType.STAFF || authCustomerDto.getId().equals(customerIdToUpdate)) {
+            Customer customer = repository.findById(customerIdToUpdate)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+            modelMapper.map(customerDto, customer);
+            Customer updatedCustomer = repository.save(customer);
+            return modelMapper.map(updatedCustomer, CustomerDto.class);
+        }
+        String authMail = authCustomerDto.getMail();
+        logger.error(authMail + " tried to update customer with id {} but it's not authorized", customerIdToUpdate);
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, authMail + " cannot update customer with id " + customerIdToUpdate);
+    }
 }

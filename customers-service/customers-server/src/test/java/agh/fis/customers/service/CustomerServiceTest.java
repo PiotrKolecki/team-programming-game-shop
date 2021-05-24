@@ -158,4 +158,15 @@ class CustomerServiceTest {
             assertThat(keeper.containsError("MAIL tried to get customer with id 1 but it's not authorized")).isTrue();
         }
     }
+
+    @Test
+    void shouldThrowDuringUpdating() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.update(new AuthCustomerDto().id(0).mail("MAIL").userType(AuthUserType.CUSTOMER), new CustomerDto().id(ID)))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot update customer with id 1\"");
+
+            assertThat(keeper.containsError("MAIL tried to update customer with id 1 but it's not authorized")).isTrue();
+        }
+    }
 }
