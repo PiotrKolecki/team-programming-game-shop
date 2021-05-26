@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 
-import java.sql.Date;
+import java.sql.Date; 
 
 @Entity
 public class Product extends ProductBaseEntity{
@@ -15,23 +15,23 @@ public class Product extends ProductBaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     private String product_name;
 
     @Column(nullable = false)
     private Date date_published;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     private String short_description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition="TEXT")
     private String description;
 
     @Column(nullable = false)
     private String publisher;
 
     @Column(nullable = false)
-    private Number price;
+    private float price;
 
     @Column(nullable = false)
     private String category;
@@ -42,7 +42,7 @@ public class Product extends ProductBaseEntity{
     public Product() {
     }
 
-    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, Number price, String category, Integer quantity) {
+    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, float price, String category, Integer quantity) {
         this.id = id;
         this.product_name = product_name;
         this.date_published = date_published;
@@ -110,11 +110,11 @@ public class Product extends ProductBaseEntity{
     }
 
 
-    public Number getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Number price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -124,6 +124,14 @@ public class Product extends ProductBaseEntity{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
 }

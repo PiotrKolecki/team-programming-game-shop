@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import javax.validation.Valid;
@@ -19,10 +20,12 @@ import javax.validation.Valid;
 @RestController
 public class ProductCatalogController implements  ProductCatalogApi {
     private static final Logger logger = LoggerFactory.getLogger(ProductCatalogController.class);
+
+    @Autowired
     private final ProductService productService;
 
-    ProductCatalogController(){
-        this.productService = new ProductService(); 
+    ProductCatalogController(ProductService productService){
+        this.productService = productService; 
     }
 
     @Override
