@@ -1,0 +1,163 @@
+openapi: 3.0.0
+x-samples-languages:
+  - java
+info:
+  description: Payment management service for WFIiS AGH game shop project
+  version: 1.0.0
+  title: Payment Management Service
+
+paths:
+  /:
+    get:
+      tags:
+        - Payments
+      description: Returns all Payment methods
+      operationId: getAllPaymentMethods
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      responses:
+        "200":
+          description: Returns all payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentDto"
+
+    post:
+      tags:
+        - Payments
+      description: Create new Payment
+      operationId: createPayment
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentDto"
+      responses:
+        "200":
+          description: Returns created Payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentDto"
+
+    put:
+      tags:
+        - Payments
+      description: Updates payment
+      operationId: updatePayment
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentDto"
+      responses:
+        "200":
+          description: Returns updated payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentDto"
+
+  /{id}:
+    get:
+      tags:
+        - Payments
+      description: Get payment by id
+      operationId: getPaymentById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Payment id
+      responses:
+        "200":
+          description: Returns specific payment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentDto"
+    delete:
+      tags:
+        - Payments
+      description: Delete payment by id
+      operationId: deletePaymentById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Payment id
+      responses:
+        "200":
+          description: Payment deleted
+
+components:
+  schemas:
+
+    PaymentStatus:
+      type: string
+      enum:
+        - Pending
+        - Completed
+        - Cancelled
+
+
+    PaymentDto:
+      description: Information about payment
+      type: object
+      properties:
+        id:
+          type: integer
+        orderId:
+          type: integer
+        paymentProvider:
+          type: string
+        date:
+          type: string
+        price:
+          type: float
+        paymentStatus:
+          $ref: "#/components/schemas/PaymentStatus"
+      required:
+        - price
+        - paymentProvider
+

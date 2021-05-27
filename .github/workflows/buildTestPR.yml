@@ -39,7 +39,7 @@ jobs:
           --build-arg DB_URL="${{ secrets.DB_URL_PAYMENT_MANAGEMENT }}" \
           --build-arg DB_USERNAME="${{ secrets.DB_USERNAME_PAYMENT_MANAGEMENT }}" \
           --build-arg DB_PASSWORD="${{ secrets.DB_PASSWORD_PAYMENT_MANAGEMENT }}" \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" ./payment-management-service/.
+          --build-arg GITHUB_SHA="$GITHUB_SHA" ./payment-management-service/payment-management-server/.
         
         docker build -t "gcr.io/team-programming-game-shop/order-management:$GITHUB_SHA" \
           --build-arg DB_URL="${{ secrets.DB_URL_ORDER_MANAGEMENT }}" \

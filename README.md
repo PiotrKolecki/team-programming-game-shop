@@ -64,7 +64,7 @@ docker build -t "game-shop/product-catalog" `
 docker build -t "game-shop/payment-management" `
 --build-arg DB_URL="$DB_URL_PAYMENT_MANAGEMENT" `
 --build-arg DB_USERNAME="$DB_USERNAME_PAYMENT_MANAGEMENT" `
---build-arg DB_PASSWORD="$DB_PASSWORD_PAYMENT_MANAGEMENT" ./payment-management-service/.
+--build-arg DB_PASSWORD="$DB_PASSWORD_PAYMENT_MANAGEMENT" ./payment-management-service/payment-catalog-server/.
 docker build -t "game-shop/order-management" `
 --build-arg DB_URL="$DB_URL_ORDER_MANAGEMENT" `
 --build-arg DB_USERNAME="$DB_USERNAME_ORDER_MANAGEMENT" `
