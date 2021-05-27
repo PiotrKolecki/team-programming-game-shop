@@ -17,4 +17,4 @@ jobs:
     # Deploy to Heroku
     - name: Deploy
       run: |-
-        git subtree push --prefix frontend https://${{secrets.Heroku_API_key}}@git.heroku.com/team-programming-game-shop.git main
+        git subtree push --prefix frontend https://heroku:${{secrets.Heroku_API_key}}@git.heroku.com/team-programming-game-shop.git main
