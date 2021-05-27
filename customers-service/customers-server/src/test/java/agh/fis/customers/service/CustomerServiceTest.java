@@ -158,4 +158,33 @@ class CustomerServiceTest {
             assertThat(keeper.containsError("MAIL tried to get customer with id 1 but it's not authorized")).isTrue();
         }
     }
+
+    @Test
+    void shouldThrowDuringUpdating() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.update(new AuthCustomerDto().id(0).mail("MAIL").userType(AuthUserType.CUSTOMER), new CustomerDto().id(ID)))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot update customer with id 1\"");
+
+            assertThat(keeper.containsError("MAIL tried to update customer with id 1 but it's not authorized")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldThrowDuringDeletion() {
+        try (LogKeeper keeper = new LogKeeper(CustomerService.class)) {
+            assertThatThrownBy(() -> service.delete(new AuthCustomerDto().id(0).mail("MAIL").userType(AuthUserType.CUSTOMER), "", ID))
+                    .isExactlyInstanceOf(ResponseStatusException.class)
+                    .hasMessage("403 FORBIDDEN \"MAIL cannot delete customer with id 1\"");
+
+            assertThat(keeper.containsError("MAIL tried to delete customer with id 1 but it's not authorized")).isTrue();
+        }
+    }
+
+    @Test
+    void shouldThrowDuringDeletionYourself() {
+        assertThatThrownBy(() -> service.delete(new AuthCustomerDto().id(ID).userType(AuthUserType.STAFF), "", ID))
+                .isExactlyInstanceOf(ResponseStatusException.class)
+                .hasMessage("405 METHOD_NOT_ALLOWED \"Operation not permitted for id 1 - cannot remove yourself.\"");
+    }
 }

@@ -33,7 +33,9 @@ public class CustomersController implements CustomersApi {
 
     @Override
     public ResponseEntity<CustomerDto> updateCustomer(String authorization, @Valid CustomerDto customerDto) {
-        return null;
+        Optional<AuthCustomerDto> customerDtoOpt = customerByTokenProvider.provide(authorization);
+        return customerDtoOpt.map(authCustomerDto -> ResponseEntity.ok(customerService.update(authCustomerDto, customerDto)))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
     }
 
     @Override
@@ -45,7 +47,12 @@ public class CustomersController implements CustomersApi {
 
     @Override
     public ResponseEntity<Void> deleteCustomerById(String authorization, Integer id) {
-        return null;
+        Optional<AuthCustomerDto> customerDtoOpt = customerByTokenProvider.provide(authorization);
+        if (customerDtoOpt.isPresent()) {
+            customerService.delete(customerDtoOpt.get(), authorization, id);
+            return ResponseEntity.noContent().build();
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
 }
