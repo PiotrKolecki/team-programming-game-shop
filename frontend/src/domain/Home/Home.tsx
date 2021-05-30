@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { Sidebar } from '../../components/Sidebar/Sidebar';
-import { Catalogue } from './Catalogue/Catalogue';
+import { Sidebar } from "../../components/Sidebar/Sidebar";
 import { theme as appTheme } from "../../constants";
 
 const Container = styled.div`
@@ -14,22 +13,23 @@ const Container = styled.div`
   margin-top: 50px;
 `;
 
-const NavHeader =  styled.div`
+const NavHeader = styled.div`
   grid-area: navHeader;
   font-family: "Rubik";
   padding-left: 24px;
   font-size: 2rem;
   font-weight: 450;
+  text-transform: uppercase;
 `;
 
 const Content = styled.div`
+  margin-top: 10px;
   display: grid;
   grid-template-columns: 250px auto;
-  grid-template-areas: "sidebar catalogue"
+  grid-template-areas: "sidebar catalogue";
+`;
 
-`
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   breadcrumbs: {
     gridArea: "breadcrumbs",
     color: "white",
@@ -42,38 +42,43 @@ const useStyles = makeStyles((theme) => ({
   element: {
     color: appTheme.colors.mercury,
     textDecoration: "none",
-    
-    "&:hover": {
-    color: "white",
-    textDecoration: "underline"
-    }
-  }  
 
+    "&:hover": {
+      color: "white",
+      textDecoration: "underline",
+    },
+  },
 }));
 
-export function Home() {
-  const classes = useStyles();
+interface BreadcrumbsInterFace {
+  to: string;
+  label: string;
+}
 
+type HomeProps = React.PropsWithChildren<{
+  breadcrumbs: BreadcrumbsInterFace[];
+}>;
+
+export function Home({ breadcrumbs, children }: HomeProps) {
+  const classes = useStyles();
 
   return (
     <Container>
-      <Breadcrumbs aria-label="breadcrumb" classes={{ ol: classes.breadcrumbs }}>
-        <Link to="/" className={classes.element}>
-          Home
-        </Link>
-        <Link
-          to="/insight"
-          aria-current="page"
-          className={classes.element}
-          >
-          Store
-        </Link>
+      <Breadcrumbs
+        aria-label="breadcrumb"
+        classes={{ ol: classes.breadcrumbs }}
+      >
+        {breadcrumbs.map(({ to, label }) => (
+          <Link key={label} to={to} className={classes.element}>
+            {label}
+          </Link>
+        ))}
       </Breadcrumbs>
-      <NavHeader>STORE</NavHeader>
+      <NavHeader>{breadcrumbs[breadcrumbs.length - 1].label}</NavHeader>
       <Content>
-        <Sidebar/>
-        <Catalogue/>
+        <Sidebar />
+        {children}
       </Content>
     </Container>
-  )
+  );
 }

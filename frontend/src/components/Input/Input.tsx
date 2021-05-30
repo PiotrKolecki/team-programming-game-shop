@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import InputBase, { InputBaseProps } from "@material-ui/core/InputBase";
 import { theme as appTheme } from "../../constants";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   inputRoot: {
     width: "100%",
     color: "inherit",

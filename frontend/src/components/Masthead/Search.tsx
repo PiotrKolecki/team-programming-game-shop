@@ -3,7 +3,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Input } from "../Input";
 import { theme as appTheme } from "../../constants";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   search: {
     position: "relative",
     background: appTheme.colors.inputBackground,
