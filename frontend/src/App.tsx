@@ -108,6 +108,7 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: null,
+    exact: false,
   },
 ];
 
