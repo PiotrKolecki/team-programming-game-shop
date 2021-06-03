@@ -49,7 +49,7 @@ public class ExceptionAdviser extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler({DownlineServiceConnectionException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     public ResponseEntity<AuthErrorDto> handleDownlineServiceException(DownlineServiceConnectionException exception) {
         return new ResponseEntity<>(buildErrorMessage(exception), HttpStatus.SERVICE_UNAVAILABLE);
     }
