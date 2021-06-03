@@ -1,6 +1,9 @@
 package agh.fis.authentication.exception.handler;
 
+import agh.fis.authentication.exception.DownlineServiceConnectionException;
 import agh.fis.authentication.exception.ResourceNotFoundException;
+import agh.fis.authentication.exception.UserAlreadyExistsException;
+import agh.fis.authentication.exception.UserNotCreatedException;
 import agh.fis.authentication.model.AuthErrorDto;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -42,6 +45,25 @@ public class ExceptionAdviser extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<AuthErrorDto> handleIllegalArgument(IllegalArgumentException exception) {
         return new ResponseEntity<>(buildErrorMessage(exception), HttpStatus.UNAUTHORIZED);
+    }
+
+
+    @ExceptionHandler({DownlineServiceConnectionException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<AuthErrorDto> handleDownlineServiceException(DownlineServiceConnectionException exception) {
+        return new ResponseEntity<>(buildErrorMessage(exception), HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler({UserNotCreatedException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<AuthErrorDto> handleUserNotCreated(UserNotCreatedException exception) {
+        return new ResponseEntity<>(buildErrorMessage(exception), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({UserAlreadyExistsException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<AuthErrorDto> handleUserAlreadyExists(UserAlreadyExistsException exception) {
+        return new ResponseEntity<>(buildErrorMessage(exception), HttpStatus.CONFLICT);
     }
 
     private AuthErrorDto buildErrorMessage(Exception exception) {
