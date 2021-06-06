@@ -1,11 +1,14 @@
 package agh.fis.authentication.service;
 
 import agh.fis.authentication.client.CustomerServiceClient;
+import agh.fis.authentication.exception.DownlineServiceConnectionException;
 import agh.fis.authentication.mapper.CustomerToUserDetailsMapper;
 import agh.fis.customers.model.CustomerAuthDto;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,6 +36,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         CustomerAuthDto customer;
         try {
             customer = customerServiceClient.getCustomerByMail(username);
+        } catch (FeignException e) {
+            LOGGER.warn("Exception while executing customers service call: " + e.getMessage());
+            if (e.status() == HttpStatus.NOT_FOUND.value()) {
+                throw new UsernameNotFoundException("Not able to retrieve user with username: " + username);
+            }
+            throw new DownlineServiceConnectionException("Problem connecting downline services");
         } catch (Exception e) {
             LOGGER.warn("Exception while executing customers service call: " + e.getMessage());
             throw new UsernameNotFoundException("Not able to retrieve user with username: " + username);
