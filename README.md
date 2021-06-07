@@ -97,7 +97,7 @@ mvn clean install
 
 docker build -t gcr.io/team-programming-game-shop/shopping-cart ./shopping-cart-service/.
 docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-catalog-service/.
-docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/.
+docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/payment-management-server/.
 docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/order-management-server/.
 docker build -t gcr.io/team-programming-game-shop/customers ./customers-service/customers-server/.
 docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/authentication-server/.
