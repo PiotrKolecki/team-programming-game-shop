@@ -131,6 +131,28 @@ paths:
         "200":
           description: Order deleted
 
+  /paymentStatus:
+    post:
+      tags:
+        - Orders
+      description: Endpoint used by Payment Management service to notify about payment status changes
+      operationId: notifyPaymentStatusChanged
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentStatusUpdateDto"
+      responses:
+        "200":
+          description: Order Updated
 
   /customer/{id}:
     get:
@@ -165,12 +187,30 @@ paths:
 components:
   schemas:
 
+    UpdatedPaymentStatus:
+      type: string
+      enum:
+        - Pending
+        - Completed
+        - Cancelled
+
+    PaymentStatusUpdateDto:
+      type: object
+      properties:
+        id:
+          type: integer
+        paymentStatus:
+          $ref: "#/components/schemas/UpdatedPaymentStatus"
+      required:
+        - id
+        - paymentStatus
+
     OrderStatus:
       type: string
       enum:
         - Pending_payment
         - Completed
-        - Canceled
+        - Cancelled
 
     Item:
       type: object
