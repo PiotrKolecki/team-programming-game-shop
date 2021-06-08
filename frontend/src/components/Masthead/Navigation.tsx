@@ -88,11 +88,6 @@ const navItems: Array<NavItem> = [
 
   },
   {
-    name: "cart",
-    href: "/cart",
-    loggedIn: true,
-  },
-  {
     name: "log out",
     href: "/logout",
     loggedIn: true,
@@ -171,7 +166,6 @@ export function Navigation() {
             key={item.name}
             size="large"
             onClick={() => {
-              history.push(item.href);
               onRouteChange(item.href);
             }}
             className={classnames(

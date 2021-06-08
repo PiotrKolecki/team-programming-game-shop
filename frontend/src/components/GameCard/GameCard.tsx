@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
 import gta from "../../assets/gta.png";
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../store/cart/index';
 
 const Container = styled("div")<{ image: string }>`
   height: 350px;
@@ -112,11 +114,17 @@ type CardProps = {
 
 export function GameCard({ title, categories, price, cover }: CardProps) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+
+  const addToCart = () => {
+    dispatch(addItem({ product_id: 1, quantity: 1 }));
+  }
 
   return (
     <Container image={cover}>
       <img src={cover} alt="Avatar" className={classes.image} />
-      <Button variant="contained" className={classes.button}>
+      <Button variant="contained" className={classes.button} onClick={addToCart}>
         Add to cart
       </Button>
       <Details>

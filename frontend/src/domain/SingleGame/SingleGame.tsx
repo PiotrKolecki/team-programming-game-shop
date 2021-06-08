@@ -208,6 +208,10 @@ export function SingleGame() {
   };
   const items = [item, item, item, item, item];
 
+  const addToCart = () => {
+    dispatch(addItem({ product_id: 1, quantity: 1 }));
+  }
+
   return (
     <Home breadcrumbs={breadcrumbs}>
       <GameContainer>
@@ -225,7 +229,7 @@ export function SingleGame() {
         </Categories>
         <Buttons>
           <Button className={classes.buyButton}>Buy now</Button>
-          <Button className={classes.addButton}>Add to cart</Button>
+          <Button className={classes.addButton} onClick={addToCart}>Add to cart</Button>
         </Buttons>
         <Recommended>
           <RecommendedCaption>POPULAR</RecommendedCaption>
