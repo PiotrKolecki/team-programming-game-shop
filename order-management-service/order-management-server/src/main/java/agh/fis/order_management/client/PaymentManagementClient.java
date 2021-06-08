@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "payment-management", url = "http://35.232.212.214/api/payment")
+@FeignClient(name = "payment-management")
 public interface PaymentManagementClient {
     @PostMapping("/")
     ResponseEntity<PaymentDto> createPayment(@RequestHeader(value = "Authorization") String authorization,
