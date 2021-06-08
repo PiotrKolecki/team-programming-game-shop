@@ -64,8 +64,8 @@ public class OrderMapper implements IOrderMapper {
                 return OrderStatus.PENDING_PAYMENT;
             case "Completed":
                 return OrderStatus.COMPLETED;
-            case "Canceled":
-                return OrderStatus.CANCELED;
+            case "Cancelled":
+                return OrderStatus.CANCELLED;
             default:
                 return null;
         }
