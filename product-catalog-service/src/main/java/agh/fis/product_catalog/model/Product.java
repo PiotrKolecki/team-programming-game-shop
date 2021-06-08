@@ -18,31 +18,34 @@ public class Product extends ProductBaseEntity{
     @Column(nullable = false, columnDefinition="TEXT")
     private String product_name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date date_published;
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @Column(nullable = true, columnDefinition="TEXT")
     private String short_description;
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @Column(nullable = true, columnDefinition="TEXT")
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String publisher;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private float price;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String category;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer quantity;
+
+    @Column(nullable = true)
+    private Boolean active = true;
 
     public Product() {
     }
 
-    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, float price, String category, Integer quantity) {
+    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, float price, String category, Integer quantity, Boolean active) {
         this.id = id;
         this.product_name = product_name;
         this.date_published = date_published;
@@ -52,7 +55,7 @@ public class Product extends ProductBaseEntity{
         this.price = price;
         this.category = category;
         this.quantity = quantity;
-
+        this.active = active;
     }
 
     public Product(int id, String product_name)
@@ -132,6 +135,18 @@ public class Product extends ProductBaseEntity{
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
     }
 
 }

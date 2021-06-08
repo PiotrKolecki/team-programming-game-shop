@@ -46,6 +46,31 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductDto"
+    put:
+      tags:
+        - Product Catalog
+      description: Update product with specific ID
+      operationId: updateProduct
+      parameters:   
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+        required: true
+      responses:
+        "200":
+          description: Update Product with specific ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductDto"
   /{id}:
     get:
       tags:
@@ -66,11 +91,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductDto"
+        "404":
+          description: Product not found
     delete:
       tags:
         - Product Catalog
-      description: Delete product with specific ID
-      operationId: deleteProduct
+      description: Deactivate product with specific ID
+      operationId: deactivateProduct
       parameters:
         - in: header
           name: Authorization
@@ -87,13 +114,15 @@ paths:
       responses:
         "200":
           description: Delete Product with specific ID
-
+        "404":
+          description: Product not found
+  /{id}/{qty}:
     put:
       tags:
         - Product Catalog
-      description: Update product with specific ID
-      operationId: updateProduct
-      parameters:   
+      description: Change quantity od product
+      operationId: changeQuantity
+      parameters:
         - in: header
           name: Authorization
           schema:
@@ -106,19 +135,20 @@ paths:
             type: integer
           required: true
           description: Product id
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductUpdateDto'
-        required: true
+        - in: path
+          name: qty
+          schema:
+            type: integer
+          required: true
+          description: Product id
+
       responses:
         "200":
-          description: Update Product with specific ID
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ProductDto"
+          description: Product quantity changed
+        "404":
+          description: Product not found
+        "406":
+          description: Not enough quantity
   
 
 components:
@@ -150,6 +180,10 @@ components:
           type: number
         category: 
           type: string
+        quantity:
+          type: integer
+        active:
+          type: boolean
 
       required:
         - id
@@ -173,6 +207,11 @@ components:
             type: number
           category: 
             type: string
+          quantity:
+            type: integer
+          active:
+            type:  boolean
+            
 
       required:
         - product_name
@@ -195,3 +234,7 @@ components:
             type: number
           category: 
             type: string
+          quantity:
+            type: integer
+          active:
+            type: boolean

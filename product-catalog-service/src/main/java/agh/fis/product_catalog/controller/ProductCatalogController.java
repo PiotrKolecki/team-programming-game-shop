@@ -30,31 +30,41 @@ public class ProductCatalogController implements  ProductCatalogApi {
 
     @Override
     public ResponseEntity<List<ProductDto>> getAllProducts() {
-        List<ProductDto> products = productService.getExampleProducts();
-        //return products;
+        List<ProductDto> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
-        //return null;
     }
 
     @Override
     public ResponseEntity<ProductDto> createProduct(String authorization, @Valid ProductCreationDto productCreationDto) {
+        ProductDto newProduct = productService.createProduct(authorization, productCreationDto);
         return null;
     }
 
 
     @Override
     public ResponseEntity<ProductDto> getProduct(Integer id) {
-        return null;
+        ProductDto product = productService.getProduct(id);
+
+        return ResponseEntity.ok(product);
     }
 
     @Override
-    public ResponseEntity<Void> deleteProduct(String authorization, Integer id) {
-        return null;
+    public ResponseEntity<Void> deactivateProduct(String authorization, Integer id) {
+        productService.deactivateProduct(authorization, id);
+        return ResponseEntity.ok(null);
     }
 
     @Override
-    public ResponseEntity<ProductDto> updateProduct(String authorization, Integer id, @Valid ProductUpdateDto productUpdateDto ) {
-        return null;
+    public ResponseEntity<ProductDto> updateProduct(String authorization, @Valid ProductDto updateProductDto ) {
+        ProductDto productDto = productService.updateProduct(authorization, updateProductDto);
+        return ResponseEntity.ok(productDto);
     }    
+
+    @Override
+    public ResponseEntity<Void> changeQuantity(String authorization, Integer id, Integer qty){
+        productService.changeQuantity(authorization, id, qty);
+        return ResponseEntity.ok(null);
+
+    }
 
 }

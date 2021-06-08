@@ -7,6 +7,7 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -34,34 +35,66 @@ public class ProductService {
     }
 
 
-    public List<ProductDto> getExampleProducts() {
+    public List<ProductDto> getAllProducts() {
 
-        //List<Product> productsDB = productRepository.findAll();
-        //logger.info("Length {}",  productsDB.size());
-        /*List<Product> products = new ArrayList<Product>();
-        String description = "Komputerowa gra platformowa wyprodukowana w 1985 roku przez Nintendo. Powstala ona w celu zdyskontowania popularnosci gry Mario Bros. z 1983 roku; poczatkowo wydano ja na konsoli Nintendo Entertainment System (owczesnie konsola była znana pod nazwa „Famicom”, pod jaka ukazala się w Japonii). W Super Mario Bros. gracz przejmuje kontrole nad hydraulikiem Mario, ktorego zadaniem jest ocalenie ksiezniczki Toadstool porwanej przez Bowsera. W przypadku gry wieloosobowej w poszukiwaniach Mario towarzyszy Luigi, sterowany przez drugiego gracza.";
-        products.add(new Product(1, "Super Mario", new Date(1985, 1, 29), "Fajna gra", description, "Nintendo", 22.50, "platformówka", 10));
-        products.add(new Product(2, "Wiedźmin"));
-        List<ProductDto> productDtoList = products
+        return productRepository.findAllByActive(true)
         .stream()
         .map(product -> modelMapper.map(product, ProductDto.class))
         .collect(Collectors.toList());
-        return productDtoList;*/
+    }
 
-        return productRepository.findAll()
-        .stream()
-        .map(product -> modelMapper.map(product, ProductDto.class))
-        .collect(Collectors.toList());
-
-        //Product product = new Product(1, "Super Mario");
-        //return modelMapper.map(products, ProductsDto.class);
-        //return modelMapper.map(products, new TypeToken<ArrayList<ProductDto>>() {}.getType());
-       /* Optional<Product> productOptional = new Product(1, "Super Mario");
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            return modelMapper.map(product, ProductsDto.class);
+    public ProductDto getProduct(Integer id){
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            return modelMapper.map(product, ProductDto.class);
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");*/
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+    }
+
+    public void deactivateProduct(String authorization, Integer Id){
+        Optional<Product> optionalProduct = productRepository.findById(Id);
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.deactivate();
+            productRepository.save(product);
+        }
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"); 
+    }
+
+    @Transactional
+    public ProductDto createProduct(String authorization, ProductCreationDto productCreationDto){
+        Product rawProduct = modelMapper.map(productCreationDto, Product.class);
+        Product newProduct = productRepository.save(rawProduct);
+
+        return modelMapper.map(newProduct, ProductDto.class);
+    }
+
+    @Transactional
+    public ProductDto updateProduct(String authorization, ProductDto productDto){
+        Product rawProduct = modelMapper.map(productDto, Product.class);
+        Optional<Product> optionalProduct = productRepository.findById(rawProduct.getId());
+        if (!optionalProduct.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");  
+        }
+        Product savedProduct = productRepository.save(rawProduct);
+        return modelMapper.map(savedProduct, ProductDto.class);
+    }
+
+    @Transactional
+    public void changeQuantity(String authorization, Integer id, Integer quantity){
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (!productOptional.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"); 
+        }
+        Product product = productOptional.get();
+        if (product.getQuantity() < quantity){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Not enough quantity"); 
+        }
+
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepository.save(product);
     }
 }
