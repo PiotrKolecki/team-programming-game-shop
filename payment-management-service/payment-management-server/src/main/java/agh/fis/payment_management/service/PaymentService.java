@@ -1,8 +1,11 @@
 package agh.fis.payment_management.service;
 
+import agh.fis.payment_management.client.OrderManagementClient;
 import agh.fis.payment_management.model.PaymentDto;
 import agh.fis.payment_management.model.PaymentEntity;
 import agh.fis.payment_management.model.PaymentStatus;
+import agh.fis.order_management.model.UpdatedPaymentStatus;
+import agh.fis.order_management.model.PaymentStatusUpdateDto;
 import agh.fis.payment_management.repository.PaymentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,9 @@ public class PaymentService {
 
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private OrderManagementClient orderManagementClient;
 
     private PaymentDto getPaymentDtoFromPaymentEntity(PaymentEntity paymentEntity){
             PaymentDto paymentDto = new PaymentDto();
@@ -65,6 +71,23 @@ public class PaymentService {
         }
         logger.warn("Payment with id: {} does not exist", id);
         throw new ResponseStatusException(HttpStatus.NO_CONTENT,  "Payment with given id does not exist");
+    }
+
+    public void submitPaymentById(String authorization, Integer id)
+    {
+        Optional<PaymentEntity> paymentEntity = paymentRepository.findById(id);
+        if (paymentEntity.isPresent()){
+            logger.info("Submitting Payment with id: {}", paymentEntity.get().getId());
+            paymentEntity.get().setPaymentStatus(PaymentStatus.COMPLETED);
+            PaymentStatusUpdateDto updatedPaymentStatus = new PaymentStatusUpdateDto();
+            updatedPaymentStatus.setId(id);
+            updatedPaymentStatus.setPaymentStatus(UpdatedPaymentStatus.COMPLETED);
+            orderManagementClient.notifyPaymentStatusChanged(authorization, updatedPaymentStatus);
+        }
+        else {
+            logger.warn("Submission failed due to missing Payment with given id: {}!", id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Payment with given id does not exist");
+        }
     }
 
     public void deletePaymentById(Integer id){
