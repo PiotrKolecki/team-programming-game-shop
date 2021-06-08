@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Menu, { MenuProps } from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { theme as appTheme } from "../../constants";
 import { AppState } from "../../store/rootReducer";
 import { getTokenSelector } from "../../store/user/selectors";
@@ -76,6 +76,11 @@ const navItems: Array<NavItem> = [
     loggedIn: false,
   },
   {
+    name: "cart",
+    href: "/cart",
+    loggedIn: true,
+  },
+  {
     name: "log out",
     href: "/logout",
     loggedIn: true,
@@ -85,6 +90,7 @@ const navItems: Array<NavItem> = [
 export function Navigation() {
   const classes = useStyles();
   const { pathname } = useLocation();
+  const history = useHistory();
   const token = useSelector<AppState>(getTokenSelector);
 
   const [
@@ -116,8 +122,14 @@ export function Navigation() {
       onClose={handleMobileMenuClose}
     >
       {filteredItems.map((item) => (
-        <MenuItem key={item.name} className={classes.menuItem}>
-          <a href={item.href}>{item.name}</a>
+        <MenuItem
+          key={item.name}
+          className={classes.menuItem}
+          onClick={(e) => {
+            history.push(item.href);
+          }}
+        >
+          {item.name}
         </MenuItem>
       ))}
     </StyledMenu>
@@ -130,7 +142,9 @@ export function Navigation() {
           <Button
             key={item.name}
             size="large"
-            href={item.href}
+            onClick={() => {
+              history.push(item.href);
+            }}
             className={classnames(
               classes.button,
               pathname === item.href && classes.active

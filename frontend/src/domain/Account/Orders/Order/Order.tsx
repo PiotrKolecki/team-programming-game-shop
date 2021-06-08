@@ -1,90 +1,84 @@
-import React, { useState } from 'react';
-import Collapsible from 'react-collapsible';
-import * as P from './parts';
-import AdditionalCosts from './AdditionalCosts';
-import Trigger from './Trigger/Trigger';
-import User from '../../../../assets/user.svg';
-
-interface TempProduct {
-   id: string;
-   name: string;
-   price: string;
-   quantity: number;
-}
+import React, { useState } from "react";
+import Collapsible from "react-collapsible";
+import * as P from "./parts";
+import AdditionalCosts from "./AdditionalCosts";
+import Trigger from "./Trigger/Trigger";
+import User from "../../../../assets/user.svg";
+import { IAddress, IDelivery, IOrder } from "../../../../store/orders/types";
+import { DELIVERY_FEE, PAYMENT_FEE } from "../../Cart/constants";
 
 interface OrderProps {
-   order: {
-      id: string;
-      date: string;
-      products: TempProduct[],
-      delivery: string;
-      deliveryCost: string;
-      payment: string;
-      paymentCost: string;
-      status: string;
-      total: string;
-      basketPrice: string;
-      deliveryData: {
-         recipient: string;
-         email: string;
-         phone: number;
-         street: string;
-         city: string;
-         zipCode: string;
-      }
-   }
-};
+  order: IOrder;
+}
 
+//TODO: fetch info about items from backend
 export const Orders: React.FC<OrderProps> = ({ order }) => {
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-   return (
-      <P.Order>
-         <Collapsible
-            trigger={<Trigger order={order} isOpen={isOpen} />}
-            transitionTime={220}
-            onOpening={() => setIsOpen(true)}
-            onClosing={() => setIsOpen(false)}
-         >
-            <P.OrderDetailsWrapper>
-               <P.DeliveryDetails>
-                  <P.Delivery>
-                     <P.DeliveryLabel>Adress:</P.DeliveryLabel>
-                     <P.DeliveryText>{order.deliveryData.street}</P.DeliveryText>
-                     <P.DeliveryText>{`${order.deliveryData.zipCode}  ${order.deliveryData.city}`}</P.DeliveryText>
-                  </P.Delivery>
-                  <P.Delivery>
-                     <P.DeliveryLabel>Recipient data:</P.DeliveryLabel>
-                     <P.DeliveryText>{order.deliveryData.recipient}</P.DeliveryText>
-                     <P.DeliveryText>e-mail: {order.deliveryData.email}</P.DeliveryText>
-                     <P.DeliveryText>Tel.No.: {order.deliveryData.phone}</P.DeliveryText>
-                  </P.Delivery>
-               </P.DeliveryDetails>
-               <P.ProductsList>
-                  {order.products.map((product) => (
-                     <P.Product>
-                        <P.ProductImage src={User} />
-                        <P.ProductName>{product.name}</P.ProductName>
-                        <P.ProductInfo>{product.quantity} pcs.</P.ProductInfo>
-                        <P.ProductInfo>$ {product.price}</P.ProductInfo>
-                     </P.Product>
-                  ))}
-                  <P.SummaryWrapper>
-                     <AdditionalCosts label={'Basket'} value={order.basketPrice} />
-                     <AdditionalCosts label={'Delivery'} value={order.deliveryCost} />
-                     <AdditionalCosts label={'Payment'} value={order.paymentCost} />
-                     <P.Summary>
-                        <P.ProductImage />
-                        <P.ProductName />
-                        <P.TotalInfo>Total: </P.TotalInfo>
-                        <P.TotalInfo>$ {order.total}</P.TotalInfo>
-                     </P.Summary>
-                  </P.SummaryWrapper>
-               </P.ProductsList>
-            </P.OrderDetailsWrapper>
-         </Collapsible>
-      </P.Order>
-   );
+  const { delivery = {} as IDelivery } = order;
+  const { address = {} as IAddress } = delivery;
+
+  return (
+    <P.Order>
+      <Collapsible
+        trigger={<Trigger order={order} isOpen={isOpen} />}
+        transitionTime={220}
+        onOpening={() => setIsOpen(true)}
+        onClosing={() => setIsOpen(false)}
+      >
+        <P.OrderDetailsWrapper>
+          <P.DeliveryDetails>
+            <P.Delivery>
+              <P.DeliveryLabel>Adress:</P.DeliveryLabel>
+              <P.DeliveryText>{address.street}</P.DeliveryText>
+              <P.DeliveryText>{`${address["zip-code"]}  ${address.city}`}</P.DeliveryText>
+            </P.Delivery>
+            <P.Delivery>
+              <P.DeliveryLabel>Recipient data:</P.DeliveryLabel>
+              <P.DeliveryText>
+                {delivery.firstName} {delivery.lastName}
+              </P.DeliveryText>
+              <P.DeliveryText>e-mail: {delivery.email}</P.DeliveryText>
+              <P.DeliveryText>Tel.No.: {delivery.phone}</P.DeliveryText>
+            </P.Delivery>
+          </P.DeliveryDetails>
+          <P.ProductsList>
+            {(order.items || []).map((item) => (
+              <P.Product>
+                <P.ProductImage src={User} />
+
+                <P.ProductName>'item.name'</P.ProductName>
+                <P.ProductInfo>{item.quantity} pcs.</P.ProductInfo>
+                <P.ProductInfo>$ 'item.price'</P.ProductInfo>
+              </P.Product>
+            ))}
+            <P.SummaryWrapper>
+              <AdditionalCosts
+                label={"Basket"}
+                value={order.price?.toString() || ""}
+              />
+              <AdditionalCosts
+                label={"Delivery"}
+                value={DELIVERY_FEE.toString()}
+              />
+              <AdditionalCosts
+                label={"Payment"}
+                value={PAYMENT_FEE.toString()}
+              />
+              <P.Summary>
+                <P.ProductImage />
+                <P.ProductName />
+                <P.TotalInfo>Total: </P.TotalInfo>
+                <P.TotalInfo>
+                  $ {order.price || 0 + DELIVERY_FEE + PAYMENT_FEE}
+                </P.TotalInfo>
+              </P.Summary>
+            </P.SummaryWrapper>
+          </P.ProductsList>
+        </P.OrderDetailsWrapper>
+      </Collapsible>
+    </P.Order>
+  );
 };
 
 export default Orders;

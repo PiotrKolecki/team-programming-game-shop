@@ -23,6 +23,8 @@ import {
   LogoutUser,
 } from "./types";
 
+export const LS_TOKEN_ID = "TOKEN";
+
 export const fetchUserRequest = (
   payload: FetchUserPayload
 ): FetchUserRequest => ({
@@ -32,17 +34,25 @@ export const fetchUserRequest = (
 
 export const fetchUserSuccess = (
   payload: FetchUserSuccessPayload
-): FetchUserSuccess => ({
-  type: FETCH_USER_SUCCESS,
-  payload,
-});
+): FetchUserSuccess => {
+  if (payload.user.token) {
+    localStorage.setItem(LS_TOKEN_ID, payload.user.token);
+  }
+  return {
+    type: FETCH_USER_SUCCESS,
+    payload,
+  };
+};
 
 export const fetchUserFailure = (
   payload: FetchUserFailurePayload
-): FetchUserFailure => ({
-  type: FETCH_USER_FAILURE,
-  payload,
-});
+): FetchUserFailure => {
+  localStorage.removeItem(LS_TOKEN_ID);
+  return {
+    type: FETCH_USER_FAILURE,
+    payload,
+  };
+};
 
 export const registerUserRequest = (
   payload: RegisterUserPayload
@@ -65,6 +75,9 @@ export const registerUserFailure = (
   payload,
 });
 
-export const logoutUser = (): LogoutUser => ({
-  type: LOGOUT_USER,
-});
+export const logoutUser = (): LogoutUser => {
+  localStorage.removeItem(LS_TOKEN_ID);
+  return {
+    type: LOGOUT_USER,
+  };
+};
