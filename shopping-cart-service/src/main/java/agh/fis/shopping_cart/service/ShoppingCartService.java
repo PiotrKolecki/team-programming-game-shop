@@ -37,6 +37,7 @@ public class ShoppingCartService {
 
         ShoppingCart newShoppingCart = modelMapper.map(shoppingCartCreationDto, ShoppingCart.class);
         newShoppingCart = repository.save(newShoppingCart);
+        logger.info("Shopping cart created for customer ID: " + shoppingCartCreationDto.getCustomerId());
         return modelMapper.map(newShoppingCart, ShoppingCartDto.class);
     }
 
@@ -124,6 +125,7 @@ public class ShoppingCartService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Shopping cart not found for customer ID: " + id);
         }
         repository.delete(shoppingCart);
+        logger.info("Shopping cart deleted for customer ID: " + id);
     }
 
 }
