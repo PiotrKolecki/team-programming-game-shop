@@ -9,7 +9,9 @@ import {
 } from "./actionTypes";
 
 export interface IUser {
-  token: string;
+  token?: string;
+  id?: string;
+  userType?: string;
 }
 
 export interface UserState {

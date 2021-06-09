@@ -18,20 +18,28 @@ import {
 import { AxiosResponse } from "axios";
 
 const fetchUserCall = (payload: FetchUserPayload) =>
-  axios.post<IUser>("auth/authenticate", payload);
+  axios
+    .post<FetchUserPayload, AxiosResponse<IUser>>("auth/authenticate", payload)
+    .then(({ data }) =>
+      axios
+        .post("auth/checkToken", data, {
+          headers: { Authorization: `Token ${data.token}` },
+        })
+        .then((response) => ({
+          ...data,
+          ...response.data,
+        }))
+    );
 
 const registerUserCall = (payload: RegisterUserPayload) =>
   axios.post("auth/register", payload);
 
 function* fetchUser(action: FetchUserRequest) {
   try {
-    const response = (yield call(
-      fetchUserCall,
-      action.payload
-    )) as AxiosResponse<IUser>;
+    const response = (yield call(fetchUserCall, action.payload)) as IUser;
     yield put(
       fetchUserSuccess({
-        user: response.data,
+        user: response,
       })
     );
   } catch (e) {

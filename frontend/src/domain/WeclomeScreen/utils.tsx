@@ -17,7 +17,7 @@ const SIGN_IN_FOOTER = {
 const REGISTER_FOOTER = {
   title: "Already have an account?",
   label: "log in",
-  href: "/login",
+  href: "/signin",
 } as const;
 
 const signInElements: FormProps["formElements"] = [

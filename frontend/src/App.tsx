@@ -1,7 +1,7 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { WelcomeScreen, Catalogue, SingleGame, Logout} from "./domain";
+import { WelcomeScreen, Catalogue, SingleGame, Logout } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
@@ -63,7 +63,7 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: null,
-    exact: true
+    exact: true,
   },
 
   {
@@ -85,7 +85,7 @@ const routeItems: Array<RouteItem> = [
         <Footer />
       </>
     ),
-    authenticated: null,
+    authenticated: true,
     exact: false,
   },
   {
@@ -96,7 +96,7 @@ const routeItems: Array<RouteItem> = [
         <Footer />
       </>
     ),
-    authenticated: null,
+    authenticated: true,
     exact: false,
   },
   {
@@ -132,7 +132,7 @@ function App() {
                 {item.component}
               </Route>
             ))}
-         
+          <Redirect to="/insight/action" />
         </Switch>
       </Fade>
     </Main>

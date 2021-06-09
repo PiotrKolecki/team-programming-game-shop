@@ -4,6 +4,13 @@ import {
   CATALOGUE_FETCH_ERROR,
 } from "./index";
 
+export interface IGame {
+  id: number;
+  name: string;
+  producer: string;
+  price: number;
+}
+
 export interface CatalogueState {
   isFetching: boolean;
   items: string | null;
