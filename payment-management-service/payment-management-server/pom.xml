@@ -76,9 +76,8 @@
         </dependency>
         <dependency>
             <groupId>agh.fis</groupId>
-            <artifactId>order-management-server</artifactId>
+            <artifactId>order-management-client</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

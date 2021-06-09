@@ -108,6 +108,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PaymentDto"
+    post:
+      tags:
+        - Payments
+      description: Submit Payment
+      operationId: submitPaymentById
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
+          required: true
+          description: Authorization token
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Payment id
+      responses:
+        "200":
+          description: Changes Payment status to Completed
     delete:
       tags:
         - Payments

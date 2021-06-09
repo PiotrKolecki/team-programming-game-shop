@@ -15,19 +15,15 @@ example **env_setup_secret.txt** file: (remove '$' sign if using Unix system)
 $DB_URL_CUSTOMERS="jdbc:postgresql://aaa.bbb.cccsql.com:1111/aaa"
 $DB_USERNAME_CUSTOMERS="aaa"
 $DB_PASSWORD_CUSTOMERS="aaa"
-
 $DB_URL_ORDER_MANAGEMENT="jdbc:postgresql://aaa.bbb.cccsql.com:1111/bbb"
 $DB_USERNAME_ORDER_MANAGEMENT="bbb"
 $DB_PASSWORD_ORDER_MANAGEMENT="bbb"
-
 $DB_URL_PAYMENT_MANAGEMENT="jdbc:postgresql://aaa.bbb.cccsql.com:1111/ccc"
 $DB_USERNAME_PAYMENT_MANAGEMENT="ccc"
 $DB_PASSWORD_PAYMENT_MANAGEMENT="ccc"
-
 $DB_URL_PRODUCT_CATALOG="jdbc:postgresql://aaa.bbb.cccsql.com:1111/ddd"
 $DB_USERNAME_PRODUCT_CATALOG="ddd"
 $DB_PASSWORD_PRODUCT_CATALOG="ddd"
-
 $DB_URL_SHOPPING_CART="jdbc:postgresql://aaa.bbb.cccsql.com:1111/eee"
 $DB_USERNAME_SHOPPING_CART="eee"
 $DB_PASSWORD_SHOPPING_CART="eee"
@@ -97,7 +93,7 @@ mvn clean install
 
 docker build -t gcr.io/team-programming-game-shop/shopping-cart ./shopping-cart-service/.
 docker build -t gcr.io/team-programming-game-shop/product-catalog ./product-catalog-service/.
-docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/.
+docker build -t gcr.io/team-programming-game-shop/payment-management ./payment-management-service/payment-management-server/.
 docker build -t gcr.io/team-programming-game-shop/order-management ./order-management-service/order-management-server/.
 docker build -t gcr.io/team-programming-game-shop/customers ./customers-service/customers-server/.
 docker build -t gcr.io/team-programming-game-shop/authentication ./authentication-service/authentication-server/.
