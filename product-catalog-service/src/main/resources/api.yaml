@@ -184,6 +184,8 @@ components:
           type: integer
         active:
           type: boolean
+        coverUrl:
+          type: string
 
       required:
         - id
@@ -211,6 +213,8 @@ components:
             type: integer
           active:
             type:  boolean
+          coverUrl:
+            type: string
             
 
       required:
@@ -238,3 +242,5 @@ components:
             type: integer
           active:
             type: boolean
+          coverUrl:
+            type: string

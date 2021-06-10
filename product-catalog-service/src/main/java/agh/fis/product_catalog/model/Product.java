@@ -42,10 +42,13 @@ public class Product extends ProductBaseEntity{
     @Column(nullable = true)
     private Boolean active = true;
 
+    @Column(nullable=true)
+    private String coverUrl;
+
     public Product() {
     }
 
-    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, float price, String category, Integer quantity, Boolean active) {
+    public Product(int id, String product_name, Date date_published, String short_description, String description, String publisher, float price, String category, Integer quantity, Boolean active, String coverUrl) {
         this.id = id;
         this.product_name = product_name;
         this.date_published = date_published;
@@ -56,6 +59,7 @@ public class Product extends ProductBaseEntity{
         this.category = category;
         this.quantity = quantity;
         this.active = active;
+        this.coverUrl = coverUrl;
     }
 
     public Product(int id, String product_name)
@@ -147,6 +151,14 @@ public class Product extends ProductBaseEntity{
 
     public void activate() {
         this.active = true;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
 }
