@@ -33,6 +33,8 @@ public class AuthenticationHelper implements IAuthenticationHelper {
                 logger.warn("Authorization failed");
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
             }
+        } catch (ResponseStatusException respExc) {
+            throw respExc;
         } catch (Exception exc) {
             logger.error("Authorization failed due to internal server error");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);

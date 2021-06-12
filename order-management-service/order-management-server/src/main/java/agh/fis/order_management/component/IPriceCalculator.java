@@ -5,5 +5,5 @@ import agh.fis.order_management.model.Item;
 import java.util.List;
 
 public interface IPriceCalculator {
-    float calculateOrderPrice(List<Item> items);
+    float calculateOrderPrice(String auth, List<Item> items);
 }
