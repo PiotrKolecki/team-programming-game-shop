@@ -9,6 +9,7 @@ import {
 export function* fetchCatalogueSaga() {
   try {
     const catalogue: string = yield call(fetchCatalogue);
+    console.log('CATALOGUEEEEE', catalogue);
 
     yield put(catalogueFetchSuccess({ catalogue }));
   } catch (error) {

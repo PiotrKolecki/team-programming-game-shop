@@ -1,17 +1,24 @@
 import {
     ADD_ITEM,
     ADD_ITEM_SUCCESS,
-    ADD_ITEM_ERROR
+    ADD_ITEM_ERROR,
+    GET_ITEMS
 } from "./index";
 
-interface Item {
+export interface Game {
+  id: number,
+  quantity: number
+}
+
+export interface Item {
     id: number,
-    quantity: number
+    customerId: number,
+    items: Array<Game>
 }
 
 export interface CartState {
-  // isFetching: boolean;
-  items: string[] | null;
+  isFetching: boolean,
+  items: Array<Item>;
   error: boolean;
 }
 
@@ -21,9 +28,7 @@ export interface AddItemPayload {
 }
 
 export interface AddItemSuccessPayload {
-  id: number;
-  customerId: number;
-  items: Item[],
+  items: Item
 }
 
 export interface AddItemErrorPayload {
@@ -43,6 +48,10 @@ export type AddItemToCart = {
   export type AddItemToCartFailure = {
     type: typeof ADD_ITEM_ERROR;
     payload: AddItemErrorPayload;
+  };
+
+  export type GetItemsFromCart = {
+    type: typeof GET_ITEMS;
   };
   
 

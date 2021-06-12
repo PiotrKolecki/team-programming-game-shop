@@ -18,6 +18,9 @@ import {
 } from "../../../store/user/selectors";
 import { submitOrderRequest } from "../../../store/orders/actions";
 import { IOrder } from "../../../store/orders/types";
+import { getItems } from "../../../store/cart/index";
+import { getCart } from "../../../store/cart/selectors";
+import { catalogueFetch } from "../../../store/catalogue/index"
 
 export interface Product extends IGame {
   count: number;
@@ -41,7 +44,10 @@ const mockedProducts: Array<Product> = [
 ];
 export const Cart: React.FC = () => {
   const [stage, setStage] = useState(CartStagesEnum.singIn);
+
   // FIXME: get products from redux store
+  const cart = useSelector(getCart);
+  console.log('CART ', cart);
   const [products, setProducts] = useState(mockedProducts);
   const [deliveryOption, setDeliveryOption] = useState<
     DeliveryOptions | undefined
@@ -65,6 +71,11 @@ export const Cart: React.FC = () => {
       setStage(CartStagesEnum.singIn);
     }
   }, [token, stage]);
+
+  useEffect(() => {
+    dispatch(getItems());
+    dispatch(catalogueFetch());
+  }, [dispatch])
 
   const memoizedTotalPrice = useMemo(
     () =>

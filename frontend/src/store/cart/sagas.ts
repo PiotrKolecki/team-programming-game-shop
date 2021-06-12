@@ -1,22 +1,21 @@
-import { call, put, takeLatest, select } from "redux-saga/effects";
-import { addItemToCart } from "../../services/client";
+import { call, put, takeLatest, select, all } from "redux-saga/effects";
+import { addItemToCart, getItemsFromCart } from "../../services/client";
 import { getUserIdSelector, getTokenSelector } from '../user/selectors';
 import {
     ADD_ITEM,
+    GET_ITEMS,
     addItemSuccess,
     addItemError,
 } from "./index";
-import { AddItemToCart, AddItemSuccessPayload } from './types';
+import { AddItemToCart, AddItemSuccessPayload, GetItemsFromCart } from './types';
 
 
-export function* addItemSaga(payload: AddItemToCart) {
+export function* addItemSaga(action: AddItemToCart) {
   try {
-    console.log('aaaa');
     const id: number  = yield select(getUserIdSelector);
     const token: string  = yield select(getTokenSelector);
-    const { payload: { product_id, quantity } } = payload;
+    const { payload: { product_id, quantity } } = action;
     const cart: AddItemSuccessPayload = yield call(addItemToCart, { id, product_id, quantity, token });
-    console.log('bbbbbb ', cart);
 
     yield put(addItemSuccess(cart));
   } catch (error) {
@@ -24,5 +23,26 @@ export function* addItemSaga(payload: AddItemToCart) {
   }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default [takeLatest(ADD_ITEM, addItemSaga)];
+export function* getItemsSaga(action: GetItemsFromCart) {
+  try {
+    const id: number  = yield select(getUserIdSelector);
+    const token: string  = yield select(getTokenSelector);
+    const cart: AddItemSuccessPayload = yield call(getItemsFromCart, { id, token });
+
+    yield put(addItemSuccess(cart));
+  } catch (error) {
+    yield put(addItemError({ error }));
+  }
+}
+
+function* cartSaga() {
+  yield all([
+    takeLatest(ADD_ITEM, addItemSaga),
+    takeLatest(GET_ITEMS, getItemsSaga),
+  ]);
+}
+
+export default cartSaga;
+
+
+

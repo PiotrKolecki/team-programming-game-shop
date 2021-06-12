@@ -4,9 +4,11 @@ import Button from "@material-ui/core/Button";
 import { theme as appTheme } from "../../constants";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameCard } from "../../components/GameCard/GameCard";
+import { useDispatch } from 'react-redux';
 import witcher from "../../assets/witcher.png";
 import { Home } from "../index";
 import { useLocation } from "react-router-dom";
+import { addItem } from '../../store/cart/index';
 
 const GameContainer = styled.div`
   padding: 40px 90px 40px 48px;
@@ -186,6 +188,7 @@ type SingleGameProps = {
 
 export function SingleGame() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const location = useLocation<SingleGameProps>();
   const { title, manufactory, cover, price }: SingleGameProps = location.state;
 

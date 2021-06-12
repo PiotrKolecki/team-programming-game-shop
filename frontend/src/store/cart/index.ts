@@ -7,11 +7,18 @@ import {
     AddItemToCartFailure,
     CartState,
     CartActions,
+    GetItemsFromCart
   } from "./types";
   
   export const ADD_ITEM = "Cart/ADD_ITEM";
   export const ADD_ITEM_SUCCESS = "Cart/ADD_ITEM_SUCCESS";
   export const ADD_ITEM_ERROR = "Cart/ADD_ITEM_ERROR";
+
+  export const GET_ITEMS = "Cart/GET_ITEMS";
+
+  export const getItems = (): GetItemsFromCart => ({
+    type: GET_ITEMS,
+  });
   
   export const addItem = ({
     product_id, quantity
@@ -25,12 +32,10 @@ import {
   
 
   export const addItemSuccess = ({
-    id, customerId, items
+    items
   }: AddItemSuccessPayload): AddItemToCartSuccess => ({
     type: ADD_ITEM_SUCCESS,
     payload: {
-      id,
-      customerId,
       items
     },
   });
@@ -45,6 +50,7 @@ import {
   });
 
   const initialState: CartState = {
+    isFetching: false,
     items: [],
     error: false,
   };
@@ -56,16 +62,17 @@ import {
   ) => {
     switch (action.type) {
       case ADD_ITEM: 
-        return { ...state, isFetching: true, error: false };
+        return { ...state, isFetching: true, items: [...state.items], error: false };
   
       case ADD_ITEM_SUCCESS: 
-        return { ...state, items: 
-          { ...state.items, [action.payload.id]: 
-              {isFetching: false, id: action.payload.id, customerId: action.payload.customerId,  items: action.payload.items }
-            }};
+        return { ...state, 
+          isFetching: false, 
+          items: 
+          [ ...state.items || [], action.payload.items
+          ]}
   
       case ADD_ITEM_ERROR: 
-        return { ...state, isFetching: false, error: true };
+        return { ...state, isFetching: false, items: [...state.items], error: true };
   
       default:{
         return {...state};

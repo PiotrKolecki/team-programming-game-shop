@@ -6,5 +6,5 @@ import catalogue from "./catalogue/sagas";
 import cart from './cart/sagas';
 
 export function* rootSaga() {
-  yield all([fork(userSaga), fork(ordersSaga), ...catalogue, ...cart]);
+  yield all([fork(userSaga), fork(ordersSaga), ...catalogue, fork(cart)]);
 }
