@@ -6,6 +6,9 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
   LOGOUT_USER,
+  CHECK_USER_TOKEN_SUCCESS,
+  CHECK_USER_TOKEN_FAILURE,
+  CHECK_USER_TOKEN_REQUEST,
 } from "./actionTypes";
 
 import { UserActions, UserState } from "./types";
@@ -20,12 +23,14 @@ const initialState: UserState = {
 const userReducer = (state = initialState, action: UserActions) => {
   switch (action.type) {
     case FETCH_USER_REQUEST:
+    case CHECK_USER_TOKEN_REQUEST:
       return {
         ...state,
         registrationSuccess: null,
         pending: true,
       };
     case FETCH_USER_SUCCESS:
+    case CHECK_USER_TOKEN_SUCCESS:
       return {
         ...state,
         pending: false,
@@ -38,6 +43,12 @@ const userReducer = (state = initialState, action: UserActions) => {
         pending: false,
         user: null,
         error: action.payload.error,
+      };
+    case CHECK_USER_TOKEN_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        user: null,
       };
     case LOGOUT_USER:
       return {

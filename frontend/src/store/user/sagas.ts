@@ -1,4 +1,5 @@
 import axios from "../../config/axios";
+import { checkUserTokenFailure, checkUserTokenSuccess, LS_TOKEN_ID } from "../user/actions";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 
 import {
@@ -7,7 +8,7 @@ import {
   registerUserSuccess,
   registerUserFailure,
 } from "./actions";
-import { FETCH_USER_REQUEST, REGISTER_USER_REQUEST } from "./actionTypes";
+import { CHECK_USER_TOKEN_REQUEST, FETCH_USER_REQUEST, REGISTER_USER_REQUEST } from "./actionTypes";
 import {
   FetchUserRequest,
   FetchUserPayload,
@@ -34,6 +35,10 @@ const fetchUserCall = (payload: FetchUserPayload) =>
 const registerUserCall = (payload: RegisterUserPayload) =>
   axios.post("auth/register", payload);
 
+const checkUserTokenCall = (token: string) => (
+  axios.post<{}, AxiosResponse<IUser>>("auth/checkToken", { token }).then(({ data }) => data)
+)
+
 function* fetchUser(action: FetchUserRequest) {
   try {
     const response = (yield call(fetchUserCall, action.payload)) as IUser;
@@ -45,6 +50,29 @@ function* fetchUser(action: FetchUserRequest) {
   } catch (e) {
     yield put(
       fetchUserFailure({
+        error: e.message,
+      })
+    );
+  }
+}
+
+function* checkUserToken() {
+  const userLocalStorageToken = localStorage.getItem(LS_TOKEN_ID) as string;
+
+  try {
+    const response = (yield call(checkUserTokenCall, userLocalStorageToken)) as IUser;
+    
+    yield put(
+      checkUserTokenSuccess({
+        user: {
+          ...response,
+          token: userLocalStorageToken,
+        },
+      })
+    );
+  } catch (e) {
+    yield put(
+      checkUserTokenFailure({
         error: e.message,
       })
     );
@@ -71,6 +99,7 @@ function* registerUser(action: RegisterUserRequest) {
 function* userSaga() {
   yield all([
     takeLatest(FETCH_USER_REQUEST, fetchUser),
+    takeLatest(CHECK_USER_TOKEN_REQUEST, checkUserToken),
     takeLatest(REGISTER_USER_REQUEST, registerUser),
   ]);
 }
