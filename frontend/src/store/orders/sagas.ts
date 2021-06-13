@@ -17,7 +17,12 @@ import {
 import { GET_ORDERS_REQUEST, SUBMIT_ORDER_REQUEST } from "./actionTypes";
 
 const submitOrderCall = (payload: SubmitOrderPayload) =>
-  axios.post<IOrder, AxiosResponse<IOrder>>("orders/", payload.order);
+  axios
+    .post<IOrder, AxiosResponse<IOrder>>("orders/", payload.order)
+    .then((response) => response.data.paymentId)
+    .then((paymentId) => {
+      axios.post(`payment/${paymentId}`, {});
+    });
 
 const getOrdersCall = (payload: GetOrdersPayload) =>
   axios
@@ -27,7 +32,7 @@ const getOrdersCall = (payload: GetOrdersPayload) =>
 function* submitOrder(action: SubmitOrderRequest) {
   try {
     yield call(submitOrderCall, action.payload);
-    yield put(submitOrderSuccess({}));
+    yield put(submitOrderSuccess({ copleted: true }));
   } catch (e) {
     yield put(
       submitOrderFailure({

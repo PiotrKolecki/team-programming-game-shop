@@ -49,13 +49,16 @@ export interface OrderState {
   pending: boolean;
   orders: Array<IOrder>;
   error: string | null;
+  completed: boolean;
 }
 
 export interface SubmitOrderPayload {
   order: IOrder;
 }
 
-export interface SubmitOrderSuccessPayload {}
+export interface SubmitOrderSuccessPayload {
+  copleted: boolean;
+}
 
 export interface SubmitOrderFailurePayload {
   error: string;
