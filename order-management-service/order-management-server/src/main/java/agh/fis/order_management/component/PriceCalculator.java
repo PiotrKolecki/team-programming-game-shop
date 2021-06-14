@@ -1,6 +1,7 @@
 package agh.fis.order_management.component;
 
 import agh.fis.order_management.client.ProductCatalogClient;
+import agh.fis.order_management.model.ProductDto;
 import agh.fis.order_management.model.Item;
 import agh.fis.order_management.service.OrderService;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ public class PriceCalculator implements IPriceCalculator {
         List<ProductDto> currentProductList;
         try {
             ResponseEntity<List<ProductDto>> productsListResp = productCatalogClient.getAllProducts();
+
             if (productsListResp.getStatusCode().equals(HttpStatus.OK) && productsListResp.hasBody()) {
                 currentProductList = productsListResp.getBody();
             } else {
@@ -56,17 +58,24 @@ public class PriceCalculator implements IPriceCalculator {
                 throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Not enough quantity of one or more products");
             }
 
-            float itemPrice = productDto.getPrice();
+            float itemPrice = productDto.getPrice().floatValue();
             price += item.getQuantity() * itemPrice;
         }
 
-        for (Item item : items) {
-            ResponseEntity<Void> changeQuantityResp = productCatalogClient.changeQuantity(auth, item.getId(), item.getQuantity());
-            if (!changeQuantityResp.getStatusCode().equals(HttpStatus.OK)) {
-                logger.error("Error occurred when trying to change product quantity - productId: " + item.getId());
-                throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY);
-            }
-        }
+//        for (Item item : items) {
+//            ProductDto productDto = currentProductList.stream()
+//                    .filter(product -> item.getId().equals(product.getId()))
+//                    .findAny()
+//                    .orElse(null);
+//
+//            ResponseEntity<Void> changeQuantityResp = productCatalogClient.changeQuantity(auth,
+//                                                                                          item.getId(),
+//                                                                                      productDto.getQuantity() - item.getQuantity());
+//            if (!changeQuantityResp.getStatusCode().equals(HttpStatus.OK)) {
+//                logger.error("Error occurred when trying to change product quantity - productId: " + item.getId());
+//                throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY);
+//            }
+//        }
 
         return price;
     }

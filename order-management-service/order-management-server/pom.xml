@@ -79,10 +79,5 @@
             <artifactId>payment-management-client</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>agh.fis</groupId>
-            <artifactId>product-catalog-service</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>

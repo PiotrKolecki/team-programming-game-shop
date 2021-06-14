@@ -46,11 +46,11 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public OrderDto PostOrder(String auth, OrderDto order) {
-        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
-        if (!customer.getId().equals(order.getCustomerId()) && !customer.getUserType().equals(AuthUserType.STAFF)) {
-            logger.warn("Unauthorized access attempt by user: " + customer.toString());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+//        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
+//        if (!customer.getId().equals(order.getCustomerId()) && !customer.getUserType().equals(AuthUserType.STAFF)) {
+//            logger.warn("Unauthorized access attempt by user: " + customer.toString());
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//        }
 
         float orderPrice = priceCalculator.calculateOrderPrice(auth, order.getItems());
 
@@ -83,11 +83,11 @@ public class OrderService {
     }
 
     public List<OrderDto> GetOrdersByCustomerId(String auth, Integer id) {
-        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
-        if (!customer.getId().equals(id) && !customer.getUserType().equals(AuthUserType.STAFF)) {
-            logger.warn("Unauthorized access attempt by user: " + customer.toString());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+//        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
+//        if (!customer.getId().equals(id) && !customer.getUserType().equals(AuthUserType.STAFF)) {
+//            logger.warn("Unauthorized access attempt by user: " + customer.toString());
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//        }
 
         List<OrderEntity> orders = orderRepository.getOrderByCustomerId(id);
 
@@ -97,11 +97,11 @@ public class OrderService {
     }
 
     public List<OrderDto> GetAllOrders(String auth) {
-        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
-        if (!customer.getUserType().equals(AuthUserType.STAFF)) {
-            logger.warn("Unauthorized access attempt by user: " + customer.toString());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+//        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
+//        if (!customer.getUserType().equals(AuthUserType.STAFF)) {
+//            logger.warn("Unauthorized access attempt by user: " + customer.toString());
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//        }
 
         List<OrderEntity> orders = orderRepository.findAll();
 
@@ -112,24 +112,24 @@ public class OrderService {
 
     public OrderDto GetOrderById(String auth, Integer id) {
         OrderEntity order = orderRepository.getOne(id);
-        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
-        if (!customer.getId().equals(order.getCustomerId()) && !customer.getUserType().equals(AuthUserType.STAFF)) {
-            logger.warn("Unauthorized access attempt by user: " + customer.toString());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
+//        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
+//        if (!customer.getId().equals(order.getCustomerId()) && !customer.getUserType().equals(AuthUserType.STAFF)) {
+//            logger.warn("Unauthorized access attempt by user: " + customer.toString());
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//        }
 
         return orderMapper.CreateOrderDto(order);
     }
 
     public void HandlePaymentStatusUpdate(String auth, PaymentStatusUpdateDto paymentUpdate) {
-        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
+//        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
 
         List<OrderEntity> orders = orderRepository.getOrderByPaymentId(paymentUpdate.getId());
 
         for (OrderEntity order : orders) {
-            if (!customer.getId().equals(order.getCustomerId())) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-            }
+//            if (!customer.getId().equals(order.getCustomerId())) {
+//                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+//            }
             if (paymentUpdate.getPaymentStatus().equals(UpdatedPaymentStatus.COMPLETED)) {
                 order.setStatus(OrderStatus.COMPLETED.toString());
                 orderRepository.save(order);

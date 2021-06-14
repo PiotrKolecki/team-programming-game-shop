@@ -1,6 +1,6 @@
 package agh.fis.order_management.client;
 
-import agh.fis.product_catalog.model.ProductDto;
+import agh.fis.order_management.model.ProductDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
