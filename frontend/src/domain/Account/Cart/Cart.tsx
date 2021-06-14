@@ -19,9 +19,10 @@ import {
 import { submitOrderRequest } from "../../../store/orders/actions";
 import { IOrder } from "../../../store/orders/types";
 import { getItems } from "../../../store/cart/index";
-import { getUserItems } from "../../../store/cart/selectors";
+import { getUserItems, getCartForUser } from "../../../store/cart/selectors";
 import { catalogueFetch } from "../../../store/catalogue/index"
 import { AppState } from "../../../store/rootReducer";
+import { deleteItem } from "../../../store/cart/index";
 
 export interface Product extends IGame {
   count: number;
@@ -34,6 +35,7 @@ export const Cart: React.FC = () => {
 
   const customerId = useSelector(getUserIdSelector);
   const cart = useSelector((state: AppState) => getUserItems(state, customerId));
+  const cartForUser = useSelector((state: AppState) => getCartForUser(state, customerId));
   
   const [products, setProducts] = useState(cart);
   const [deliveryOption, setDeliveryOption] = useState<
@@ -59,9 +61,11 @@ export const Cart: React.FC = () => {
   }, [token, stage]);
 
   useEffect(() => {
-    dispatch(getItems());
+    if(!cartForUser.length){
+      dispatch(getItems());
+    }
     dispatch(catalogueFetch());
-  }, [dispatch])
+  }, [ cartForUser.length, dispatch])
 
   const memoizedTotalPrice = useMemo(
     () =>
@@ -74,6 +78,7 @@ export const Cart: React.FC = () => {
 
   const handleDeleteProduct = (id: number) => {
     setProducts(products.filter((product) => product.id !== id));
+    dispatch(deleteItem({ id, customer_id: customerId }));
   };
 
   const handleChangeProductCount = (id: number, count: number) => {

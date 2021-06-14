@@ -19,6 +19,12 @@ export interface getItemsFromCartPayload {
   token: string;
 }
 
+export interface deleteItemsFromCartPayload {
+  id: number;
+  token: string;
+  product_id: number
+}
+
 async function addItemToCart({ id, product_id, quantity, token }: addToCartPayload) {
   const data = { "product_id": product_id,
                 "quantity": quantity,
@@ -54,4 +60,26 @@ async function getItemsFromCart({ id, token }: getItemsFromCartPayload) {
   return result;
 }
 
-export { fetchCatalogue, addItemToCart, getItemsFromCart };
+
+async function deleteItemFromCart({ id, token, product_id}: deleteItemsFromCartPayload) {
+  const data = { "product_id": product_id,
+  "quantity": 1,
+  "operation": "Remove" };
+
+
+  const response = await fetch(`${config.api.baseUrl}/shoppingcart/${id}`, {
+    method: 'PUT',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+});
+  const result = await response.json();
+
+  return result;
+}
+
+
+export { fetchCatalogue, addItemToCart, getItemsFromCart, deleteItemFromCart };

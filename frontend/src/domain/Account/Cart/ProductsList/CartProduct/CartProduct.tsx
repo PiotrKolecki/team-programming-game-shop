@@ -18,7 +18,10 @@ export const CartProduct: React.FC<CartProductProps> = ({
   product,
   onDeleteProduct,
   onProductCountChange,
-}) => (
+}) => 
+{
+
+return(
   <P.CartProductWrapper>
     <P.Image src={User} width={70} height={100} />
     <P.InfoWrapper>
@@ -59,6 +62,6 @@ export const CartProduct: React.FC<CartProductProps> = ({
     </P.QuantityWrapper>
     <P.Price>{`$ ${product.price}`}</P.Price>
   </P.CartProductWrapper>
-);
+)}
 
 export default CartProduct;

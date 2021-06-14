@@ -11,7 +11,7 @@ export const getGameById = (state: AppState, gameId: number) => {
 export const getGameByIds = (state: AppState, gameIds: number[]) => {
   const mockedGames = [
     {
-      id: 1,
+      id: 4,
       name: "The wither wild hunt test długiej nazwy",
       producer: "2K Games",
       price: 11.99,

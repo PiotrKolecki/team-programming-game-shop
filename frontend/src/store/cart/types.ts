@@ -2,7 +2,8 @@ import {
     ADD_ITEM,
     ADD_ITEM_SUCCESS,
     ADD_ITEM_ERROR,
-    GET_ITEMS
+    GET_ITEMS,
+    DELETE_ITEM
 } from "./index";
 
 
@@ -39,9 +40,19 @@ export interface AddItemPayload {
 export interface AddItemSuccessPayload {
   items: Item
 }
-
 export interface AddItemErrorPayload {
     error: boolean
+}
+
+export interface DeleteItemPayload {
+  id: number,
+  customer_id: string | undefined
+}
+
+export interface deleteItemsFromCartPayload {
+  id: number,
+  customer_id: string | undefined,
+  product_id: number
 }
 
 export type AddItemToCart = {
@@ -62,10 +73,16 @@ export type AddItemToCart = {
   export type GetItemsFromCart = {
     type: typeof GET_ITEMS;
   };
+
+  export type DeleteItemFromCart = {
+    type: typeof DELETE_ITEM;
+    payload: DeleteItemPayload
+  };
   
 
   export type CartActions =
   | AddItemToCart
   | AddItemToCartSuccess
   | AddItemToCartFailure
-  | GetItemsFromCart;
+  | GetItemsFromCart
+  | DeleteItemFromCart;

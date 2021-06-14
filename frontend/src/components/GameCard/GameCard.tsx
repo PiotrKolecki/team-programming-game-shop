@@ -118,10 +118,9 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-
   const [isAlertVisible, setAlertVisibility] = useState(false);
   const addToCart = () => {
-    dispatch(addItem({ product_id: 1, quantity: 1 }));
+    dispatch(addItem({ product_id: id, quantity: 1 }));
     setAlertVisibility(true);
   }
 

@@ -5,6 +5,12 @@ import { userGame } from './types';
 export const getCart = (state: AppState) => {
   return state.cart.items;
 };
+export const getCartForUser = (state: AppState, currentCustomerId: string | undefined ) => {
+  const cart = getCart(state);
+  const userItems = cart.filter(({ customer_id }) => customer_id === currentCustomerId);
+
+  return userItems;
+}
 
 export const getUserItems = (state: AppState, currentCustomerId: string | undefined ) => {
 
