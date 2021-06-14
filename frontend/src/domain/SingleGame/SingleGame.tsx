@@ -8,6 +8,7 @@ import { Home } from "../index";
 import { AppState } from "../../store/rootReducer";
 import { useLocation } from "react-router-dom";
 import { addItem } from '../../store/cart/index';
+import { useHistory } from "react-router";
 import { getGameById } from '../../store/catalogue/selectors';
 
 const GameContainer = styled.div`
@@ -189,6 +190,7 @@ type SingleGameProps = {
 
 export function SingleGame() {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation<SingleGameProps>();
   const { id, title, manufactory, cover, price, category }: SingleGameProps = location.state;
@@ -203,7 +205,11 @@ export function SingleGame() {
   ];
   const game = useSelector((state: AppState) => getGameById(state, id));
   const addToCart = () => {
-    dispatch(addItem({ product_id: 1, quantity: 1 }));
+    dispatch(addItem({ product_id: id, quantity: 1 }));
+  }
+  const buyNow = () => {
+    dispatch(addItem({ product_id: id, quantity: 1 }));
+    history.push('/cart');
   }
 
   return (
@@ -220,7 +226,7 @@ export function SingleGame() {
           {category}
         </Categories>
         <Buttons>
-          <Button className={classes.buyButton}>Buy now</Button>
+          <Button className={classes.buyButton} onClick={buyNow}>Buy now</Button>
           <Button className={classes.addButton} onClick={addToCart}>Add to cart</Button>
         </Buttons>
       </GameContainer>
