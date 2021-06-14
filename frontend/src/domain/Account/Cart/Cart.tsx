@@ -36,8 +36,8 @@ export const Cart: React.FC = () => {
   const customerId = useSelector(getUserIdSelector);
   const cart = useSelector((state: AppState) => getUserItems(state, customerId));
   const cartForUser = useSelector((state: AppState) => getCartForUser(state, customerId));
-  
   const [products, setProducts] = useState(cart);
+  console.log(cart, products);
   const [deliveryOption, setDeliveryOption] = useState<
     DeliveryOptions | undefined
   >(undefined);
@@ -61,11 +61,17 @@ export const Cart: React.FC = () => {
   }, [token, stage]);
 
   useEffect(() => {
+    if(!products.length){
+      setProducts(cart);
+    }
+  }, [cart])
+
+  useEffect(() => {
     if(!cartForUser.length){
       dispatch(getItems());
     }
     dispatch(catalogueFetch());
-  }, [ cartForUser.length, dispatch])
+  }, [cartForUser.length, dispatch])
 
   const memoizedTotalPrice = useMemo(
     () =>
