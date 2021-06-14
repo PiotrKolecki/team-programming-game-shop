@@ -7,7 +7,7 @@ import {
     addItemSuccess,
     addItemError,
 } from "./index";
-import { AddItemToCart, AddItemSuccessPayload, GetItemsFromCart } from './types';
+import { AddItemToCart, GetItemsFromCart, Item } from './types';
 
 
 export function* addItemSaga(action: AddItemToCart) {
@@ -15,7 +15,7 @@ export function* addItemSaga(action: AddItemToCart) {
     const id: number  = yield select(getUserIdSelector);
     const token: string  = yield select(getTokenSelector);
     const { payload: { product_id, quantity } } = action;
-    const cart: AddItemSuccessPayload = yield call(addItemToCart, { id, product_id, quantity, token });
+    const cart: Item = yield call(addItemToCart, { id, product_id, quantity, token });
 
     yield put(addItemSuccess(cart));
   } catch (error) {
@@ -27,8 +27,7 @@ export function* getItemsSaga(action: GetItemsFromCart) {
   try {
     const id: number  = yield select(getUserIdSelector);
     const token: string  = yield select(getTokenSelector);
-    const cart: AddItemSuccessPayload = yield call(getItemsFromCart, { id, token });
-
+    const cart: Item = yield call(getItemsFromCart, { id, token });
     yield put(addItemSuccess(cart));
   } catch (error) {
     yield put(addItemError({ error }));

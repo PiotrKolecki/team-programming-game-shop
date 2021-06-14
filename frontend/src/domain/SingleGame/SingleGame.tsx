@@ -3,12 +3,12 @@ import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import { theme as appTheme } from "../../constants";
 import { makeStyles } from "@material-ui/core/styles";
-import { GameCard } from "../../components/GameCard/GameCard";
-import { useDispatch } from 'react-redux';
-import witcher from "../../assets/witcher.png";
+import { useDispatch, useSelector } from 'react-redux';
 import { Home } from "../index";
+import { AppState } from "../../store/rootReducer";
 import { useLocation } from "react-router-dom";
 import { addItem } from '../../store/cart/index';
+import { getGameById } from '../../store/catalogue/selectors';
 
 const GameContainer = styled.div`
   padding: 40px 90px 40px 48px;
@@ -16,15 +16,14 @@ const GameContainer = styled.div`
   background-color: ${appTheme.colors.mirage};
 
   display: grid;
-  grid-template-rows: 0.05fr 0.5fr max-content 0.2fr 0.2fr max-content;
+  grid-template-rows: 0.05fr 0.1fr max-content 0.05fr 0.1fr;
   grid-template-columns: 3fr 3fr;
   grid-template-areas:
     "header header"
     "cover price"
     "cover description"
     "cover categories"
-    "cover buttons"
-    "recommended recommended";
+    "cover buttons";
   grid-column-gap: 25px;
   grid-row-gap: 25px;
 `;
@@ -180,37 +179,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 type SingleGameProps = {
+  id: number;
   title: string;
   manufactory: string;
   price: number;
   cover: string;
+  category: string;
 };
 
 export function SingleGame() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation<SingleGameProps>();
-  const { title, manufactory, cover, price }: SingleGameProps = location.state;
+  const { id, title, manufactory, cover, price, category }: SingleGameProps = location.state;
+
 
   // INFO: description will be obtained from redux store not from props, so mock it for now in that way
-  const description =
-    "The Grand Theft Auto series is split into separate fictional universes, named after the primary level of graphics capability used in each era. The original Grand Theft Auto, its expansions and its sequel are considered the '2D universe'. Grand Theft Auto III and its sequels are considered the '3D universe'.  Grand Theft Auto IV, its expansions and Grand Theft Auto V are considered the 'HD universe'. Each universe is considered separate with only brands, place names and background characters shared between them.";
 
   const breadcrumbs = [
     { to: "/", label: "Home" },
     { to: "/insight/adventure", label: "Adventure" },
     { to: "/insight/adventure/1", label: "Grand Theft Auto" },
   ];
-  const categories = ["Action", "Adventure", "Multiplayer"];
-
-  const item = {
-    title: "The Witcher",
-    categories: ["Action", "Adventure"],
-    price: 19.99,
-    cover: witcher,
-  };
-  const items = [item, item, item, item, item];
-
+  const game = useSelector((state: AppState) => getGameById(state, id));
   const addToCart = () => {
     dispatch(addItem({ product_id: 1, quantity: 1 }));
   }
@@ -224,30 +215,14 @@ export function SingleGame() {
         </Header>
         <img src={cover} alt="Avatar" className={classes.cover} />
         <Price>{`${price} $`}</Price>
-        <Description>{description}</Description>
+        <Description>{game?.description || ""}</Description>
         <Categories>
-          {categories.map(category => (
-            <Category> {category} </Category>
-          ))}
+          {category}
         </Categories>
         <Buttons>
           <Button className={classes.buyButton}>Buy now</Button>
           <Button className={classes.addButton} onClick={addToCart}>Add to cart</Button>
         </Buttons>
-        <Recommended>
-          <RecommendedCaption>POPULAR</RecommendedCaption>
-          <RecommendedItems>
-            {items.map(({ title, categories, price, cover }, index) => (
-              <GameCard
-                key={index}
-                title={title}
-                categories={categories}
-                price={price}
-                cover={cover}
-              />
-            ))}
-          </RecommendedItems>
-        </Recommended>
       </GameContainer>
     </Home>
   );

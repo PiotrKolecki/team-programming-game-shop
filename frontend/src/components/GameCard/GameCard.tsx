@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -7,6 +7,7 @@ import { theme as appTheme } from "../../constants";
 import gta from "../../assets/gta.png";
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../store/cart/index';
+import { Alert } from "../index";
 
 const Container = styled("div")<{ image: string }>`
   height: 350px;
@@ -106,22 +107,37 @@ const Price = styled.div`
 `;
 
 type CardProps = {
+  id: number;
   title: string;
-  categories: Array<string>;
+  category: string;
   price: number;
   cover: string;
 };
 
-export function GameCard({ title, categories, price, cover }: CardProps) {
+export function GameCard({ id, title, category, price, cover }: CardProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
 
+  const [isAlertVisible, setAlertVisibility] = useState(false);
   const addToCart = () => {
     dispatch(addItem({ product_id: 1, quantity: 1 }));
+    setAlertVisibility(true);
   }
 
+
   return (
+    <>
+    {isAlertVisible ? 
+      <Alert
+         type="success"
+         onClose={() => {
+           setAlertVisibility(false);
+         }}
+         text="Item was successfully added to your cart!"
+         
+       />
+     : null}
     <Container image={cover}>
       <img src={cover} alt="Avatar" className={classes.image} />
       <Button variant="contained" className={classes.button} onClick={addToCart}>
@@ -131,10 +147,11 @@ export function GameCard({ title, categories, price, cover }: CardProps) {
         <Link
           key={title}
           to={{
-            pathname: "/insight/adventure/1",
+            pathname: `/insight/adventure/${id}`,
             state: {
+              id,
               title,
-              categories,
+              category,
               price,
               cover: gta,
             },
@@ -144,9 +161,10 @@ export function GameCard({ title, categories, price, cover }: CardProps) {
           {title}
         </Link>
         <Price>{`${price} $`}</Price>
-        <Categories>{categories.join(", ")}</Categories>
+        <Categories>{category}</Categories>
       </Details>
       <Fade />
     </Container>
+    </>
   );
 }

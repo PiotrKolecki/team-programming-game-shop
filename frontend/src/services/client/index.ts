@@ -2,7 +2,7 @@ import config from "../../config";
 
 async function fetchCatalogue() {
   const response = await fetch(`${config.api.baseUrl}/games`);
-  const result = await response.text();
+  const result = await response.json();
 
   return result;
 }
@@ -29,7 +29,7 @@ async function addItemToCart({ id, product_id, quantity, token }: addToCartPaylo
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`
+        'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(data)
 });
@@ -46,7 +46,7 @@ async function getItemsFromCart({ id, token }: getItemsFromCartPayload) {
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`
+        'Authorization': `Bearer ${token}`
     },
 });
   const result = await response.json();

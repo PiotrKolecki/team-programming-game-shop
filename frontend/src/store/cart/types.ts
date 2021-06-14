@@ -5,14 +5,23 @@ import {
     GET_ITEMS
 } from "./index";
 
-export interface Game {
+
+export interface userGame {
   id: number,
+  name: string,
+  producer: string,
+  price: number,
+  count: number
+}
+
+export interface Game {
+  product_id: number,
   quantity: number
 }
 
 export interface Item {
     id: number,
-    customerId: number,
+    customer_id: string,
     items: Array<Game>
 }
 
@@ -58,4 +67,5 @@ export type AddItemToCart = {
   export type CartActions =
   | AddItemToCart
   | AddItemToCartSuccess
-  | AddItemToCartFailure;
+  | AddItemToCartFailure
+  | GetItemsFromCart;
