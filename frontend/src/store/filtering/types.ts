@@ -15,7 +15,6 @@ export interface SetFiltersPayload {
 export type SetFilters = {
     type: typeof SET_FILTERS;
     payload: SetFiltersPayload
-
 }
 
 export type FiltersActions =

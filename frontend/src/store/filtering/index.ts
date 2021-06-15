@@ -14,7 +14,6 @@ import {
         category
     }
   });
-  
   const initialState: FiltersState = {
     prices: [0, 300],
     category: 'Action'

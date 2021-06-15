@@ -6,7 +6,7 @@ import witcher from "../../assets/witcher.png";
 import { theme as appTheme } from "../../constants";
 import { Home } from "../Home/Home";
 import { catalogueFetch } from "../../store/catalogue/index";
-import {getFilteredItems} from "../../store/filtering/selectors";
+import { getFilteredItems } from "../../store/filtering/selectors";
 
 const Container = styled.div`
   padding: 40px 48px;
