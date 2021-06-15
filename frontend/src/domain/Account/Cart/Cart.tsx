@@ -61,7 +61,7 @@ export const Cart: React.FC = () => {
   }, [token, stage]);
 
   useEffect(() => {
-    if(!products.length){
+    if(!products.length && cart.length){
       setProducts(cart);
     }
   }, [cart])

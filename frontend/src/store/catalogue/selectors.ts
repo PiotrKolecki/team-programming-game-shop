@@ -9,21 +9,8 @@ export const getGameById = (state: AppState, gameId: number) => {
 };
 
 export const getGameByIds = (state: AppState, gameIds: number[]) => {
-  const mockedGames = [
-    {
-      id: 4,
-      name: "The wither wild hunt test długiej nazwy",
-      producer: "2K Games",
-      price: 11.99,
-    },
-    {
-      id: 3,
-      name: "Wanted Racoon",
-      producer: "MAD Sprouts",
-      price: 10.99,
-    },
-  ];
-  const games = mockedGames.filter(({ id }) => gameIds.includes(id));
+
+  const catalogue = getCatalogue(state).map(({ id, product_name, producer, price }) => ({ id, name: product_name, producer, price }));
+  const games = catalogue.filter(({ id }) => gameIds.includes(id));
   return games;
-  // return state.catalogue.items.filter(({ id }) => gameIds.includes(id));
 };
