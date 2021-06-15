@@ -5,11 +5,11 @@ import {
   catalogueFetchSuccess,
   catalogueFetchError,
 } from "./index";
+import { IGame2 } from './types';
 
 export function* fetchCatalogueSaga() {
   try {
-    const catalogue: string = yield call(fetchCatalogue);
-
+    const catalogue: IGame2[] = yield call(fetchCatalogue);
     yield put(catalogueFetchSuccess({ catalogue }));
   } catch (error) {
     yield put(catalogueFetchError({ error }));

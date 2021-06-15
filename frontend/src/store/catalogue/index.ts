@@ -36,7 +36,7 @@ export const catalogueFetchError = ({
 
 const initialState: CatalogueState = {
   isFetching: false,
-  items: null,
+  items: [],
   error: false,
 };
 

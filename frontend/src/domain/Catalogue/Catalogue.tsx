@@ -34,13 +34,7 @@ const Items = styled.div`
   justify-content: space-between;
 `;
 export function Catalogue() {
-  const item = {
-    title: "The Witcher",
-    categories: ["Action", "Adventure"],
-    price: 19.99,
-    cover: witcher,
-  };
-  const items = [item, item, item, item, item, item, item, item, item, item];
+
   const breadcrumbs = [
     { to: "/", label: "Home" },
     { to: "/insight/action", label: "Store" },
@@ -57,15 +51,16 @@ export function Catalogue() {
   return (
     <Home breadcrumbs={breadcrumbs}>
       <Container>
-        <Header>{catalogue}</Header>
+        <Header>ACTION</Header>
         <Items>
-          {items.map(({ title, categories, price, cover }, index) => (
+          {catalogue.map(({ id, product_name, category, price}, index) => (
             <GameCard
               key={index}
-              title={title}
-              categories={categories}
+              id={id}
+              title={product_name}
+              category={category}
               price={price}
-              cover={cover}
+              cover={witcher}
             />
           ))}
         </Items>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as P from "./parts";
 import { CartStagesEnum, DeliveryOptions } from "../constants";
 import home from "../../../../assets/home.svg";
@@ -23,11 +23,13 @@ export const Delivery: React.FC<DeliveryProps> = ({
     setStage(CartStagesEnum.deliveryOption);
   };
 
+  const [isNextDisabled, setIsNextDisabled] = useState(true);
+
   return (
     <P.DeliveryWrapper>
       <P.TitleWrapper>
         <P.Title>Choose delivery option</P.Title>
-        {deliveryOption && (
+        {deliveryOption && !isNextDisabled && (
           <P.Button
             type="button"
             onClick={() => setStage(CartStagesEnum.paymentMethod)}
@@ -56,7 +58,7 @@ export const Delivery: React.FC<DeliveryProps> = ({
       </P.OptionsWrapper>
       {deliveryOption && (
         <P.FormWrapper>
-          <RecipientForm />
+          <RecipientForm setIsNextDisabled={setIsNextDisabled} />
           {deliveryOption === DeliveryOptions.homeAddress ? (
             <HomeAddressForm />
           ) : (
