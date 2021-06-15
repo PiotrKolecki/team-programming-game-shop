@@ -4,17 +4,22 @@ import classnames from "classnames";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import IconButton from '@material-ui/core/IconButton'; 
 import Menu, { MenuProps } from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useHistory, useLocation } from "react-router";
 import { theme as appTheme } from "../../constants";
 import { AppState } from "../../store/rootReducer";
 import { getTokenSelector } from "../../store/user/selectors";
+import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
+
 
 type NavItem = {
   name: string;
   href: string;
   loggedIn: boolean | null;
+  isIcon: boolean,
+
 };
 
 const StyledMenu = withStyles({
@@ -57,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
       color: "white",
     },
   },
+  cartIcon:{
+    color: 'white',
+  }
 }));
 
 const navItems: Array<NavItem> = [
@@ -64,26 +72,33 @@ const navItems: Array<NavItem> = [
     name: "store",
     loggedIn: null,
     href: "/insight/action",
+    isIcon: false,
   },
   {
     name: "sign in",
     href: "/signin",
     loggedIn: false,
+    isIcon: false,
   },
   {
     name: "register",
     href: "/register",
     loggedIn: false,
-  },
-  {
-    name: "cart",
-    href: "/cart",
-    loggedIn: true,
+    isIcon: false,
+
   },
   {
     name: "log out",
     href: "/logout",
     loggedIn: true,
+    isIcon: false,
+
+  },
+  {
+    name: "cart",
+    href: "/cart",
+    loggedIn: true,
+    isIcon: true,
   },
 ];
 
@@ -135,15 +150,23 @@ export function Navigation() {
     </StyledMenu>
   );
 
+  const onRouteChange = (href: string) => {
+    history.push(href);
+  }
+
   return (
     <>
       <nav className={classes.navigation}>
-        {filteredItems.map((item) => (
+        {filteredItems.map((item) => item.isIcon ? 
+          <IconButton  key={item.name} onClick ={() => onRouteChange(item.href)} aria-label="cart" >
+            <ShoppingCartOutlinedIcon  className={classes.cartIcon} />
+          </IconButton> 
+        :
           <Button
             key={item.name}
             size="large"
             onClick={() => {
-              history.push(item.href);
+              onRouteChange(item.href);
             }}
             className={classnames(
               classes.button,
@@ -152,7 +175,8 @@ export function Navigation() {
           >
             {item.name}
           </Button>
-        ))}
+
+           )}
       </nav>
       <nav className={classes.mobile}>
         <Button

@@ -18,35 +18,28 @@ import {
 } from "../../../store/user/selectors";
 import { submitOrderRequest } from "../../../store/orders/actions";
 import { IOrder } from "../../../store/orders/types";
+import { getItems } from "../../../store/cart/index";
+import { getUserItems, getCartForUser } from "../../../store/cart/selectors";
+import { catalogueFetch } from "../../../store/catalogue/index"
+import { AppState } from "../../../store/rootReducer";
+import { deleteItem } from "../../../store/cart/index";
 
 export interface Product extends IGame {
   count: number;
 }
 
-const mockedProducts: Array<Product> = [
-  {
-    id: 23,
-    name: "The wither wild hunt test długiej nazwy",
-    producer: "2K Games",
-    count: 1,
-    price: 11.99,
-  },
-  {
-    id: 12,
-    name: "Wanted Racoon",
-    producer: "MAD Sprouts",
-    count: 4,
-    price: 10.99,
-  },
-];
+
+
 export const Cart: React.FC = () => {
   const [stage, setStage] = useState(CartStagesEnum.singIn);
-  // FIXME: get products from redux store
-  const [products, setProducts] = useState(mockedProducts);
+
+  const customerId = useSelector(getUserIdSelector);
+  const cart = useSelector((state: AppState) => getUserItems(state, customerId));
+  const cartForUser = useSelector((state: AppState) => getCartForUser(state, customerId));
+  const [products, setProducts] = useState(cart);
   const [deliveryOption, setDeliveryOption] = useState<
     DeliveryOptions | undefined
   >(undefined);
-  const customerId = useSelector(getUserIdSelector);
   const token = useSelector(getTokenSelector);
   const dispatch = useDispatch();
 
@@ -66,6 +59,19 @@ export const Cart: React.FC = () => {
     }
   }, [token, stage]);
 
+  useEffect(() => {
+    if(!products.length && cart.length){
+      setProducts(cart);
+    }
+  }, [cart])
+
+  useEffect(() => {
+    if(!cartForUser.length){
+      dispatch(getItems());
+    }
+    dispatch(catalogueFetch());
+  }, [cartForUser.length, dispatch])
+
   const memoizedTotalPrice = useMemo(
     () =>
       products.reduce(
@@ -77,6 +83,7 @@ export const Cart: React.FC = () => {
 
   const handleDeleteProduct = (id: number) => {
     setProducts(products.filter((product) => product.id !== id));
+    dispatch(deleteItem({ id, customer_id: customerId }));
   };
 
   const handleChangeProductCount = (id: number, count: number) => {

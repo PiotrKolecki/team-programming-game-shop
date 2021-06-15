@@ -99,7 +99,7 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: true,
-    exact: false,
+    exact: true,
   },
   {
     path: "/cart",

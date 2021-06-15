@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Collapsible from "react-collapsible";
 import * as P from "./parts";
 import AdditionalCosts from "./AdditionalCosts";
 import Trigger from "./Trigger/Trigger";
 import User from "../../../../assets/user.svg";
+import { getOrderedItems } from "../../../../store/orders/selectors";
 import { IAddress, IDelivery, IOrder } from "../../../../store/orders/types";
 import { DELIVERY_FEE, PAYMENT_FEE } from "../../Cart/constants";
 
@@ -13,6 +15,8 @@ interface OrderProps {
 
 //TODO: fetch info about items from backend
 export const Orders: React.FC<OrderProps> = ({ order }) => {
+  const orderedItems = useSelector(getOrderedItems);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const { delivery = {} as IDelivery } = order;
@@ -43,13 +47,13 @@ export const Orders: React.FC<OrderProps> = ({ order }) => {
             </P.Delivery>
           </P.DeliveryDetails>
           <P.ProductsList>
-            {(order.items || []).map((item) => (
+            {(orderedItems || []).map((item) => (
               <P.Product>
                 <P.ProductImage src={User} />
 
-                <P.ProductName>'item.name'</P.ProductName>
+                <P.ProductName>{item.product_name}'</P.ProductName>
                 <P.ProductInfo>{item.quantity} pcs.</P.ProductInfo>
-                <P.ProductInfo>$ 'item.price'</P.ProductInfo>
+                <P.ProductInfo>{item.price}</P.ProductInfo>
               </P.Product>
             ))}
             <P.SummaryWrapper>

@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       position: "absolute",
       top: 0,
+      left:0,
       zIndex: 1000,
       width: "100%",
       "& > * + *": {

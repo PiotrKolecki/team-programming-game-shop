@@ -11,14 +11,29 @@ export interface IGame {
   price: number;
 }
 
+export interface IGame2 {
+  active: boolean;
+  category: string;
+  coverUrl: string;
+  data_published: string;
+  description: string;
+  id: number;
+  product_name: string;
+  publisher: string;
+  quantity: number;
+  producer: string;
+  short_description: string;
+  price: number;
+}
+
 export interface CatalogueState {
   isFetching: boolean;
-  items: string | null;
+  items: Array<IGame2>;
   error: boolean;
 }
 
 export interface FetchCatalogueSuccessPayload {
-  catalogue: string;
+  catalogue: Array<IGame2>;
 }
 
 export interface FetchCatalogueFailurePayload {
