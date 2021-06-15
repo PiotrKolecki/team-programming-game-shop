@@ -16,7 +16,6 @@ export const RecipientForm: React.FC<RecipientFormProps> = ({ setIsNextDisabled 
             parse={parse}
             validate={validate}
             render={({ input, meta }) => {
-               console.log(name,meta.error );
                if(!meta.error && name === 'delivery.email') {
                   setIsNextDisabled(false);
                }

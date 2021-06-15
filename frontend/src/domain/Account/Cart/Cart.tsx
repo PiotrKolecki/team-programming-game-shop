@@ -37,7 +37,6 @@ export const Cart: React.FC = () => {
   const cart = useSelector((state: AppState) => getUserItems(state, customerId));
   const cartForUser = useSelector((state: AppState) => getCartForUser(state, customerId));
   const [products, setProducts] = useState(cart);
-  console.log(cart, products);
   const [deliveryOption, setDeliveryOption] = useState<
     DeliveryOptions | undefined
   >(undefined);

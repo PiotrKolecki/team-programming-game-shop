@@ -15,8 +15,8 @@ export const getCartForUser = (state: AppState, currentCustomerId: string | unde
 export const getUserItems = (state: AppState, currentCustomerId: string | undefined ) => {
 
   const cart = getCart(state);
-  const userItems = cart.filter(({ customer_id }) => customer_id === currentCustomerId);
-  const userProductsId = userItems.flatMap(({ items }) => items.map(({ product_id }) => product_id));
+  const userItems = cart.filter(({ customer_id }) => customer_id === currentCustomerId) || [];
+  const userProductsId = userItems.flatMap(({ items }) => (items || []).map(({ product_id }) => product_id));
 
   const userGames = getGameByIds(state, userProductsId);
   let gamesWithQuantity: userGame[] = [];
