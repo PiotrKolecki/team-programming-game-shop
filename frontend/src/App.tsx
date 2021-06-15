@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { WelcomeScreen, Catalogue, SingleGame, Logout } from "./domain";
@@ -12,6 +12,8 @@ import Cart from "./domain/Account/Cart/Cart";
 import { AppState } from "./store/rootReducer";
 import { getTokenSelector } from "./store/user/selectors";
 import { checkUserTokenRequest } from "./store/user/actions";
+import { Alert } from "./components";
+import { getOrderStatusSelector } from "./store/orders/selectors";
 
 const Main = styled.main`
   background: transparent url(${background}) no-repeat center center fixed;
@@ -117,9 +119,22 @@ const routeItems: Array<RouteItem> = [
 function App() {
   const dispatch = useDispatch();
   
+  const [orderAlertVisibility, setOrderAlertVisibility] = useState(false);
   const token = useSelector<AppState>(getTokenSelector);
-
+  const orderCompleted = useSelector<AppState>(getOrderStatusSelector);
   const isLoggedIn = Boolean(token);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (orderCompleted) {
+      history.push("/orders");
+      setOrderAlertVisibility(true);
+    }
+  }, [orderCompleted, history]);
+
+  const onCloseAlertHandler = () => {
+    setOrderAlertVisibility(false);
+  };
 
   useEffect(() => {
     dispatch(checkUserTokenRequest());
@@ -127,6 +142,13 @@ function App() {
 
   return (
     <Main>
+      {orderAlertVisibility && (
+        <Alert
+          type="success"
+          text="Order completed!"
+          onClose={onCloseAlertHandler}
+        />
+      )}
       <Fade>
         <Masthead />
         <Switch>

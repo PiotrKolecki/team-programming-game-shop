@@ -13,6 +13,7 @@ const initialState: OrderState = {
   orders: [],
   error: null,
   pending: false,
+  completed: false,
 };
 
 const ordersReducer = (state = initialState, action: OrdersActions) => {
@@ -21,18 +22,21 @@ const ordersReducer = (state = initialState, action: OrdersActions) => {
       return {
         ...state,
         pending: true,
+        completed: false,
       };
     case SUBMIT_ORDER_SUCCESS:
       return {
         ...state,
         pending: false,
         error: null,
+        completed: true,
       };
     case SUBMIT_ORDER_FAILURE:
       return {
         ...state,
         pending: false,
         error: action.payload.error,
+        completed: false,
       };
     case GET_ORDERS_REQUEST:
       return {
