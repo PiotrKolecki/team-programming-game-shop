@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Slider from "@material-ui/core/Slider";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import classnames from "classnames";
@@ -8,6 +9,8 @@ import { useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
+
+import { filtersSet } from '../../store/filtering/index';
 
 type NavItem = {
   name: string;
@@ -145,16 +148,22 @@ const categories: Array<NavItem> = [
 export function Sidebar() {
   const classes = useStyles();
 
-  const [value, setValue] = useState<number[]>([0, 100]);
+  const [value, setValue] = useState<number[]>([0, 300]);
+  const [category, setCategory] = useState<string>("Action");
   const { pathname } = useLocation();
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  
   const handleChange = (event: any, newValue?: number | number[]) => {
     setValue(newValue as number[]);
+    dispatch(filtersSet({ prices: newValue as number[], category }));
   };
 
-  const onCategoryClick = (category: string) => {
-    history.push(`/insight${category}`);
+  const onCategoryClick = (categoryHref: string, categoryName: string) => {
+    history.push(`/insight${categoryHref}`);
+    setCategory(categoryName);
+    dispatch(filtersSet({ prices: value, category: categoryName }));
+
   };
 
   const handlePrice = (isMin: boolean) => (event: any) => {
@@ -207,7 +216,7 @@ export function Sidebar() {
         {categories.map(category => (
           <Button
             key={category.name}
-            onClick={() => onCategoryClick(category.href)}
+            onClick={() => onCategoryClick(category.href, category.name)}
             className={classnames(
               classes.option,
               pathname.startsWith(`/insight${category.href}`) && classes.active

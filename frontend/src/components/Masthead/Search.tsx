@@ -2,6 +2,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { Input } from "../Input";
 import { theme as appTheme } from "../../constants";
+import { searchSet } from '../../store/search/index';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -39,6 +41,12 @@ const useStyles = makeStyles(theme => ({
 
 export function Search() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const search = (event: any) => {
+    dispatch(searchSet({ searchTerm: event.target.value }));
+  }
+
   return (
     <div className={classes.search}>
       <div className={classes.searchIcon}>
@@ -51,6 +59,7 @@ export function Search() {
           input: classes.inputInput,
         }}
         inputProps={{ "aria-label": "search" }}
+        onChange={search}
       />
     </div>
   );
