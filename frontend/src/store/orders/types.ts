@@ -28,7 +28,9 @@ export interface IDelivery {
 
 export interface IOrderItem {
   id: number;
+  name: string;
   quantity: number;
+  price: number;
 }
 
 export interface IOrder {

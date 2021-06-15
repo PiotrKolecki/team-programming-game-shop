@@ -3,7 +3,11 @@ import { Field } from 'react-final-form';
 import { recipientDataFields } from './constants';
 import * as P from './parts';
 
-export const RecipientForm: React.FC = () => (
+type RecipientFormProps = {
+   setIsNextDisabled: (value: boolean) => void
+};
+
+export const RecipientForm: React.FC<RecipientFormProps> = ({ setIsNextDisabled }) => (
    <P.FieldsWrapper>
       {recipientDataFields.map(({name, label, validate, parse}) => (
          <Field
@@ -11,13 +15,21 @@ export const RecipientForm: React.FC = () => (
             name={name}
             parse={parse}
             validate={validate}
-            render={({ input, meta }) => (
+            render={({ input, meta }) => {
+               console.log(name,meta.error );
+               if(!meta.error && name === 'delivery.email') {
+                  setIsNextDisabled(false);
+               }
+               else if(meta.error && name === 'delivery.email'){
+                  setIsNextDisabled(true);
+               }
+               return(
                <P.InputWrapper>
                   <P.Label>{label}</P.Label>
                   <P.StyledInput {...input} />
                   {meta.touched && meta.error && <P.ValidationError>{meta.error}</P.ValidationError>}
                </P.InputWrapper>
-            )}
+            )}}
          />
       ))}
    </P.FieldsWrapper>
