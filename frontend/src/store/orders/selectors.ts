@@ -19,3 +19,5 @@ export const getOrderedItems = (state: AppState) => {
     return catalogue.filter(({ id }) => itemsId.includes(id))
 }
 
+export const getOrderStatusSelector = (state: AppState) =>
+  state.orders.completed;
