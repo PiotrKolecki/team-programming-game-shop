@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { WelcomeScreen, Catalogue, SingleGame, Logout } from "./domain";
 import background from "./assets/background.png";
@@ -10,6 +11,7 @@ import Orders from "./domain/Account/Orders/Orders";
 import Cart from "./domain/Account/Cart/Cart";
 import { AppState } from "./store/rootReducer";
 import { getTokenSelector } from "./store/user/selectors";
+import { checkUserTokenRequest } from "./store/user/actions";
 
 const Main = styled.main`
   background: transparent url(${background}) no-repeat center center fixed;
@@ -113,9 +115,15 @@ const routeItems: Array<RouteItem> = [
 ];
 
 function App() {
+  const dispatch = useDispatch();
+  
   const token = useSelector<AppState>(getTokenSelector);
 
   const isLoggedIn = Boolean(token);
+
+  useEffect(() => {
+    dispatch(checkUserTokenRequest());
+  }, [dispatch])
 
   return (
     <Main>

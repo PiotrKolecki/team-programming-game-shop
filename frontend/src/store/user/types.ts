@@ -6,6 +6,9 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
   LOGOUT_USER,
+  CHECK_USER_TOKEN_REQUEST,
+  CHECK_USER_TOKEN_SUCCESS,
+  CHECK_USER_TOKEN_FAILURE,
 } from "./actionTypes";
 
 export interface IUser {
@@ -31,6 +34,14 @@ export interface FetchUserSuccessPayload {
 }
 
 export interface FetchUserFailurePayload {
+  error: string;
+}
+
+export interface ChebkUserTokenSuccessPayload {
+  user: IUser;
+}
+
+export interface ChebkUserTokenFailurePayload {
   error: string;
 }
 
@@ -63,6 +74,20 @@ export type FetchUserFailure = {
   payload: FetchUserFailurePayload;
 };
 
+export type CheckUserTokenRequest = {
+  type: typeof CHECK_USER_TOKEN_REQUEST;
+};
+
+export type CheckUserTokenSuccess = {
+  type: typeof CHECK_USER_TOKEN_SUCCESS;
+  payload: ChebkUserTokenSuccessPayload;
+};
+
+export type CheckUserTokenFailure = {
+  type: typeof CHECK_USER_TOKEN_FAILURE;
+  payload: ChebkUserTokenFailurePayload;
+};
+
 export type LogoutUser = {
   type: typeof LOGOUT_USER;
 };
@@ -86,6 +111,9 @@ export type UserActions =
   | FetchUserRequest
   | FetchUserSuccess
   | FetchUserFailure
+  | CheckUserTokenRequest
+  | CheckUserTokenSuccess
+  | CheckUserTokenFailure
   | LogoutUser
   | RegisterUserRequest
   | RegisterUserSuccess
