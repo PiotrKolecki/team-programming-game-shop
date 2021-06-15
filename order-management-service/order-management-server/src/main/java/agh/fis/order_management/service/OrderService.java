@@ -5,6 +5,7 @@ import agh.fis.authentication.model.AuthUserType;
 import agh.fis.authentication.model.CheckTokenDto;
 import agh.fis.common.auth.AuthenticationClient;
 import agh.fis.order_management.client.PaymentManagementClient;
+import agh.fis.order_management.client.ProductCatalogClient;
 import agh.fis.order_management.component.IAuthenticationHelper;
 import agh.fis.order_management.component.IPriceCalculator;
 import agh.fis.payment_management.model.PaymentDto;
@@ -47,11 +48,11 @@ public class OrderService {
     public OrderDto PostOrder(String auth, OrderDto order) {
 //        AuthCustomerDto customer = authenticationHelper.validateToken(auth);
 //        if (!customer.getId().equals(order.getCustomerId()) && !customer.getUserType().equals(AuthUserType.STAFF)) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 //            logger.warn("Unauthorized access attempt by user: " + customer.toString());
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 //        }
 
-        float orderPrice = priceCalculator.calculateOrderPrice(order.getItems());
+        float orderPrice = priceCalculator.calculateOrderPrice(auth, order.getItems());
 
         PaymentDto paymentDto = new PaymentDto();
         paymentDto.setPaymentProvider(order.getPaymentMethod());
@@ -63,9 +64,13 @@ public class OrderService {
             if (createdPaymentResp.getStatusCode().equals(HttpStatus.OK)) {
                 createdPayment = createdPaymentResp.getBody();
             } else {
+                logger.error("Unable to create payment");
                 throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, "Unable to create payment");
             }
+        } catch (ResponseStatusException respExc) {
+            throw respExc;
         } catch (Exception e) {
+            logger.error("Error occurred when creating payment");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error occurred when creating payment");
         }
 

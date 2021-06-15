@@ -6,6 +6,9 @@ import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILURE,
   LOGOUT_USER,
+  CHECK_USER_TOKEN_REQUEST,
+  CHECK_USER_TOKEN_SUCCESS,
+  CHECK_USER_TOKEN_FAILURE,
 } from "./actionTypes";
 import {
   FetchUserRequest,
@@ -21,6 +24,11 @@ import {
   RegisterUserFailurePayload,
   RegisterUserPayload,
   LogoutUser,
+  CheckUserTokenRequest,
+  ChebkUserTokenSuccessPayload,
+  CheckUserTokenSuccess,
+  ChebkUserTokenFailurePayload,
+  CheckUserTokenFailure,
 } from "./types";
 
 export const LS_TOKEN_ID = "TOKEN";
@@ -53,6 +61,27 @@ export const fetchUserFailure = (
     payload,
   };
 };
+
+export const checkUserTokenRequest = (): CheckUserTokenRequest => ({
+  type: CHECK_USER_TOKEN_REQUEST,
+});
+
+export const checkUserTokenSuccess = (
+  payload: ChebkUserTokenSuccessPayload
+): CheckUserTokenSuccess => ({
+  type: CHECK_USER_TOKEN_SUCCESS,
+  payload,
+});
+
+export const checkUserTokenFailure = (
+  payload: ChebkUserTokenFailurePayload
+): CheckUserTokenFailure => {
+  localStorage.removeItem(LS_TOKEN_ID);
+  return ({
+    type: CHECK_USER_TOKEN_FAILURE,
+    payload,
+  });
+}
 
 export const registerUserRequest = (
   payload: RegisterUserPayload
