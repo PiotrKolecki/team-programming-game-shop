@@ -6,7 +6,7 @@ import witcher from "../../assets/witcher.png";
 import { theme as appTheme } from "../../constants";
 import { Home } from "../Home/Home";
 import { catalogueFetch } from "../../store/catalogue/index";
-import { getCatalogue } from "../../store/catalogue/selectors";
+import {getFilteredItems} from "../../store/filtering/selectors";
 
 const Container = styled.div`
   padding: 40px 48px;
@@ -42,8 +42,7 @@ export function Catalogue() {
 
   const dispatch = useDispatch();
 
-  const catalogue = useSelector(getCatalogue);
-
+  const filteredGames = useSelector(getFilteredItems);
   useEffect(() => {
     dispatch(catalogueFetch());
   }, [dispatch]);
@@ -53,7 +52,7 @@ export function Catalogue() {
       <Container>
         <Header>ACTION</Header>
         <Items>
-          {catalogue.map(({ id, product_name, category, price}, index) => (
+          {filteredGames.map(({ id, product_name, category, price}, index) => (
             <GameCard
               key={index}
               id={id}

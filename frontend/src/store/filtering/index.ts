@@ -16,7 +16,7 @@ import {
   });
   
   const initialState: FiltersState = {
-    prices: [0, 100],
+    prices: [0, 300],
     category: 'Action'
   };
   
