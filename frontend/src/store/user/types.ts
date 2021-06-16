@@ -15,6 +15,7 @@ export interface IUser {
   token?: string;
   id?: string;
   userType?: string;
+  mail?: string;
 }
 
 export interface UserState {
