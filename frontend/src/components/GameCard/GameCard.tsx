@@ -146,7 +146,7 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
         <Link
           key={title}
           to={{
-            pathname: `/insight/adventure/${id}`,
+            pathname: `/insight/${category.toLowerCase()}/${id}`,
             state: {
               id,
               title,

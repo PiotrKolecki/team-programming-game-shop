@@ -96,6 +96,10 @@ const useStyles = makeStyles(theme => ({
 
 const categories: Array<NavItem> = [
   {
+    name: "All",
+    href: "/all",
+  },
+  {
     name: "Action",
     href: "/action",
   },
