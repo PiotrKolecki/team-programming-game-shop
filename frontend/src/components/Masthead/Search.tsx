@@ -53,7 +53,7 @@ export function Search() {
 
   const redirect = (event: any) => {
     if(!pathname.includes('insight') && event.key === "Enter"){
-      history.push('/insight')
+      history.push('/insight/all')
     }
   }
 
