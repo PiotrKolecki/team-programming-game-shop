@@ -10,3 +10,5 @@ export const getUserIdSelector = (state: AppState) => state.user.user?.id;
 
 export const getRegistrationSelector = (state: AppState) =>
   state.user.registrationSuccess;
+
+export const getUserTypeSelector = (state: AppState) => state.user.user?.userType;

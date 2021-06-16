@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { WelcomeScreen, Catalogue, SingleGame, Logout } from "./domain";
+import { WelcomeScreen, Catalogue, SingleGame, Logout, AdminPanel } from "./domain";
 import background from "./assets/background.png";
 import { Masthead } from "./components/Masthead";
 import Footer from "./components/Footer/Footer";
@@ -112,6 +112,17 @@ const routeItems: Array<RouteItem> = [
       </>
     ),
     authenticated: null,
+    exact: false,
+  },
+  {
+    path: "/admin",
+    component: (
+      <>
+        <AdminPanel />
+        <Footer />
+      </>
+    ),
+    authenticated: true,
     exact: false,
   },
 ];
