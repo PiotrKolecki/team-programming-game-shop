@@ -22,7 +22,7 @@ export const Orders: React.FC<OrderProps> = ({ order }) => {
 
   const { delivery = {} as IDelivery } = order;
   const { address = {} as IAddress } = delivery;
-
+  
   return (
     <P.Order>
       <Collapsible
@@ -75,7 +75,7 @@ export const Orders: React.FC<OrderProps> = ({ order }) => {
                 <P.ProductName />
                 <P.TotalInfo>Total: </P.TotalInfo>
                 <P.TotalInfo>
-                  $ {order.price || 0 + DELIVERY_FEE + PAYMENT_FEE}
+                  $ {DELIVERY_FEE + PAYMENT_FEE + (order.price || 0) }
                 </P.TotalInfo>
               </P.Summary>
             </P.SummaryWrapper>
