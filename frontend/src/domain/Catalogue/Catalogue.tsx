@@ -7,6 +7,7 @@ import { theme as appTheme } from "../../constants";
 import { Home } from "../Home/Home";
 import { catalogueFetch } from "../../store/catalogue/index";
 import { getFilteredItems } from "../../store/filtering/selectors";
+import { useHistory } from "react-router";
 
 const Container = styled.div`
   padding: 40px 48px;
@@ -34,7 +35,6 @@ const Items = styled.div`
   justify-content: space-between;
 `;
 export function Catalogue() {
-
   const breadcrumbs = [
     { to: "/", label: "Home" },
     { to: "/insight/action", label: "Store" },
@@ -47,12 +47,16 @@ export function Catalogue() {
     dispatch(catalogueFetch());
   }, [dispatch]);
 
+  const {
+    location: { pathname },
+  } = useHistory();
+
   return (
     <Home breadcrumbs={breadcrumbs}>
       <Container>
-        <Header>ACTION</Header>
+        <Header>{pathname.split("/").pop()}</Header>
         <Items>
-          {filteredGames.map(({ id, product_name, category, price}, index) => (
+          {filteredGames.map(({ id, product_name, category, price }, index) => (
             <GameCard
               key={index}
               id={id}
