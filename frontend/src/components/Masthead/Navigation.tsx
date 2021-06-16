@@ -100,6 +100,12 @@ const navItems: Array<NavItem> = [
     loggedIn: true,
     isIcon: true,
   },
+  {
+    name: "admin",
+    href: "/admin",
+    loggedIn: true,
+    isIcon: false,
+  },
 ];
 
 export function Navigation() {
@@ -158,7 +164,7 @@ export function Navigation() {
     <>
       <nav className={classes.navigation}>
         {filteredItems.map((item) => item.isIcon ? 
-          <IconButton  key={item.name} onClick ={() => onRouteChange(item.href)} aria-label="cart" >
+          <IconButton key={item.name} onClick ={() => onRouteChange(item.href)} aria-label="cart" >
             <ShoppingCartOutlinedIcon  className={classes.cartIcon} />
           </IconButton> 
         :
