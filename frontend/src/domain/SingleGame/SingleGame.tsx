@@ -195,9 +195,6 @@ export function SingleGame() {
   const location = useLocation<SingleGameProps>();
   const { id, title, manufactory, cover, price, category }: SingleGameProps = location.state;
 
-
-  // INFO: description will be obtained from redux store not from props, so mock it for now in that way
-
   const breadcrumbs = [
     { to: "/", label: "Home" },
     { to: "/insight/adventure", label: "Adventure" },

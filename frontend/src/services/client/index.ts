@@ -25,6 +25,16 @@ export interface deleteItemsFromCartPayload {
   product_id: number
 }
 
+export interface addGamePayload {
+  title: string, 
+  publisher: string, 
+  price: number, 
+  quantity: number, 
+  category: string, 
+  description: string,
+  token: string
+}
+
 async function addItemToCart({ id, product_id, quantity, token }: addToCartPayload) {
   const data = { "product_id": product_id,
                 "quantity": quantity,
@@ -81,5 +91,22 @@ async function deleteItemFromCart({ id, token, product_id}: deleteItemsFromCartP
   return result;
 }
 
+async function addGame(payload: addGamePayload) {
+  const {title, publisher, price, quantity, category, description, token} = payload;
+  const data = {product_name: title, publisher, price, quantity, category, description, date_published: "2020-10-10",
+   short_description: "This is a game.", active: true, coverUrl: "cover.jpg"};
+  const response = await fetch(`${config.api.baseUrl}/games`, {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+});
+  const result = await response.json();
 
-export { fetchCatalogue, addItemToCart, getItemsFromCart, deleteItemFromCart };
+  return result;
+}
+
+export { fetchCatalogue, addItemToCart, getItemsFromCart, deleteItemFromCart, addGame };

@@ -28,8 +28,6 @@ export interface Product extends IGame {
   count: number;
 }
 
-
-
 export const Cart: React.FC = () => {
   const [stage, setStage] = useState(CartStagesEnum.singIn);
 

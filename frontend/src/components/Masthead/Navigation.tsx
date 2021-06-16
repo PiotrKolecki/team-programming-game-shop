@@ -10,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { useHistory, useLocation } from "react-router";
 import { theme as appTheme } from "../../constants";
 import { AppState } from "../../store/rootReducer";
-import { getTokenSelector } from "../../store/user/selectors";
+import { getTokenSelector, getUserTypeSelector } from "../../store/user/selectors";
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
 
 
@@ -100,6 +100,7 @@ const navItems: Array<NavItem> = [
     loggedIn: true,
     isIcon: true,
   },
+
 ];
 
 export function Navigation() {
@@ -107,6 +108,7 @@ export function Navigation() {
   const { pathname } = useLocation();
   const history = useHistory();
   const token = useSelector<AppState>(getTokenSelector);
+  const userType = useSelector(getUserTypeSelector);
 
   const [
     mobileMoreAnchorEl,
@@ -158,7 +160,7 @@ export function Navigation() {
     <>
       <nav className={classes.navigation}>
         {filteredItems.map((item) => item.isIcon ? 
-          <IconButton  key={item.name} onClick ={() => onRouteChange(item.href)} aria-label="cart" >
+          <IconButton key={item.name} onClick ={() => onRouteChange(item.href)} aria-label="cart" >
             <ShoppingCartOutlinedIcon  className={classes.cartIcon} />
           </IconButton> 
         :
@@ -177,6 +179,19 @@ export function Navigation() {
           </Button>
 
            )}
+           {userType === "Staff" ? <Button
+              key="admin"
+              size="large"
+              onClick={() => {
+                onRouteChange('/admin');
+              }}
+              className={classnames(
+                classes.button,
+                pathname === '/admin' && classes.active
+              )}
+            >
+              admin
+          </Button> : null}
       </nav>
       <nav className={classes.mobile}>
         <Button
