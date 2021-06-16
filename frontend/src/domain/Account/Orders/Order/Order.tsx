@@ -8,6 +8,7 @@ import User from "../../../../assets/user.svg";
 import { getOrderedItems } from "../../../../store/orders/selectors";
 import { IAddress, IDelivery, IOrder } from "../../../../store/orders/types";
 import { DELIVERY_FEE, PAYMENT_FEE } from "../../Cart/constants";
+import { AppState } from "../../../../store/rootReducer";
 
 interface OrderProps {
   order: IOrder;
@@ -15,7 +16,7 @@ interface OrderProps {
 
 //TODO: fetch info about items from backend
 export const Orders: React.FC<OrderProps> = ({ order }) => {
-  const orderedItems = useSelector(getOrderedItems);
+  const orderedItems = useSelector((state: AppState) => getOrderedItems(state, order));
 
   const [isOpen, setIsOpen] = useState(false);
 
