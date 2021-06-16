@@ -8,6 +8,7 @@ import User from "../../../../assets/user.svg";
 import { getOrderedItems } from "../../../../store/orders/selectors";
 import { IAddress, IDelivery, IOrder } from "../../../../store/orders/types";
 import { DELIVERY_FEE, PAYMENT_FEE } from "../../Cart/constants";
+import { AppState } from "../../../../store/rootReducer";
 
 interface OrderProps {
   order: IOrder;
@@ -15,13 +16,13 @@ interface OrderProps {
 
 //TODO: fetch info about items from backend
 export const Orders: React.FC<OrderProps> = ({ order }) => {
-  const orderedItems = useSelector(getOrderedItems);
+  const orderedItems = useSelector((state: AppState) => getOrderedItems(state, order));
 
   const [isOpen, setIsOpen] = useState(false);
 
   const { delivery = {} as IDelivery } = order;
   const { address = {} as IAddress } = delivery;
-
+  
   return (
     <P.Order>
       <Collapsible
@@ -74,7 +75,7 @@ export const Orders: React.FC<OrderProps> = ({ order }) => {
                 <P.ProductName />
                 <P.TotalInfo>Total: </P.TotalInfo>
                 <P.TotalInfo>
-                  $ {order.price || 0 + DELIVERY_FEE + PAYMENT_FEE}
+                  $ {DELIVERY_FEE + PAYMENT_FEE + (order.price || 0) }
                 </P.TotalInfo>
               </P.Summary>
             </P.SummaryWrapper>
