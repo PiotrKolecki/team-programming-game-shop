@@ -9,5 +9,5 @@ export const getFilteredItems = (state: AppState) => {
     const items = getCatalogue(state);
     const searchTerm = getSearchTerm(state);
 
-    return items.filter((item) => item.category === category && item.price >= prices[0] && item.price <= prices[1] && item.product_name.toLowerCase().startsWith(searchTerm))
+    return items.filter((item) => item.category === category && item.price >= prices[0] && item.price <= prices[1] && item.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
 }

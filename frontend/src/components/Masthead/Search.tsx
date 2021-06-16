@@ -4,6 +4,8 @@ import { Input } from "../Input";
 import { theme as appTheme } from "../../constants";
 import { searchSet } from '../../store/search/index';
 import { useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router";
 
 const useStyles = makeStyles(theme => ({
   search: {
@@ -41,10 +43,18 @@ const useStyles = makeStyles(theme => ({
 
 export function Search() {
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const search = (event: any) => {
     dispatch(searchSet({ searchTerm: event.target.value }));
+  }
+
+  const redirect = (event: any) => {
+    if(!pathname.includes('insight') && event.key === "Enter"){
+      history.push('/insight')
+    }
   }
 
   return (
@@ -60,6 +70,7 @@ export function Search() {
         }}
         inputProps={{ "aria-label": "search" }}
         onChange={search}
+        onKeyDown={redirect}
       />
     </div>
   );
