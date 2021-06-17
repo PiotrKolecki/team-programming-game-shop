@@ -2,7 +2,13 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { GameCard } from "../../components/GameCard/GameCard";
-import witcher from "../../assets/witcher.png";
+import mario5 from "../../assets/5mario.jpg";
+import witcher6 from "../../assets/6witcher.jpg";
+import cyberpunk8 from "../../assets/8cyberpunk.jpg";
+import gothic9 from "../../assets/9gothic.jpg";
+import baba10 from "../../assets/10baba.jpg";
+import gta11 from "../../assets/11gta.jpg";
+import defaultCover from "../../assets/defaultCover.png";
 import { theme as appTheme } from "../../constants";
 import { Home } from "../Home/Home";
 import { catalogueFetch } from "../../store/catalogue/index";
@@ -28,16 +34,14 @@ const Header = styled.div`
 `;
 
 const Items = styled.div`
-  padding-top: 24px;
-
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: start;
 `;
 export function Catalogue() {
   const breadcrumbs = [
     { to: "/", label: "Home" },
-    { to: "/insight/action", label: "Store" },
+    { to: "/insight/all", label: "Store" },
   ];
 
   const dispatch = useDispatch();
@@ -51,21 +55,27 @@ export function Catalogue() {
     location: { pathname },
   } = useHistory();
 
+  const covers = [mario5, witcher6, cyberpunk8, gothic9, baba10, gta11];
+
   return (
     <Home breadcrumbs={breadcrumbs}>
       <Container>
         <Header>{pathname.split("/").pop()}</Header>
         <Items>
-          {filteredGames.map(({ id, product_name, category, price }, index) => (
-            <GameCard
+          {filteredGames.map(({ id, product_name, category, price }, index) => {
+            const cover = covers.find(cover => cover.split('/')[3].startsWith(String(id))) || defaultCover;
+            
+            return(
+              <GameCard
               key={index}
               id={id}
               title={product_name}
               category={category}
               price={price}
-              cover={witcher}
-            />
-          ))}
+              cover={cover}
+              />
+            
+          )})}
         </Items>
       </Container>
     </Home>

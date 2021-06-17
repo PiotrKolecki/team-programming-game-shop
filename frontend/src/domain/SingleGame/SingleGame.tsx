@@ -103,27 +103,6 @@ const Buttons = styled.div`
   grid-area: buttons;
 `;
 
-const Recommended = styled.div`
-  margin-top: 8rem;
-  grid-area: recommended;
-`;
-
-const RecommendedCaption = styled.span`
-  border-left: 6px solid ${appTheme.colors.governorBay};
-  padding-left: 16px;
-  font-family: "Rubik";
-  font-size: 20px;
-  font-weight: 500;
-`;
-
-const RecommendedItems = styled.div`
-  padding-top: 24px;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
 
 const useStyles = makeStyles(theme => ({
   breadcrumbs: {
@@ -147,8 +126,11 @@ const useStyles = makeStyles(theme => ({
 
   cover: {
     gridArea: "cover",
-    width: "650px",
+    width: "400px",
+    height: "550px",
     alignSelf: "start",
+    justifySelf: "center",
+    paddingTop: "20px"
   },
 
   buyButton: {
@@ -186,6 +168,7 @@ type SingleGameProps = {
   price: number;
   cover: string;
   category: string;
+  isLoggedIn: boolean;
 };
 
 export function SingleGame() {
@@ -193,12 +176,12 @@ export function SingleGame() {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation<SingleGameProps>();
-  const { id, title, manufactory, cover, price, category }: SingleGameProps = location.state;
+  const { id, title, manufactory, cover, price, category, isLoggedIn }: SingleGameProps = location.state;
 
   const breadcrumbs = [
     { to: "/", label: "Home" },
-    { to: "/insight/adventure", label: "Adventure" },
-    { to: "/insight/adventure/1", label: "Grand Theft Auto" },
+    { to: `/insight/${category}`, label: category },
+    { to: `/insight/${category}/${id}`, label: title },
   ];
   const game = useSelector((state: AppState) => getGameById(state, id));
   const addToCart = () => {
@@ -220,12 +203,15 @@ export function SingleGame() {
         <Price>{`${price} $`}</Price>
         <Description>{game?.description || ""}</Description>
         <Categories>
-          {category}
+          <Category>
+            {category}
+          </Category>
         </Categories>
+        {isLoggedIn ? 
         <Buttons>
           <Button className={classes.buyButton} onClick={buyNow}>Buy now</Button>
           <Button className={classes.addButton} onClick={addToCart}>Add to cart</Button>
-        </Buttons>
+        </Buttons>: null}
       </GameContainer>
     </Home>
   );

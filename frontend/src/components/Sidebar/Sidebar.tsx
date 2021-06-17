@@ -153,7 +153,7 @@ export function Sidebar() {
   const classes = useStyles();
 
   const [value, setValue] = useState<number[]>([0, 300]);
-  const [category, setCategory] = useState<string>("Action");
+  const [category, setCategory] = useState<string>("All");
   const { pathname } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -178,6 +178,8 @@ export function Sidebar() {
       ? [Number(event.target.value), maxPrice]
       : [minPrice, Number(event.target.value)];
     setValue(newPrice);
+    dispatch(filtersSet({ prices: newPrice as number[], category }));
+
   };
 
   return (

@@ -71,7 +71,7 @@ const navItems: Array<NavItem> = [
   {
     name: "store",
     loggedIn: null,
-    href: "/insight/action",
+    href: "/insight/all",
     isIcon: false,
   },
   {

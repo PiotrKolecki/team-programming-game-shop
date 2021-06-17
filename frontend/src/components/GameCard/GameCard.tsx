@@ -4,21 +4,29 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
-import gta from "../../assets/gta.png";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { getTokenSelector } from "../../store/user/selectors";
+import { AppState } from "../../store/rootReducer";
 import { addItem } from '../../store/cart/index';
 import { Alert } from "../index";
 
 const Container = styled("div")<{ image: string }>`
   height: 350px;
-  width: 240px;
+  width: 200px;
   position: relative;
+  margin-right: 120px;
+  margin-top: 60px;
+`;
+
+const LinkWrapper = styled.div`
+width: 150px;
+z-index: 1;
 `;
 
 const useStyles = makeStyles(() => ({
   image: {
-    height: "370px",
-    width: "280px",
+    height: "350px",
+    width: "250px",
     transition: "opacity 250ms",
 
     "&:hover": {
@@ -51,7 +59,6 @@ const useStyles = makeStyles(() => ({
   },
 
   title: {
-    gridArea: "title",
     zIndex: 1,
     fontSize: "16px",
     fontFamily: "Lao MN",
@@ -66,18 +73,16 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Fade = styled.div`
-  background: transparent linear-gradient(180deg, black 0%, black 60%) 0% 0%
-    no-repeat padding-box;
-  bottom: 23px;
-  left: 38px;
-  width: 200px;
-  height: 60px;
+
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+  bottom: 0;
+  width: 250px;
+  height: 170px;
   position: absolute;
 `;
 
 const Details = styled.div`
-  margin-top: -105px;
-  margin-left: 40px;
+  margin-top: -62px;
   padding-left: 15px;
   padding-right: 12px;
 
@@ -118,6 +123,8 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const token = useSelector<AppState>(getTokenSelector);
+  const isLoggedIn = Boolean(token);
   const [isAlertVisible, setAlertVisibility] = useState(false);
   const addToCart = () => {
     dispatch(addItem({ product_id: id, quantity: 1 }));
@@ -139,10 +146,11 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
      : null}
     <Container image={cover}>
       <img src={cover} alt="Avatar" className={classes.image} />
-      <Button variant="contained" className={classes.button} onClick={addToCart}>
+      {isLoggedIn ? <Button variant="contained" className={classes.button} onClick={addToCart}>
         Add to cart
-      </Button>
+      </Button> : null}
       <Details>
+        <LinkWrapper>
         <Link
           key={title}
           to={{
@@ -152,13 +160,15 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
               title,
               category,
               price,
-              cover: gta,
+              cover,
+              isLoggedIn
             },
           }}
           className={classes.title}
         >
           {title}
         </Link>
+        </LinkWrapper>
         <Price>{`${price} $`}</Price>
         <Categories>{category}</Categories>
       </Details>
