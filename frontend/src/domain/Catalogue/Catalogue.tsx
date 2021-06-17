@@ -64,7 +64,7 @@ export function Catalogue() {
         <Items>
           {filteredGames.map(({ id, product_name, category, price }, index) => {
             const cover = covers.find(cover => cover.split('/')[3].startsWith(String(id))) || defaultCover;
-            console.log(id, cover.split('/'));
+            
             return(
               <GameCard
               key={index}

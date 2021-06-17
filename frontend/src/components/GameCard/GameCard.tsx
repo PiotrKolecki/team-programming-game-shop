@@ -4,7 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { theme as appTheme } from "../../constants";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { getTokenSelector } from "../../store/user/selectors";
+import { AppState } from "../../store/rootReducer";
 import { addItem } from '../../store/cart/index';
 import { Alert } from "../index";
 
@@ -121,6 +123,8 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const token = useSelector<AppState>(getTokenSelector);
+  const isLoggedIn = Boolean(token);
   const [isAlertVisible, setAlertVisibility] = useState(false);
   const addToCart = () => {
     dispatch(addItem({ product_id: id, quantity: 1 }));
@@ -142,9 +146,9 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
      : null}
     <Container image={cover}>
       <img src={cover} alt="Avatar" className={classes.image} />
-      <Button variant="contained" className={classes.button} onClick={addToCart}>
+      {isLoggedIn ? <Button variant="contained" className={classes.button} onClick={addToCart}>
         Add to cart
-      </Button>
+      </Button> : null}
       <Details>
         <LinkWrapper>
         <Link
@@ -157,6 +161,7 @@ export function GameCard({ id, title, category, price, cover }: CardProps) {
               category,
               price,
               cover,
+              isLoggedIn
             },
           }}
           className={classes.title}

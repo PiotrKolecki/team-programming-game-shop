@@ -168,6 +168,7 @@ type SingleGameProps = {
   price: number;
   cover: string;
   category: string;
+  isLoggedIn: boolean;
 };
 
 export function SingleGame() {
@@ -175,7 +176,7 @@ export function SingleGame() {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation<SingleGameProps>();
-  const { id, title, manufactory, cover, price, category }: SingleGameProps = location.state;
+  const { id, title, manufactory, cover, price, category, isLoggedIn }: SingleGameProps = location.state;
 
   const breadcrumbs = [
     { to: "/", label: "Home" },
@@ -206,10 +207,11 @@ export function SingleGame() {
             {category}
           </Category>
         </Categories>
+        {isLoggedIn ? 
         <Buttons>
           <Button className={classes.buyButton} onClick={buyNow}>Buy now</Button>
           <Button className={classes.addButton} onClick={addToCart}>Add to cart</Button>
-        </Buttons>
+        </Buttons>: null}
       </GameContainer>
     </Home>
   );
