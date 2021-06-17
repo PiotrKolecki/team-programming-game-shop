@@ -34,8 +34,6 @@ const Header = styled.div`
 `;
 
 const Items = styled.div`
-  padding-top: 24px;
-
   display: flex;
   flex-wrap: wrap;
   justify-content: start;

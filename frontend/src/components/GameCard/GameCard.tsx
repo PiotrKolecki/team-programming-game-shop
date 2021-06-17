@@ -75,7 +75,7 @@ const Fade = styled.div`
   background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
   bottom: 0;
   width: 250px;
-  height: 200px;
+  height: 170px;
   position: absolute;
 `;
 

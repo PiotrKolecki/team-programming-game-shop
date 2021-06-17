@@ -178,6 +178,8 @@ export function Sidebar() {
       ? [Number(event.target.value), maxPrice]
       : [minPrice, Number(event.target.value)];
     setValue(newPrice);
+    dispatch(filtersSet({ prices: newPrice as number[], category }));
+
   };
 
   return (
