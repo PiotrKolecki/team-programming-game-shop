@@ -153,7 +153,7 @@ export function Sidebar() {
   const classes = useStyles();
 
   const [value, setValue] = useState<number[]>([0, 300]);
-  const [category, setCategory] = useState<string>("Action");
+  const [category, setCategory] = useState<string>("All");
   const { pathname } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();

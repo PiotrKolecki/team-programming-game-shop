@@ -8,7 +8,7 @@ export const getFilteredItems = (state: AppState) => {
     const { prices, category } = getFilters(state);
     const items = getCatalogue(state);
     const searchTerm = getSearchTerm(state);
-
+    
     if(category === "All"){
         return items.filter((item) => item.price >= prices[0] && item.price <= prices[1] && item.product_name.toLowerCase().includes(searchTerm.toLowerCase()))
     }

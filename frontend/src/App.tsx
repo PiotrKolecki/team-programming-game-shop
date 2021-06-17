@@ -173,7 +173,7 @@ function App() {
                 {item.component}
               </Route>
             ))}
-          <Redirect to="/signin" />
+          <Redirect to="/insight/all" />
         </Switch>
       </Fade>
     </Main>
